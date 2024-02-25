@@ -1,0 +1,10 @@
+unes.security.token.private-key=
+unes.security.token.public-key=
+
+unes.relying-party.id=
+unes.relying-party.name=
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=
