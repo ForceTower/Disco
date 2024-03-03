@@ -2,7 +2,7 @@ package dev.forcetower.unes.reactor.service.scheduled.updater
 
 import dev.forcetower.breaker.Orchestra
 import dev.forcetower.breaker.result.Outcome
-import dev.forcetower.unes.reactor.domain.entity.User
+import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.repository.UserRepository
 import dev.forcetower.unes.reactor.utils.extension.onException
 import kotlinx.coroutines.CoroutineScope

@@ -4,52 +4,47 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.builders.WebSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder
+import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 class AuthConfiguration(
-    private val tokenFilter: AuthTokenFilter
+    private val jwtAuthenticationManager: JWTAuthenticationManager
 ) {
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun securityFilterChain(
+        http: ServerHttpSecurity,
+        converter: AuthJWTAuthenticationConverter,
+    ): SecurityWebFilterChain {
+        val filter = AuthenticationWebFilter(jwtAuthenticationManager)
+        filter.setServerAuthenticationConverter(converter)
         return http
-            .csrf { csrf -> csrf.disable() }
+            .csrf { it.disable() }
             .formLogin { it.disable() }
             .httpBasic { it.disable() }
-            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests { authorize ->
-                authorize
-                    .requestMatchers(HttpMethod.POST, "api/auth/login/password").permitAll()
-                    .requestMatchers(HttpMethod.POST, "api/auth/register/password").permitAll()
-                    .requestMatchers(HttpMethod.POST, "api/auth/login/passkey/assertion/start").permitAll()
-                    .requestMatchers(HttpMethod.POST, "api/auth/login/passkey/assertion/finish").permitAll()
-                    .requestMatchers("/error").permitAll()
-                    .anyRequest().authenticated()
+            .authorizeExchange { exchange ->
+                exchange
+                    .pathMatchers(HttpMethod.POST, "api/auth/login/anonymous").permitAll()
+                    .pathMatchers("/error").permitAll()
+                    .anyExchange().authenticated()
             }
-            .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAt(filter, SecurityWebFiltersOrder.AUTHENTICATION)
             .build()
     }
 
-    @Bean
-    fun authManager(configuration: AuthenticationConfiguration): AuthenticationManager {
-        return configuration.authenticationManager
-    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
-
-    @Bean
-    fun webSecurityCustomizer(): WebSecurityCustomizer {
-        return WebSecurityCustomizer { web: WebSecurity -> web.debug(true) }
-    }
 }

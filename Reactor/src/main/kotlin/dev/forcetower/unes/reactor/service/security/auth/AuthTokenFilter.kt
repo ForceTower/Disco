@@ -1,38 +1,42 @@
 package dev.forcetower.unes.reactor.service.security.auth
 
+import dev.forcetower.unes.reactor.repository.RoleRepository
 import dev.forcetower.unes.reactor.repository.UserRepository
-import jakarta.servlet.FilterChain
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.annotation.Bean
-import org.springframework.security.authentication.AuthenticationManager
+import kotlinx.coroutines.reactor.awaitSingleOrNull
+import kotlinx.coroutines.reactor.mono
+import org.springframework.http.HttpHeaders
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
-import org.springframework.security.config.annotation.web.builders.WebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
-import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.stereotype.Component
-import org.springframework.web.filter.OncePerRequestFilter
-
+import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Mono
+import java.util.UUID
 
 @Component
-class AuthTokenFilter(
+class AuthJWTAuthenticationConverter(
     private val service: AuthTokenService,
-    private val users: UserRepository
-) : OncePerRequestFilter() {
-    override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
-    ) {
-        val authorization = request.getHeader("Authorization")
-        val token = authorization?.replace("Bearer ", "") ?: return filterChain.doFilter(request, response)
-        val userId = service.validateToken(token) ?: return filterChain.doFilter(request, response)
-        val user = users.findUserById(userId) ?: return filterChain.doFilter(request, response)
+    private val users: UserRepository,
+    private val roles: RoleRepository
+) : ServerAuthenticationConverter {
+    override fun convert(exchange: ServerWebExchange): Mono<Authentication> {
+        return mono {
+            val authorization = exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION) ?: return@mono null
+            val token = authorization.substring(7)
+            val userId = service.validateToken(token) ?: return@mono null
+            val user = users.findById(UUID.fromString(userId)) ?: return@mono null
+            val roles = roles.findRolesByUserId(user.id).map { SimpleGrantedAuthority("ROLE_${it.name.uppercase()}") }
+            UsernamePasswordAuthenticationToken(user, null, roles)
+        }
+    }
+}
 
-        val authentication = UsernamePasswordAuthenticationToken(user, null, user.authorities)
-        SecurityContextHolder.getContext().authentication = authentication
-
-        filterChain.doFilter(request, response)
+@Component
+class JWTAuthenticationManager : ReactiveAuthenticationManager {
+    override fun authenticate(authentication: Authentication): Mono<Authentication> {
+        return Mono.just(authentication)
     }
 }

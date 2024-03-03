@@ -3,12 +3,14 @@ package dev.forcetower.unes.reactor.controller.auth
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyRegisterService
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyFinishRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyStartResponse
-import dev.forcetower.unes.reactor.domain.entity.User
+import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.service.security.webauthn.MemoryRegisterPasskeyStore
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import jakarta.validation.Valid
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,8 +28,8 @@ class PasskeyController(
     private val logger = LoggerFactory.getLogger(PasskeyController::class.java)
 
     @GetMapping("/register/start")
-    fun register(): ResponseEntity<RegisterPasskeyStartResponse> {
-        val user = SecurityContextHolder.getContext().authentication?.principal as? User
+    suspend fun register(): ResponseEntity<RegisterPasskeyStartResponse> {
+        val user = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()?.authentication?.principal as? User
         if (user == null) {
             logger.error("There should exist a user when registering a passkey.")
             return ResponseEntity.badRequest().body(RegisterPasskeyStartResponse("", ""))
@@ -44,9 +46,9 @@ class PasskeyController(
     }
 
     @PostMapping("/register/finish")
-    fun finish(@RequestBody @Valid body: RegisterPasskeyFinishRequest): ResponseEntity<*> {
-        val user = SecurityContextHolder.getContext().authentication?.principal as? User
-        if (user == null || !body.flowId.startsWith(user.id)) {
+    suspend fun finish(@RequestBody @Valid body: RegisterPasskeyFinishRequest): ResponseEntity<*> {
+        val user = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()?.authentication?.principal as? User
+        if (user == null || !body.flowId.startsWith(user.id.toString())) {
             logger.error("There should exist a user when finishing a passkey.")
             return ResponseEntity.badRequest().body(mapOf("message" to "Failed to register passkey"))
         }
@@ -54,7 +56,7 @@ class PasskeyController(
         val request = cache.fetch(body.flowId)
             ?: return ResponseEntity.badRequest().body(mapOf("message" to "Failed to register passkey"))
 
-        if (YubicoUtils.toUUIDStr(request.user.id) != user.id) {
+        if (YubicoUtils.toUUID(request.user.id) != user.id) {
             logger.error("Received user is not the one expected")
             return ResponseEntity.badRequest().body(mapOf("message" to "Failed to register passkey"))
         }

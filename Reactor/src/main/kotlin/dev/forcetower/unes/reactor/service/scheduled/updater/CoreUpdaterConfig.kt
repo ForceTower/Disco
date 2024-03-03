@@ -44,7 +44,6 @@ class CoreUpdaterConfig {
             .client(client)
             .build()
 
-        orchestra.setAuthorization(Authorization("", ""))
         return orchestra
     }
 }

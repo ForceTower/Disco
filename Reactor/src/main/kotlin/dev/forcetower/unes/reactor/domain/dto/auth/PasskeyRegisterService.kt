@@ -3,22 +3,17 @@ package dev.forcetower.unes.reactor.domain.dto.auth
 import com.yubico.webauthn.FinishRegistrationOptions
 import com.yubico.webauthn.RelyingParty
 import com.yubico.webauthn.StartRegistrationOptions
-import com.yubico.webauthn.data.AuthenticatorAttachment
 import com.yubico.webauthn.data.AuthenticatorAttestationResponse
 import com.yubico.webauthn.data.AuthenticatorSelectionCriteria
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
 import com.yubico.webauthn.data.PublicKeyCredential
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions
-import com.yubico.webauthn.data.RegistrationExtensionInputs
 import com.yubico.webauthn.data.UserIdentity
 import com.yubico.webauthn.data.UserVerificationRequirement
-import dev.forcetower.unes.reactor.domain.entity.PasskeyCredential
-import dev.forcetower.unes.reactor.domain.entity.User
+import dev.forcetower.unes.reactor.data.entity.Passkey
+import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.repository.PasskeyRepository
-import dev.forcetower.unes.reactor.repository.UserRepository
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -34,7 +29,7 @@ class PasskeyRegisterService(
         return options
     }
 
-    fun finish(
+    suspend fun finish(
         user: User,
         request: PublicKeyCredentialCreationOptions,
         response: PublicKeyCredential<AuthenticatorAttestationResponse, ClientRegistrationExtensionOutputs>
@@ -46,11 +41,12 @@ class PasskeyRegisterService(
 
         val result = relyingParty.finishRegistration(options)
 
-        val credential = PasskeyCredential(
+        val credential = Passkey(
+            "",
             result.keyId.id.base64Url,
             result.keyId.type.name,
             result.publicKeyCose.base64Url,
-            user
+            user.id
         )
 
         passkeyRepository.save(credential)
@@ -58,9 +54,9 @@ class PasskeyRegisterService(
 
     private fun createPublicKeyCredentialCreationOptions(user: User): PublicKeyCredentialCreationOptions {
         val userIdentity = UserIdentity.builder()
-            .name(user.email)
+            .name(user.name) // Should be the email
             .displayName(user.name)
-            .id(YubicoUtils.toByteArray(user.id))
+            .id(YubicoUtils.toByteArray(user.id.toString()))
             .build()
 
         val authenticatorSelectionCriteria = AuthenticatorSelectionCriteria.builder()

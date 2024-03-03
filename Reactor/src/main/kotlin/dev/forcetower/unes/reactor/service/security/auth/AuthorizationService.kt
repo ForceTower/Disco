@@ -11,22 +11,29 @@ import com.yubico.webauthn.data.PublicKeyCredential
 import com.yubico.webauthn.data.UserVerificationRequirement
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyStartAssertionRequest
 import dev.forcetower.unes.reactor.repository.UserRepository
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.reactor.mono
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 
 @Service
 class AuthorizationService @Autowired constructor(
     private val users: UserRepository,
     private val relyingParty: RelyingParty
-) : UserDetailsService {
-    override fun loadUserByUsername(username: String): UserDetails {
-        return users.findUserByUsername(username) ?: throw UsernameNotFoundException("user not found")
+) : ReactiveUserDetailsService {
+    override fun findByUsername(username: String): Mono<UserDetails> {
+        return mono {
+            users.findUserByUsername(username) ?: throw UsernameNotFoundException("user not found")
+        }
     }
 
-    suspend fun startAssertion(request: PasskeyStartAssertionRequest): AssertionRequest {
+    fun startAssertion(request: PasskeyStartAssertionRequest): AssertionRequest {
         val options = StartAssertionOptions.builder()
             .timeout(60_000)
             .userVerification(UserVerificationRequirement.REQUIRED)
@@ -35,7 +42,7 @@ class AuthorizationService @Autowired constructor(
         return relyingParty.startAssertion(options)
     }
 
-    suspend fun finishAssertion(
+    fun finishAssertion(
         request: AssertionRequest,
         response: PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs>
     ): AssertionResult {

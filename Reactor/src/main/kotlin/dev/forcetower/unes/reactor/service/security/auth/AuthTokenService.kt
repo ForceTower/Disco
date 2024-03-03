@@ -1,6 +1,7 @@
 package dev.forcetower.unes.reactor.service.security.auth
 
-import dev.forcetower.unes.reactor.domain.entity.User
+import dev.forcetower.unes.reactor.data.entity.Role
+import dev.forcetower.unes.reactor.data.entity.User
 import org.jose4j.jwa.AlgorithmConstraints
 import org.jose4j.jwk.JsonWebKey
 import org.jose4j.jwk.RsaJsonWebKey
@@ -20,17 +21,16 @@ class AuthTokenService(
     private val logger = LoggerFactory.getLogger(AuthTokenService::class.java)
     private val rsaJsonWebKey = JsonWebKey.Factory.newJwk(privateKeyJson) as RsaJsonWebKey
 
-    fun generateToken(user: User, expiration: Float): String {
+    fun generateToken(user: User, authorities: Collection<Role>, expiration: Float): String {
         val claims = JwtClaims().apply {
             audience = listOf("urn:unes")
             issuer = "unes.forcetower.dev"
             setIssuedAtToNow()
             setExpirationTimeMinutesInTheFuture(expiration)
             setGeneratedJwtId(16)
-            subject = user.id
+            subject = user.id.toString()
             setClaim("urn:unes:data", mapOf(
-                "roles" to listOf("user", "student", "creator", "sends_messages", "premium_lv5"),
-                "canEditResources" to true
+                "roles" to authorities.map { it.name }
             ))
         }
 

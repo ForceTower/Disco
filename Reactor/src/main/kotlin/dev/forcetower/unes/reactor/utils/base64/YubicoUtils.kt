@@ -18,4 +18,11 @@ object YubicoUtils {
         val low = byteBuffer.getLong()
         return UUID(high, low).toString()
     }
+
+    fun toUUID(byteArray: com.yubico.webauthn.data.ByteArray): UUID {
+        val byteBuffer = ByteBuffer.wrap(byteArray.bytes)
+        val high = byteBuffer.getLong()
+        val low = byteBuffer.getLong()
+        return UUID(high, low)
+    }
 }
