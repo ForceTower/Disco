@@ -1,9 +1,9 @@
 package dev.forcetower.unes.reactor.controller.auth
 
+import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyRegisterService
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyFinishRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyStartResponse
-import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.service.security.webauthn.MemoryRegisterPasskeyStore
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import jakarta.validation.Valid
@@ -11,7 +11,6 @@ import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -35,13 +34,9 @@ class PasskeyController(
             return ResponseEntity.badRequest().body(RegisterPasskeyStartResponse("", ""))
         }
 
-        logger.info("Running... register")
         val request = passkeyService.start(user)
         val uuid = "${user.id}${UUID.randomUUID().toString().substring(0..7)}"
-        logger.info("Running... Got request $uuid")
         cache.create(uuid, request)
-        logger.info("Running... Created cache...")
-        logger.info("Running... Returning ${request.toCredentialsCreateJson()}")
         return ResponseEntity.ok(RegisterPasskeyStartResponse(uuid, request.toCredentialsCreateJson()))
     }
 

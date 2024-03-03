@@ -1,7 +1,7 @@
 package dev.forcetower.unes.reactor.service.security.auth
 
-import dev.forcetower.unes.reactor.repository.RoleRepository
-import dev.forcetower.unes.reactor.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.RoleRepository
+import dev.forcetower.unes.reactor.data.repository.UserRepository
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
 import org.springframework.http.HttpHeaders
@@ -25,6 +25,7 @@ class AuthJWTAuthenticationConverter(
     override fun convert(exchange: ServerWebExchange): Mono<Authentication> {
         return mono {
             val authorization = exchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION) ?: return@mono null
+            if (!authorization.startsWith("Bearer ")) return@mono null
             val token = authorization.substring(7)
             val userId = service.validateToken(token) ?: return@mono null
             val user = users.findById(UUID.fromString(userId)) ?: return@mono null

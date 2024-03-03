@@ -10,7 +10,7 @@ import com.yubico.webauthn.data.ClientAssertionExtensionOutputs
 import com.yubico.webauthn.data.PublicKeyCredential
 import com.yubico.webauthn.data.UserVerificationRequirement
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyStartAssertionRequest
-import dev.forcetower.unes.reactor.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.UserRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.reactor.mono
 import org.springframework.beans.factory.annotation.Autowired

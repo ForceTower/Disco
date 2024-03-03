@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS role(
     id uuid PRIMARY KEY UNIQUE DEFAULT gen_random_uuid(),
     name varchar(255) NOT NULL UNIQUE,
-    basic bit not null default false
+    basic boolean not null default false
 );
+
+INSERT INTO role(name, basic) values ('basic', true);
 
 CREATE TABLE IF NOT EXISTS users(
     id uuid PRIMARY KEY UNIQUE DEFAULT gen_random_uuid(),

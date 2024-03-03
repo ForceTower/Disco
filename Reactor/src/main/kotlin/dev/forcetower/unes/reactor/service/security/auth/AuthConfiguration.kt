@@ -36,7 +36,7 @@ class AuthConfiguration(
             .httpBasic { it.disable() }
             .authorizeExchange { exchange ->
                 exchange
-                    .pathMatchers(HttpMethod.POST, "api/auth/login/anonymous").permitAll()
+                    .pathMatchers(HttpMethod.POST, "api/auth/**").permitAll()
                     .pathMatchers("/error").permitAll()
                     .anyExchange().authenticated()
             }

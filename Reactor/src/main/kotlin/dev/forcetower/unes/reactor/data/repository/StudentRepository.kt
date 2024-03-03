@@ -1,4 +1,4 @@
-package dev.forcetower.unes.reactor.repository
+package dev.forcetower.unes.reactor.data.repository
 
 import dev.forcetower.unes.reactor.data.entity.Student
 import org.springframework.data.r2dbc.repository.R2dbcRepository

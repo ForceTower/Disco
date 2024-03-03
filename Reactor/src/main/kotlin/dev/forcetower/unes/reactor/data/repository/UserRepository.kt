@@ -1,4 +1,4 @@
-package dev.forcetower.unes.reactor.repository
+package dev.forcetower.unes.reactor.data.repository
 
 import dev.forcetower.unes.reactor.data.entity.User
 import org.jose4j.jwk.Use

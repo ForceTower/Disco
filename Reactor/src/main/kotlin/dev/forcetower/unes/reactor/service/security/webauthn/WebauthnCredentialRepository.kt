@@ -7,8 +7,8 @@ import com.yubico.webauthn.data.PublicKeyCredentialDescriptor
 import com.yubico.webauthn.data.PublicKeyCredentialType
 import com.yubico.webauthn.data.exception.Base64UrlException
 import dev.forcetower.unes.reactor.data.entity.Passkey
-import dev.forcetower.unes.reactor.repository.PasskeyRepository
-import dev.forcetower.unes.reactor.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.PasskeyRepository
+import dev.forcetower.unes.reactor.data.repository.UserRepository
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Component

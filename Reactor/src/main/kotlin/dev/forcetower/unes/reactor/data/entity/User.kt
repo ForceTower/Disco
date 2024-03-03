@@ -18,6 +18,8 @@ data class User(
     val name: String,
     private val username: String,
     val email: String?,
+    @Column("image_url")
+    val imageUrl: String? = null,
     @Column("created_at")
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) : UserDetails {

@@ -12,7 +12,7 @@ import com.yubico.webauthn.data.UserIdentity
 import com.yubico.webauthn.data.UserVerificationRequirement
 import dev.forcetower.unes.reactor.data.entity.Passkey
 import dev.forcetower.unes.reactor.data.entity.User
-import dev.forcetower.unes.reactor.repository.PasskeyRepository
+import dev.forcetower.unes.reactor.data.repository.PasskeyRepository
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

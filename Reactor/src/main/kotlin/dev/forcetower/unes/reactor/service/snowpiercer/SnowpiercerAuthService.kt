@@ -2,8 +2,8 @@ package dev.forcetower.unes.reactor.service.snowpiercer
 
 import dev.forcetower.unes.reactor.data.entity.Student
 import dev.forcetower.unes.reactor.data.entity.User
-import dev.forcetower.unes.reactor.repository.StudentRepository
-import dev.forcetower.unes.reactor.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.StudentRepository
+import dev.forcetower.unes.reactor.data.repository.UserRepository
 import dev.forcetower.unes.reactor.utils.extension.toTitleCase
 import io.github.scru128.Scru128
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class SnowpiercerAuthService(
                 users.findUserByUsername(generated)!!
             }
 
-            val newStudent = Student(UUID.randomUUID(), person.name.toTitleCase(), person.id, user.id, isNew = true)
+            val newStudent = Student(UUID.randomUUID(), person.name.toTitleCase(), person.id, user.id).apply { setNew() }
             withContext(Dispatchers.IO) {
                 students.save(newStudent)
             }
