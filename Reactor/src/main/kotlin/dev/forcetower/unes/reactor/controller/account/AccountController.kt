@@ -6,6 +6,7 @@ import dev.forcetower.unes.reactor.domain.dto.BaseResponse
 import dev.forcetower.unes.reactor.domain.dto.account.PublicPersonalAccount
 import dev.forcetower.unes.reactor.domain.dto.account.UpdateFCMTokenRequest
 import dev.forcetower.unes.reactor.data.repository.MessagingTokenRepository
+import dev.forcetower.unes.reactor.utils.spring.requireUser
 import jakarta.validation.Valid
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ class AccountController(
 ) {
     @GetMapping("/me")
     suspend fun me(): ResponseEntity<BaseResponse> {
-        val user = ReactiveSecurityContextHolder.getContext().awaitSingle().authentication.principal as User
+        val user = requireUser()
         return ResponseEntity.ok(
             BaseResponse.ok(
                 PublicPersonalAccount(
@@ -38,7 +39,7 @@ class AccountController(
 
     @PostMapping("/fcm")
     suspend fun updateFcmToken(@RequestBody @Valid body: UpdateFCMTokenRequest): ResponseEntity<BaseResponse> {
-        val user = ReactiveSecurityContextHolder.getContext().awaitSingle().authentication.principal as User
+        val user = requireUser()
         val (token) = body
         tokens.save(MessagingToken(token, user.id).apply { setNew() })
         return ResponseEntity.ok(
