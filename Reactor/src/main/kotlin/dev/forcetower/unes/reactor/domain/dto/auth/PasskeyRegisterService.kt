@@ -54,7 +54,7 @@ class PasskeyRegisterService(
 
     private fun createPublicKeyCredentialCreationOptions(user: User): PublicKeyCredentialCreationOptions {
         val userIdentity = UserIdentity.builder()
-            .name(user.name) // Should be the email
+            .name(user.email)
             .displayName(user.name)
             .id(YubicoUtils.toByteArray(user.id.toString()))
             .build()

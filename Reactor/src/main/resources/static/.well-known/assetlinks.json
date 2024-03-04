@@ -1,0 +1,26 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.forcetower.uefs",
+      "sha256_cert_fingerprints":
+      ["F2:83:26:01:76:06:1B:7B:6C:FA:E7:1E:71:B7:6E:57:C4:71:7D:B0:D5:EB:B6:4A:48:70:7E:C8:62:05:FD:46"]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.forcetower.uefs.debug",
+      "sha256_cert_fingerprints":
+      ["C9:68:8E:B9:AD:4E:C4:AB:68:57:36:62:43:09:46:2B:CA:A4:2F:92:19:66:C9:3F:87:3B:78:75:79:95:B2:BE"]
+    }
+  }
+]

@@ -38,6 +38,7 @@ class AuthConfiguration(
                 exchange
                     .pathMatchers(HttpMethod.POST, "api/auth/**").permitAll()
                     .pathMatchers("/error").permitAll()
+                    .pathMatchers(".well-known/**").permitAll()
                     .anyExchange().authenticated()
             }
             .addFilterAt(filter, SecurityWebFiltersOrder.AUTHENTICATION)

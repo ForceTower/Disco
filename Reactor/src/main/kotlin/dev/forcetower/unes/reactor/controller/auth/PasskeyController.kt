@@ -6,9 +6,11 @@ import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyFinishRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyStartResponse
 import dev.forcetower.unes.reactor.service.security.webauthn.MemoryRegisterPasskeyStore
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
+import dev.forcetower.unes.reactor.utils.spring.requireUser
 import jakarta.validation.Valid
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
 @RestController
@@ -28,12 +31,8 @@ class PasskeyController(
 
     @GetMapping("/register/start")
     suspend fun register(): ResponseEntity<RegisterPasskeyStartResponse> {
-        val user = ReactiveSecurityContextHolder.getContext().awaitSingleOrNull()?.authentication?.principal as? User
-        if (user == null) {
-            logger.error("There should exist a user when registering a passkey.")
-            return ResponseEntity.badRequest().body(RegisterPasskeyStartResponse("", ""))
-        }
-
+        val user = requireUser()
+        if (user.email == null) throw ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "this feature requires an email")
         val request = passkeyService.start(user)
         val uuid = "${user.id}${UUID.randomUUID().toString().substring(0..7)}"
         cache.create(uuid, request)
