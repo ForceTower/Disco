@@ -12,6 +12,7 @@ import dev.forcetower.unes.reactor.service.email.EmailService
 import dev.forcetower.unes.reactor.utils.spring.requireUser
 import io.github.scru128.Scru128
 import jakarta.validation.Valid
+import kotlinx.coroutines.delay
 import org.apache.commons.collections4.map.PassiveExpiringMap
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -60,6 +61,7 @@ class AccountController(
         if (existing != null) {
             logger.info("Someone just tried to register with a taken email.")
             // answer the same as email sent to avoid enumerations
+            delay((370L..770L).random())
             val result = mutableMapOf("securityToken" to security)
             return ResponseEntity.ok(BaseResponse.ok(result, "Email sent"))
         }
