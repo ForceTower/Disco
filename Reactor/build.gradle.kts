@@ -55,6 +55,9 @@ dependencies {
     implementation("org.flywaydb:flyway-database-postgresql:10.8.1")
     implementation("org.postgresql:postgresql:42.7.2")
 
+    implementation("com.resend:resend-java:3.0.2")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.security:spring-security-test")

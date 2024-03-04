@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-interface StudentRepository : CoroutineCrudRepository<Student, String> {
+interface StudentRepository : CoroutineCrudRepository<Student, UUID> {
     suspend fun findStudentByPlatformId(platformId: Long): Student?
     suspend fun findByUserId(id: UUID): Student?
 }

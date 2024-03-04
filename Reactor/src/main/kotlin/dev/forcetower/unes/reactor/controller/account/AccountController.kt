@@ -1,14 +1,23 @@
 package dev.forcetower.unes.reactor.controller.account
 
+import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions
 import dev.forcetower.unes.reactor.data.entity.MessagingToken
 import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.domain.dto.BaseResponse
 import dev.forcetower.unes.reactor.domain.dto.account.PublicPersonalAccount
 import dev.forcetower.unes.reactor.domain.dto.account.UpdateFCMTokenRequest
 import dev.forcetower.unes.reactor.data.repository.MessagingTokenRepository
+import dev.forcetower.unes.reactor.data.repository.UserRepository
+import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterFinish
+import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterStart
+import dev.forcetower.unes.reactor.service.email.EmailService
+import dev.forcetower.unes.reactor.service.security.webauthn.MemoryRegisterPasskeyStore
 import dev.forcetower.unes.reactor.utils.spring.requireUser
+import io.github.scru128.Scru128
 import jakarta.validation.Valid
 import kotlinx.coroutines.reactor.awaitSingle
+import org.apache.commons.collections4.map.PassiveExpiringMap
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,8 +29,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api/account")
 class AccountController(
+    private val emails: EmailService,
+    private val users: UserRepository,
     private val tokens: MessagingTokenRepository
 ) {
+    private val emailSec: MutableMap<String, String> = PassiveExpiringMap((60 * 1000).toLong())
+    private val logger = LoggerFactory.getLogger(AccountController::class.java)
+
     @GetMapping("/me")
     suspend fun me(): ResponseEntity<BaseResponse> {
         val user = requireUser()
@@ -35,6 +49,36 @@ class AccountController(
                 )
             )
         )
+    }
+
+    @PostMapping("/register/start")
+    suspend fun registerStart(@RequestBody @Valid body: CompleteRegisterStart): ResponseEntity<BaseResponse> {
+        val user = requireUser()
+        val (email, dryRun) = body
+        val code = emails.generateID(10)
+        val security = "sec_${Scru128.generateString()}"
+
+        if (dryRun != true) {
+            emails.sendEmailVerificationCode(email, code)
+        }
+
+        logger.info("Sent email with code: $code")
+        emailSec["email-code-validation:${user.id}:${code}:${security}"] = email
+
+        val result = mutableMapOf("securityToken" to security)
+        return ResponseEntity.ok(BaseResponse.ok(result, "Email sent"))
+    }
+
+    @PostMapping("/register/complete")
+    suspend fun registerFinish(@RequestBody @Valid body: CompleteRegisterFinish): ResponseEntity<BaseResponse> {
+        val user = requireUser()
+        val (code, security) = body
+        val email = emailSec["email-code-validation:${user.id}:${code}:${security}"]
+            ?: return ResponseEntity.badRequest().body(BaseResponse(false, null, null, "Invalid request"))
+
+        users.save(user.copy(email = email))
+        emailSec.remove("email-code-validation:${user.id}:${code}:${security}")
+        return ResponseEntity.ok(BaseResponse.ok("Email updated!"))
     }
 
     @PostMapping("/fcm")
