@@ -19,5 +19,9 @@ data class BaseResponse(val ok: Boolean, val data: Any?, val message: String? = 
                 null
             )
         }
+
+        fun fail(error: String?): BaseResponse {
+            return BaseResponse(false, null, null, error)
+        }
     }
 }

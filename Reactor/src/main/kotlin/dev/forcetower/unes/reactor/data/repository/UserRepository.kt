@@ -16,6 +16,8 @@ interface UserRepository : CoroutineCrudRepository<User, UUID> {
     suspend fun insert(username: String, name: String, email: String?): Long
     suspend fun findUserByUsername(username: String): User?
 
+    suspend fun findUserByEmail(email: String): User?
+
     @Query("SELECT u FROM users u")
     suspend fun getUpdatableUsers(rate: Int): Collection<User>
 }
