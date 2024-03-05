@@ -1,5 +1,10 @@
 package dev.forcetower.unes.reactor.controller.auth
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.yubico.webauthn.data.AuthenticatorAttestationResponse
+import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
+import com.yubico.webauthn.data.PublicKeyCredential
 import dev.forcetower.unes.reactor.data.entity.User
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyRegisterService
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyFinishRequest
@@ -10,6 +15,7 @@ import dev.forcetower.unes.reactor.utils.spring.requireUser
 import jakarta.validation.Valid
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
+import org.springframework.boot.json.JacksonJsonParser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
@@ -25,7 +31,8 @@ import java.util.UUID
 @RequestMapping("api/passkeys")
 class PasskeyController(
     private val passkeyService: PasskeyRegisterService,
-    private val cache: MemoryRegisterPasskeyStore
+    private val cache: MemoryRegisterPasskeyStore,
+    private val mapper: ObjectMapper
 ) {
     private val logger = LoggerFactory.getLogger(PasskeyController::class.java)
 
@@ -54,7 +61,10 @@ class PasskeyController(
             logger.error("Received user is not the one expected")
             return ResponseEntity.badRequest().body(mapOf("message" to "Failed to register passkey"))
         }
-        passkeyService.finish(user, request, body.credential)
+
+        val ref = object : TypeReference<PublicKeyCredential<AuthenticatorAttestationResponse, ClientRegistrationExtensionOutputs>>() {}
+        val credential = mapper.readValue(body.credential, ref)
+        passkeyService.finish(user, request, credential)
 
         return ResponseEntity.ok().body(Unit)
     }

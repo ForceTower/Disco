@@ -37,7 +37,7 @@ class WebauthnCredentialRepository(
     }
 
     override fun lookup(credentialId: ByteArray, userHandle: ByteArray): Optional<RegisteredCredential> {
-        val id = YubicoUtils.toUUIDStr(userHandle)
+        val id = YubicoUtils.toUUID(userHandle)
         val credentials = runBlocking { credentials.findPasskeyByUserId(id) }
             .firstOrNull { credentialId == ByteArray.fromBase64Url(it.keyId) }
             ?.toRegisteredCredential()
@@ -46,7 +46,7 @@ class WebauthnCredentialRepository(
 
     override fun lookupAll(credentialId: ByteArray): Set<RegisteredCredential> {
         return runBlocking {
-            credentials.findById(credentialId.base64Url)
+            credentials.findByKeyId(credentialId.base64Url)
                 ?.let { setOf(it.toRegisteredCredential()) }
                 .orEmpty()
         }

@@ -33,7 +33,7 @@ class AuthorizationService @Autowired constructor(
         }
     }
 
-    fun startAssertion(request: PasskeyStartAssertionRequest): AssertionRequest {
+    fun startAssertion(): AssertionRequest {
         val options = StartAssertionOptions.builder()
             .timeout(60_000)
             .userVerification(UserVerificationRequirement.REQUIRED)

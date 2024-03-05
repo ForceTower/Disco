@@ -1,5 +1,12 @@
 package dev.forcetower.unes.reactor.controller.auth
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.yubico.webauthn.data.AuthenticatorAssertionResponse
+import com.yubico.webauthn.data.AuthenticatorAttestationResponse
+import com.yubico.webauthn.data.ClientAssertionExtensionOutputs
+import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
+import com.yubico.webauthn.data.PublicKeyCredential
 import dev.forcetower.unes.reactor.domain.dto.auth.BasicLoginProvider
 import dev.forcetower.unes.reactor.domain.dto.auth.LoginRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.LoginResponse
@@ -30,7 +37,8 @@ class AuthenticationController(
     private val authorizationService: AuthorizationService,
     private val tokenService: AuthTokenService,
     private val snowpiercerAuth: SnowpiercerAuthService,
-    private val cache: MemoryLoginPasskeyStore
+    private val cache: MemoryLoginPasskeyStore,
+    private val mapper: ObjectMapper
 ) {
     @PostMapping("/login/anonymous")
     suspend fun login(@RequestBody @Valid body: LoginRequest): ResponseEntity<LoginResponse> {
@@ -51,8 +59,8 @@ class AuthenticationController(
     }
 
     @PostMapping("/login/passkey/assertion/start")
-    suspend fun startAssertion(@RequestBody @Valid body: PasskeyStartAssertionRequest): ResponseEntity<PasskeyStartAssertionResponse> {
-        val request = authorizationService.startAssertion(body)
+    suspend fun startAssertion(): ResponseEntity<PasskeyStartAssertionResponse> {
+        val request = authorizationService.startAssertion()
         val uuid = UUID.randomUUID().toString()
         cache.create(uuid, request)
         return ResponseEntity.ok(PasskeyStartAssertionResponse(uuid, request.toCredentialsGetJson()))
@@ -63,7 +71,10 @@ class AuthenticationController(
         val request = cache.fetch(body.flowId)
             ?: return ResponseEntity.badRequest().body(RegistrationFailedResponse("Login failed"))
 
-        val result = authorizationService.finishAssertion(request, body.credential)
+        val ref = object : TypeReference<PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs>>() {}
+        val credential = mapper.readValue(body.credential, ref)
+
+        val result = authorizationService.finishAssertion(request, credential)
         if (!result.isSuccess) {
             return ResponseEntity.badRequest().body(RegistrationFailedResponse("Login failed"))
         }

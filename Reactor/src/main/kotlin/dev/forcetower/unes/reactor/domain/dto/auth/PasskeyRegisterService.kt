@@ -3,11 +3,13 @@ package dev.forcetower.unes.reactor.domain.dto.auth
 import com.yubico.webauthn.FinishRegistrationOptions
 import com.yubico.webauthn.RelyingParty
 import com.yubico.webauthn.StartRegistrationOptions
+import com.yubico.webauthn.data.AuthenticatorAttachment
 import com.yubico.webauthn.data.AuthenticatorAttestationResponse
 import com.yubico.webauthn.data.AuthenticatorSelectionCriteria
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
 import com.yubico.webauthn.data.PublicKeyCredential
 import com.yubico.webauthn.data.PublicKeyCredentialCreationOptions
+import com.yubico.webauthn.data.ResidentKeyRequirement
 import com.yubico.webauthn.data.UserIdentity
 import com.yubico.webauthn.data.UserVerificationRequirement
 import dev.forcetower.unes.reactor.data.entity.Passkey
@@ -16,6 +18,8 @@ import dev.forcetower.unes.reactor.data.repository.PasskeyRepository
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.UUID
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class PasskeyRegisterService(
@@ -42,12 +46,12 @@ class PasskeyRegisterService(
         val result = relyingParty.finishRegistration(options)
 
         val credential = Passkey(
-            "",
+            UUID.randomUUID(),
             result.keyId.id.base64Url,
             result.keyId.type.name,
             result.publicKeyCose.base64Url,
             user.id
-        )
+        ).apply { setNew() }
 
         passkeyRepository.save(credential)
     }
@@ -61,6 +65,8 @@ class PasskeyRegisterService(
 
         val authenticatorSelectionCriteria = AuthenticatorSelectionCriteria.builder()
             .userVerification(UserVerificationRequirement.REQUIRED)
+            .authenticatorAttachment(AuthenticatorAttachment.PLATFORM)
+            .residentKey(ResidentKeyRequirement.REQUIRED)
             .build()
 
         val startRegistrationOptions = StartRegistrationOptions.builder()

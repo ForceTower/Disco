@@ -6,5 +6,5 @@ import com.yubico.webauthn.data.PublicKeyCredential
 
 data class PasskeyFinishAssertionRequest(
     val flowId: String,
-    val credential: PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs>
+    val credential: String
 )
