@@ -23,6 +23,7 @@ import dev.forcetower.unes.reactor.service.snowpiercer.SnowpiercerAuthService
 import dev.forcetower.unes.reactor.utils.base64.YubicoUtils
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -58,7 +59,7 @@ class AuthenticationController(
         return ResponseEntity.ok(LoginResponse(accessToken))
     }
 
-    @PostMapping("/login/passkey/assertion/start")
+    @GetMapping("/login/passkey/assertion/start")
     suspend fun startAssertion(): ResponseEntity<PasskeyStartAssertionResponse> {
         val request = authorizationService.startAssertion()
         val uuid = UUID.randomUUID().toString()
