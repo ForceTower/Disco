@@ -37,6 +37,7 @@ class AuthConfiguration(
             .authorizeExchange { exchange ->
                 exchange
                     .pathMatchers(HttpMethod.POST, "api/auth/**").permitAll()
+                    .pathMatchers(HttpMethod.GET, "api/auth/**").permitAll()
                     .pathMatchers("/error").permitAll()
                     .pathMatchers(".well-known/**").permitAll()
                     .anyExchange().authenticated()

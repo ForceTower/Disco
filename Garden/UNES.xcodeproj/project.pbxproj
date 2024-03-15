@@ -7,11 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C507A4F2BA3C44100A217A5 /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C507A4E2BA3C44100A217A5 /* MessageEntity.swift */; };
+		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
+		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
+		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
+		6C7E57AB2B9E47000086A32D /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57AA2B9E47000086A32D /* BaseService.swift */; };
+		6C7E57AF2B9E48E00086A32D /* Assertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57AE2B9E48E00086A32D /* Assertion.swift */; };
+		6C7E57B22B9E4DB10086A32D /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E57B12B9E4DB10086A32D /* Swinject */; };
+		6C7E57B42B9E4DB10086A32D /* Swinject-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E57B32B9E4DB10086A32D /* Swinject-Dynamic */; };
+		6C7E57B72B9E4DE10086A32D /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57B62B9E4DE10086A32D /* AppDIContainer.swift */; };
+		6C7E57B92B9E4DFA0086A32D /* DataModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57B82B9E4DFA0086A32D /* DataModuleAssembly.swift */; };
+		6C7E57BD2B9E4F250086A32D /* DomainModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57BC2B9E4F250086A32D /* DomainModuleAssembly.swift */; };
+		6C7E57C22B9E77B50086A32D /* Arcadia in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E57C12B9E77B50086A32D /* Arcadia */; };
+		6C7E57C52B9E78B40086A32D /* LoginPortalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57C42B9E78B40086A32D /* LoginPortalUseCase.swift */; };
+		6C7E57C92B9E88690086A32D /* PortalLoginStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57C82B9E88690086A32D /* PortalLoginStatus.swift */; };
+		6C7E57CC2B9E93000086A32D /* Stream+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */; };
+		6C7E57CE2B9EA1260086A32D /* AccessEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57CD2B9EA1260086A32D /* AccessEntity.swift */; };
 		6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */; };
 		6CAB417D2B8BFAF500F20D32 /* AuthUnesLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB417C2B8BFAF500F20D32 /* AuthUnesLoginView.swift */; };
+		6CAB41822B9D22B700F20D32 /* AuthPortalLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB41812B9D22B700F20D32 /* AuthPortalLoginViewModel.swift */; };
 		6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE069B2B8BD11500C2E649 /* UNESApp.swift */; };
-		6CBE069E2B8BD11500C2E649 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE069D2B8BD11500C2E649 /* ContentView.swift */; };
-		6CBE06A02B8BD11500C2E649 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE069F2B8BD11500C2E649 /* Item.swift */; };
 		6CBE06A22B8BD11600C2E649 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CBE06A12B8BD11600C2E649 /* Assets.xcassets */; };
 		6CBE06A52B8BD11600C2E649 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CBE06A42B8BD11600C2E649 /* Preview Assets.xcassets */; };
 		6CBE06AD2B8BD55A00C2E649 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE06AC2B8BD55A00C2E649 /* RootView.swift */; };
@@ -21,12 +36,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C507A4E2BA3C44100A217A5 /* MessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
+		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
+		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		6C7E57AA2B9E47000086A32D /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		6C7E57AE2B9E48E00086A32D /* Assertion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assertion.swift; sourceTree = "<group>"; };
+		6C7E57B62B9E4DE10086A32D /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
+		6C7E57B82B9E4DFA0086A32D /* DataModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModuleAssembly.swift; sourceTree = "<group>"; };
+		6C7E57BC2B9E4F250086A32D /* DomainModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModuleAssembly.swift; sourceTree = "<group>"; };
+		6C7E57C42B9E78B40086A32D /* LoginPortalUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPortalUseCase.swift; sourceTree = "<group>"; };
+		6C7E57C82B9E88690086A32D /* PortalLoginStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalLoginStatus.swift; sourceTree = "<group>"; };
+		6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stream+Extensions.swift"; sourceTree = "<group>"; };
+		6C7E57CD2B9EA1260086A32D /* AccessEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessEntity.swift; sourceTree = "<group>"; };
 		6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPortalLoginView.swift; sourceTree = "<group>"; };
 		6CAB417C2B8BFAF500F20D32 /* AuthUnesLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUnesLoginView.swift; sourceTree = "<group>"; };
+		6CAB41812B9D22B700F20D32 /* AuthPortalLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPortalLoginViewModel.swift; sourceTree = "<group>"; };
+		6CAB41832B9D27B900F20D32 /* UNES.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UNES.entitlements; sourceTree = "<group>"; };
+		6CAB41842B9D27E100F20D32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6CBE06982B8BD11500C2E649 /* UNES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UNES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CBE069B2B8BD11500C2E649 /* UNESApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNESApp.swift; sourceTree = "<group>"; };
-		6CBE069D2B8BD11500C2E649 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6CBE069F2B8BD11500C2E649 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		6CBE06A12B8BD11600C2E649 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6CBE06A42B8BD11600C2E649 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6CBE06AC2B8BD55A00C2E649 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -40,17 +69,174 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C7E57C22B9E77B50086A32D /* Arcadia in Frameworks */,
+				6C7E57B22B9E4DB10086A32D /* Swinject in Frameworks */,
+				6C7E57B42B9E4DB10086A32D /* Swinject-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C507A502BA3CAE900A217A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C7E579F2B9E42FA0086A32D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57C62B9E88460086A32D /* Model */,
+				6C7E57BB2B9E4F150086A32D /* DI */,
+				6C7E57A12B9E432D0086A32D /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		6C7E57A02B9E43030086A32D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57BA2B9E4F070086A32D /* DI */,
+				6C7E57AC2B9E485B0086A32D /* Model */,
+				6C7E57A72B9E45430086A32D /* Network */,
+				6C7E57A42B9E45000086A32D /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		6C7E57A12B9E432D0086A32D /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57C32B9E789E0086A32D /* Auth */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		6C7E57A42B9E45000086A32D /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57A52B9E45180086A32D /* AuthRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		6C7E57A72B9E45430086A32D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57A82B9E45550086A32D /* AuthService.swift */,
+				6C7E57AA2B9E47000086A32D /* BaseService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6C7E57AC2B9E485B0086A32D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57BE2B9E732D0086A32D /* Storage */,
+				6C7E57AD2B9E48620086A32D /* Auth */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6C7E57AD2B9E48620086A32D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57AE2B9E48E00086A32D /* Assertion.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6C7E57B52B9E4DBF0086A32D /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57B62B9E4DE10086A32D /* AppDIContainer.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		6C7E57BA2B9E4F070086A32D /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57B82B9E4DFA0086A32D /* DataModuleAssembly.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		6C7E57BB2B9E4F150086A32D /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57BC2B9E4F250086A32D /* DomainModuleAssembly.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		6C7E57BE2B9E732D0086A32D /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57BF2B9E733D0086A32D /* Entity */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		6C7E57BF2B9E733D0086A32D /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57CD2B9EA1260086A32D /* AccessEntity.swift */,
+				6C507A4E2BA3C44100A217A5 /* MessageEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		6C7E57C32B9E789E0086A32D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */,
+				6C7E57C42B9E78B40086A32D /* LoginPortalUseCase.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6C7E57C62B9E88460086A32D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57C72B9E884F0086A32D /* Auth */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6C7E57C72B9E884F0086A32D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57C82B9E88690086A32D /* PortalLoginStatus.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6C7E57CA2B9E92EE0086A32D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6CAB41802B9D229500F20D32 /* PortalLogin */ = {
+			isa = PBXGroup;
+			children = (
+				6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */,
+				6CAB41812B9D22B700F20D32 /* AuthPortalLoginViewModel.swift */,
+			);
+			path = PortalLogin;
+			sourceTree = "<group>";
+		};
 		6CBE068F2B8BD11500C2E649 = {
 			isa = PBXGroup;
 			children = (
 				6CBE069A2B8BD11500C2E649 /* UNES */,
 				6CBE06992B8BD11500C2E649 /* Products */,
+				6C507A502BA3CAE900A217A5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,10 +251,14 @@
 		6CBE069A2B8BD11500C2E649 /* UNES */ = {
 			isa = PBXGroup;
 			children = (
+				6C7E57CA2B9E92EE0086A32D /* Extensions */,
+				6C7E57B52B9E4DBF0086A32D /* DI */,
+				6C7E57A02B9E43030086A32D /* Data */,
+				6C7E579F2B9E42FA0086A32D /* Domain */,
 				6CBE06AB2B8BD53C00C2E649 /* View */,
+				6CAB41842B9D27E100F20D32 /* Info.plist */,
+				6CAB41832B9D27B900F20D32 /* UNES.entitlements */,
 				6CBE069B2B8BD11500C2E649 /* UNESApp.swift */,
-				6CBE069D2B8BD11500C2E649 /* ContentView.swift */,
-				6CBE069F2B8BD11500C2E649 /* Item.swift */,
 				6CBE06A12B8BD11600C2E649 /* Assets.xcassets */,
 				6CBE06A32B8BD11600C2E649 /* Preview Content */,
 			);
@@ -97,9 +287,9 @@
 		6CBE06AE2B8BD56500C2E649 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				6CAB41802B9D229500F20D32 /* PortalLogin */,
 				6CBE06B02B8BD5B700C2E649 /* AuthWelcomeView.swift */,
 				6CBE06B22B8BDA4900C2E649 /* AuthRootView.swift */,
-				6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */,
 				6CAB417C2B8BFAF500F20D32 /* AuthUnesLoginView.swift */,
 			);
 			path = Auth;
@@ -119,6 +309,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CBE06A82B8BD11600C2E649 /* Build configuration list for PBXNativeTarget "UNES" */;
 			buildPhases = (
+				6C507A682BA3CEE300A217A5 /* Build Shared KMM Module */,
 				6CBE06942B8BD11500C2E649 /* Sources */,
 				6CBE06952B8BD11500C2E649 /* Frameworks */,
 				6CBE06962B8BD11500C2E649 /* Resources */,
@@ -128,6 +319,11 @@
 			dependencies = (
 			);
 			name = UNES;
+			packageProductDependencies = (
+				6C7E57B12B9E4DB10086A32D /* Swinject */,
+				6C7E57B32B9E4DB10086A32D /* Swinject-Dynamic */,
+				6C7E57C12B9E77B50086A32D /* Arcadia */,
+			);
 			productName = UNES;
 			productReference = 6CBE06982B8BD11500C2E649 /* UNES.app */;
 			productType = "com.apple.product-type.application";
@@ -156,6 +352,10 @@
 				Base,
 			);
 			mainGroup = 6CBE068F2B8BD11500C2E649;
+			packageReferences = (
+				6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */,
+				6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */,
+			);
 			productRefGroup = 6CBE06992B8BD11500C2E649 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -177,19 +377,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6C507A682BA3CEE300A217A5 /* Build Shared KMM Module */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Shared KMM Module";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/../Club\"\n\necho \"Building :shared module\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode --stacktrace\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6CBE06942B8BD11500C2E649 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C7E57B72B9E4DE10086A32D /* AppDIContainer.swift in Sources */,
+				6C507A4F2BA3C44100A217A5 /* MessageEntity.swift in Sources */,
 				6CAB417D2B8BFAF500F20D32 /* AuthUnesLoginView.swift in Sources */,
 				6CBE06AD2B8BD55A00C2E649 /* RootView.swift in Sources */,
-				6CBE069E2B8BD11500C2E649 /* ContentView.swift in Sources */,
+				6C7E57AF2B9E48E00086A32D /* Assertion.swift in Sources */,
+				6C7E57C92B9E88690086A32D /* PortalLoginStatus.swift in Sources */,
+				6C7E57CE2B9EA1260086A32D /* AccessEntity.swift in Sources */,
 				6CBE06B32B8BDA4900C2E649 /* AuthRootView.swift in Sources */,
+				6C7E57AB2B9E47000086A32D /* BaseService.swift in Sources */,
 				6CBE06B12B8BD5B700C2E649 /* AuthWelcomeView.swift in Sources */,
+				6C7E57C52B9E78B40086A32D /* LoginPortalUseCase.swift in Sources */,
+				6C7E57B92B9E4DFA0086A32D /* DataModuleAssembly.swift in Sources */,
 				6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */,
+				6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */,
+				6CAB41822B9D22B700F20D32 /* AuthPortalLoginViewModel.swift in Sources */,
+				6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */,
+				6C7E57CC2B9E93000086A32D /* Stream+Extensions.swift in Sources */,
+				6C7E57BD2B9E4F250086A32D /* DomainModuleAssembly.swift in Sources */,
 				6CBE06B52B8BDAB800C2E649 /* RootRouter.swift in Sources */,
-				6CBE06A02B8BD11500C2E649 /* Item.swift in Sources */,
+				6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */,
 				6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,7 +483,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -306,7 +540,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -321,12 +555,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = UNES/UNES.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UNES/Preview Content\"";
 				DEVELOPMENT_TEAM = 5GH6Q6KS69;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Club/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UNES/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -339,6 +576,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.forcetower.unes.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -352,12 +590,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = UNES/UNES.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UNES/Preview Content\"";
 				DEVELOPMENT_TEAM = 5GH6Q6KS69;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Club/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UNES/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -370,6 +611,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.forcetower.unes.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -400,6 +642,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
+		6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ForceTower/Arcadia";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6C7E57B12B9E4DB10086A32D /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		6C7E57B32B9E4DB10086A32D /* Swinject-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = "Swinject-Dynamic";
+		};
+		6C7E57C12B9E77B50086A32D /* Arcadia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */;
+			productName = Arcadia;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6CBE06902B8BD11500C2E649 /* Project object */;
 }

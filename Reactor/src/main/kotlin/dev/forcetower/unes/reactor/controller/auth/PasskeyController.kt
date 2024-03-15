@@ -6,6 +6,7 @@ import com.yubico.webauthn.data.AuthenticatorAttestationResponse
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
 import com.yubico.webauthn.data.PublicKeyCredential
 import dev.forcetower.unes.reactor.data.entity.User
+import dev.forcetower.unes.reactor.data.model.PasskeyAssert
 import dev.forcetower.unes.reactor.domain.dto.auth.PasskeyRegisterService
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyFinishRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.RegisterPasskeyStartResponse
@@ -43,7 +44,8 @@ class PasskeyController(
         val request = passkeyService.start(user)
         val uuid = "${user.id}${UUID.randomUUID().toString().substring(0..7)}"
         cache.create(uuid, request)
-        return ResponseEntity.ok(RegisterPasskeyStartResponse(uuid, request.toCredentialsCreateJson()))
+        val requestJson = request.toCredentialsCreateJson()
+        return ResponseEntity.ok(RegisterPasskeyStartResponse(uuid, requestJson))
     }
 
     @PostMapping("/register/finish")

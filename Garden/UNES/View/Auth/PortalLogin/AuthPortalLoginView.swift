@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import Club
 
 struct AuthPortalLoginView: View {
     enum FocusableField: Hashable {
         case username, password
     }
     
+    @Environment(\.authorizationController) private var authorizationController
     @Binding var path: NavigationPath
     @State var username = ""
     @State var password = ""
     @FocusState private var focusedField: FocusableField?
+    @StateObject private var viewModel: AuthPortalLoginViewModel = .init(attestationUseCase: AppDIContainer.shared.resolve(), loginUseCase: AppDIContainer.shared.resolve())
     
     var body: some View {
         ZStack {
@@ -48,6 +51,7 @@ struct AuthPortalLoginView: View {
                         Divider().frame(height: 15)
                         TextField("", text: $username)
                             .textFieldStyle(.automatic)
+                            .textContentType(.username)
                             .autocorrectionDisabled()
                             .textInputAutocapitalization(.never)
                             .focused($focusedField, equals: .username)
@@ -69,6 +73,7 @@ struct AuthPortalLoginView: View {
                         Divider().frame(height: 15)
                         SecureField("", text: $password)
                             .textFieldStyle(.automatic)
+                            .textContentType(.password)
                             .autocorrectionDisabled()
                             .textInputAutocapitalization(.never)
                             .submitLabel(.done)
@@ -86,7 +91,7 @@ struct AuthPortalLoginView: View {
                 })
                 
                 Button(action: {
-                    path.append("StartPortalAuth")
+                    Task { await login() }
                 }, label: {
                     Text("Entrar")
                         .padding(.horizontal)
@@ -110,15 +115,30 @@ struct AuthPortalLoginView: View {
                 .padding(.vertical, 4)
                 
                 Button(action: {
-                    path.append("UnesAuth")
+                    Task { await signIn() }
                 }, label: {
-                    Text("Acessar usando conta UNES")
-                        .padding(.horizontal)
+                    Label(
+                        title: { 
+                            Text("Entrar usando Chave Senha")
+                            .padding(.horizontal)
+                        },
+                        icon: {
+                            Image(systemName: "person.badge.key.fill")
+                        }
+                    )
                 })
                 .buttonStyle(.borderedProminent)
                 .controlSize(.regular)
             }
         }
+    }
+    
+    func login() async {
+        viewModel.login(username: username, password: password)
+    }
+    
+    func signIn() async {
+        await viewModel.startAttestation(controller: authorizationController)
     }
 }
 

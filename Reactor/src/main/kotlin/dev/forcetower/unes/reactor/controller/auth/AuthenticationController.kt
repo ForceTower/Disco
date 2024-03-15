@@ -7,6 +7,7 @@ import com.yubico.webauthn.data.AuthenticatorAttestationResponse
 import com.yubico.webauthn.data.ClientAssertionExtensionOutputs
 import com.yubico.webauthn.data.ClientRegistrationExtensionOutputs
 import com.yubico.webauthn.data.PublicKeyCredential
+import dev.forcetower.unes.reactor.data.model.PasskeyAssert
 import dev.forcetower.unes.reactor.domain.dto.auth.BasicLoginProvider
 import dev.forcetower.unes.reactor.domain.dto.auth.LoginRequest
 import dev.forcetower.unes.reactor.domain.dto.auth.LoginResponse
@@ -64,7 +65,9 @@ class AuthenticationController(
         val request = authorizationService.startAssertion()
         val uuid = UUID.randomUUID().toString()
         cache.create(uuid, request)
-        return ResponseEntity.ok(PasskeyStartAssertionResponse(uuid, request.toCredentialsGetJson()))
+        val requestJson = request.toCredentialsGetJson()
+        val data = mapper.readValue(requestJson, PasskeyAssert::class.java)
+        return ResponseEntity.ok(PasskeyStartAssertionResponse(uuid, data))
     }
 
     @PostMapping("/login/passkey/assertion/finish")

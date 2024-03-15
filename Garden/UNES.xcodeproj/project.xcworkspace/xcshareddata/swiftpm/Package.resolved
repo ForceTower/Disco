@@ -1,0 +1,33 @@
+{
+  "originHash" : "c4a0c48cda04a63e199c441cca6b1df4815a6c1e5b5bc2833dac354411921f01",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "723fa5a6c65812aec4a0d7cc432ee198883b6e00",
+        "version" : "5.9.0"
+      }
+    },
+    {
+      "identity" : "arcadia",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ForceTower/Arcadia",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7ed9729a8eb444e4ebf0d2222eabf5cf00e2a146"
+      }
+    },
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "463cb2d659c8ae34899d18057ea5b1bb86fc3178",
+        "version" : "2.8.4"
+      }
+    }
+  ],
+  "version" : 3
+}

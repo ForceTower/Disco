@@ -12,7 +12,8 @@ import SwiftData
 struct UNESApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            AccessEntity.self,
+            MessageEntity.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
