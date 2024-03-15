@@ -62,7 +62,7 @@ struct AuthPortalLoginView: View {
                     }
                     .padding()
                     .background(.background.opacity(0.7))
-                    .clipShape(.buttonBorder)
+                    .clipShape(.rect(cornerRadius: 8))
                     .padding(.horizontal)
                     
                     HStack {
@@ -84,7 +84,7 @@ struct AuthPortalLoginView: View {
                     }
                     .padding()
                     .background(.background.opacity(0.7))
-                    .clipShape(.buttonBorder)
+                    .clipShape(.rect(cornerRadius: 8))
                     .padding(.horizontal)
                 }.formStyle(.columns).onAppear(perform: {
                     focusedField = .username

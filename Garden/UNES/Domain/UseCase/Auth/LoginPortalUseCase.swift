@@ -12,6 +12,7 @@ class LoginPortalUseCase {
     
     func login(username: String, password: String) -> AsyncThrowingStream<PortalLoginStatus, Error> {
         let arcadia = Arcadia(username: username, password: password)
+        let usecase = KMMUseCases().messages
         
         return AsyncThrowingStream<PortalLoginStatus, Error> { continuation in
             Task {
@@ -19,9 +20,10 @@ class LoginPortalUseCase {
                     let person = try await arcadia.login().get()
                     continuation.yield(.fetchedUser(person: person))
                     
-                    try await KMMUseCases().insertAccessUseCase.invoke(username: username, password: password)
-                    let access = try await KMMUseCases().insertAccessUseCase.require()
-                    print("Finished. \(String(describing: access?.username)) \(String(describing: access?.id))")
+                    let messages = try await arcadia.messages(forProfile: person.id).get()
+                    try await
+                    continuation.yield(.fetchedMessages)
+                    
                     
                 } catch {
                     print("Failed with error \(error.localizedDescription)")
