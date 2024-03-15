@@ -7,14 +7,16 @@
 
 import SwiftUI
 import SwiftData
+import Club
 
 @main
 struct UNESApp: App {
+    init() {
+        HelperKt.doInitKoin()
+    }
+    
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            AccessEntity.self,
-            MessageEntity.self
-        ])
+        let schema = Schema([])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {

@@ -6,6 +6,7 @@
 //
 
 import Arcadia
+import Club
 
 class LoginPortalUseCase {
     
@@ -17,6 +18,11 @@ class LoginPortalUseCase {
                 do {
                     let person = try await arcadia.login().get()
                     continuation.yield(.fetchedUser(person: person))
+                    
+                    try await KMMUseCases().insertAccessUseCase.invoke(username: username, password: password)
+                    let access = try await KMMUseCases().insertAccessUseCase.require()
+                    print("Finished. \(String(describing: access?.username)) \(String(describing: access?.id))")
+                    
                 } catch {
                     print("Failed with error \(error.localizedDescription)")
                     print(error)

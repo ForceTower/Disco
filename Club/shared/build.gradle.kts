@@ -28,12 +28,15 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.sqldelight.androidDriver)
             implementation(libs.androidx.viewmodel)
+            implementation(libs.koin.android)
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.nativeDriver)
+            implementation(libs.koin.core)
         }
         commonMain.dependencies {
             implementation(libs.sqldelight.coroutinesExtensions)
+            implementation(libs.koin.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
