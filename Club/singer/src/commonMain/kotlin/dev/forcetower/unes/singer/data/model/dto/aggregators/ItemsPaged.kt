@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class ItemsPaged<T>(
     @SerialName("proximaPagina")
-    val nextPage: Linker?,
+    val nextPage: Linker? = null,
     @SerialName("itens")
     val items: List<T>
 )

@@ -1,6 +1,6 @@
 package dev.forcetower.unes.singer.domain.model
 
-data class SingerAuthorization(
+data class Authorization(
     val username: String,
     val password: String
 )

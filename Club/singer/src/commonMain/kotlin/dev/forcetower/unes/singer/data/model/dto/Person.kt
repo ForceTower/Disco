@@ -10,6 +10,6 @@ data class Person(
     val name: String,
     @SerialName("tipoPessoa")
     val personKind: String,
-    val cpf: String?,
-    val email: String?
+    val cpf: String? = null,
+    val email: String? = null
 )

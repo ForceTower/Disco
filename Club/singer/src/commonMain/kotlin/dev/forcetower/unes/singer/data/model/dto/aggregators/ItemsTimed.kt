@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class ItemsTimed<T>(
     @SerialName("maisAntigos")
-    val nextPage: Linker?,
+    val nextPage: Linker? = null,
     @SerialName("maisRecentes")
-    val previousPage: Linker?,
+    val previousPage: Linker? = null,
     @SerialName("itens")
     val items: List<T>
 )

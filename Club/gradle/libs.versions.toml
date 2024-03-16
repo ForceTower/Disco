@@ -5,7 +5,9 @@ androidx-lifecycle = "2.7.0"
 sqldelight = "2.0.1"
 koin = "3.5.3"
 ktor = "2.3.9"
-coroutines = "1.7.3"
+coroutines = "1.8.0"
+kotlinx-datetime = "0.6.0-RC.2"
+uuid = "0.8.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -24,6 +26,8 @@ ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", 
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

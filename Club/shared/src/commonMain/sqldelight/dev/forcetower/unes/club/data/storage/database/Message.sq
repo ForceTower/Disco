@@ -1,0 +1,61 @@
+CREATE TABLE Message (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    content TEXT NOT NULL,
+    platformId INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    senderProfile INTEGER NOT NULL,
+    senderName TEXT,
+    notified INTEGER NOT NULL,
+    discipline TEXT,
+    uuid TEXT NOT NULL,
+    codeDiscipline TEXT,
+    html INTEGER NOT NULL,
+    dateString TEXT,
+    processingTime INTEGER,
+    hashMessage INTEGER,
+    attachmentName TEXT,
+    attachmentLink TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Message_hashMessage` ON `Message`(`hashMessage`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Message_platformId` ON `Message`(`platformId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Message_uuid` ON `Message`(`uuid`);
+
+getAllMessages:
+SELECT * FROM Message ORDER BY timestamp DESC;
+
+getLastMessage:
+SELECT * FROM Message ORDER BY timestamp DESC LIMIT 1;
+
+getNewMessages:
+SELECT * FROM Message WHERE notified = 0;
+
+setAllNotified:
+UPDATE Message SET notified = 1;
+
+getMessageByHash:
+SELECT * FROM Message WHERE hashMessage = :hashMessage LIMIT 1;
+
+updateSenderName:
+UPDATE Message SET senderName = :senderName WHERE platformId = :platformId;
+
+updateContent:
+UPDATE Message SET content = :content WHERE platformId = :platformId;
+
+updateDisciplineName:
+UPDATE Message SET discipline = :discipline WHERE platformId = :platformId;
+
+updateDisciplineCode:
+UPDATE Message SET codeDiscipline = :codeDiscipline WHERE platformId = :platformId;
+
+updateAttachmentLink:
+UPDATE Message SET attachmentLink = :attachmentLink WHERE platformId = :platformId;
+
+updateAttachmentName:
+UPDATE Message SET attachmentName = :attachmentName WHERE platformId = :platformId;
+
+updateDateString:
+UPDATE Message SET dateString = :dateString WHERE platformId = :platformId;
+
+insertIgnore:
+INSERT OR IGNORE INTO `Message` (`content`,`platformId`,`timestamp`,`senderProfile`,`senderName`,`notified`,`discipline`,`uuid`,`codeDiscipline`,`html`,`dateString`,`processingTime`,`hashMessage`,`attachmentName`,`attachmentLink`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);

@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS `Semester` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `platformId` INTEGER NOT NULL,
+    `name` TEXT NOT NULL,
+    `codename` TEXT NOT NULL,
+    `start` INTEGER,
+    `end` INTEGER,
+    `startClass` INTEGER,
+    `endClass` INTEGER
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Semester_sagres_id` ON `Semester` (`platformId`);
+
+updateStart:
+UPDATE Semester SET start = :start WHERE platformId = :platformId;
+
+updateEnd:
+UPDATE Semester SET `end` = :end WHERE platformId = :platformId;
+
+updateStartClass:
+UPDATE Semester SET startClass = :startClass WHERE platformId = :platformId;
+
+updateEndClass:
+UPDATE Semester SET endClass = :endClass WHERE platformId = :platformId;
+
+updateName:
+UPDATE Semester SET name = :name WHERE platformId = :platformId;
+
+selectSemester:
+SELECT * FROM Semester WHERE platformId = :platformId LIMIT 1;
+
+insertIgnoring:
+INSERT OR IGNORE INTO `Semester` (`platformId`,`name`,`codename`,`start`,`end`,`startClass`,`endClass`) VALUES (?,?,?,?,?,?,?);
+
+deleteAll:
+DELETE FROM Semester;

@@ -10,15 +10,24 @@ import Club
 class LoginPortalUseCase {
     
     func login(username: String, password: String) -> AsyncThrowingStream<PortalLoginStatus, Error> {
-        let usecase = KMMUseCases().insertAccessUseCase
+        let usecase = KMMUseCases().loginUseCase
         
         return AsyncThrowingStream<PortalLoginStatus, Error> { continuation in
             Task {
                 do {
-                    let person = try await usecase.me(username: username, password: password)
-                    usecase.setSingerAuth(auth: SingerSingerAuthorization(username: username, password: password))
-                    let semesters = try await usecase.semesters(id: person.id)
-                    print(String(describing: semesters))
+                    usecase.doLogin(username: username, password: password).subscribe { state in
+                        print(String(describing: state))
+                        switch state {
+                        case let connected as LoginState.Connected:
+                            print("person \(connected.person)")
+                        case is LoginState.Handshake:
+                            print("Handshake")
+                        case .none:
+                            print("None??")
+                        case .some(_):
+                            print("SOME?")
+                        }
+                    }
                 } catch {
                     print("Failed with error \(error.localizedDescription)")
                     print(error)

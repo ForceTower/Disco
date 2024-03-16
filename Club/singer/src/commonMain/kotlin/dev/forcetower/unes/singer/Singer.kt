@@ -1,29 +1,34 @@
 package dev.forcetower.unes.singer
 
+import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import dev.forcetower.unes.singer.data.model.dto.Semester
 import dev.forcetower.unes.singer.data.model.dto.Person
 import dev.forcetower.unes.singer.data.network.SingerAPI
-import dev.forcetower.unes.singer.domain.model.SingerAuthorization
+import dev.forcetower.unes.singer.domain.model.Authorization
 
 class Singer internal constructor(
     private val api: SingerAPI
 ) {
-    private var authorization: SingerAuthorization? = null
+    private var authorization: Authorization? = null
 
-    fun setDefaultAuthorization(authorization: SingerAuthorization) {
+    fun setDefaultAuthorization(authorization: Authorization) {
         this.authorization = authorization
     }
 
     @Throws(IllegalStateException::class)
-    private fun requireAuth(): SingerAuthorization {
+    private fun requireAuth(): Authorization {
         return authorization ?: throw IllegalStateException("Authentication Required")
     }
 
-    suspend fun me(authorization: SingerAuthorization): Person {
+    suspend fun me(authorization: Authorization): Person {
         return api.me(authorization)
     }
 
-    suspend fun semesters(id: Long, authorization: SingerAuthorization? = null): List<Semester> {
+    suspend fun messages(id: Long, authorization: Authorization? = null): MessagesDataPage {
+        return api.messages(id, authorization ?: requireAuth())
+    }
+
+    suspend fun semesters(id: Long, authorization: Authorization? = null): List<Semester> {
         return api.semesters(id, authorization ?: requireAuth())
     }
 }

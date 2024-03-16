@@ -66,6 +66,8 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.sqldelight.coroutinesExtensions)
             implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.uuid)
             api(projects.singer)
         }
         commonTest.dependencies {
