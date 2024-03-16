@@ -10,6 +10,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.takeFrom
+import io.ktor.serialization.kotlinx.json.DefaultJson
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.appendIfNameAbsent
 import kotlinx.serialization.json.Json
@@ -37,13 +38,7 @@ actual class PlatformClientFactory : SingerClientFactory {
             }
             install(ContentNegotiation) {
                 json(
-                    Json {
-                        encodeDefaults = true
-                        isLenient = true
-                        allowSpecialFloatingPointValues = true
-                        allowStructuredMapKeys = true
-                        prettyPrint = false
-                        useArrayPolymorphism = false
+                    Json(DefaultJson) {
                         ignoreUnknownKeys = true
                     }
                 )

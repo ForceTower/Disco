@@ -16,16 +16,21 @@ class LoginPortalUseCase {
             Task {
                 do {
                     usecase.doLogin(username: username, password: password).subscribe { state in
-                        print(String(describing: state))
                         switch state {
                         case let connected as LoginState.Connected:
-                            print("person \(connected.person)")
+                            print("Person \(connected.person)")
                         case is LoginState.Handshake:
                             print("Handshake")
-                        case .none:
-                            print("None??")
-                        case .some(_):
-                            print("SOME?")
+                        case is LoginState.Grades:
+                            print("Grades")
+                        case is LoginState.Messages:
+                            print("Messages")
+                        case is LoginState.Semesters:
+                            print("Semesters")
+                        case let failed as LoginState.Failed:
+                            print("Failed :( \(failed)")
+                        default:
+                            print("Unknown state :)")
                         }
                     }
                 } catch {

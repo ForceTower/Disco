@@ -31,13 +31,7 @@ actual class PlatformClientFactory : SingerClientFactory {
             }
             install(ContentNegotiation) {
                 json(
-                    Json {
-                        encodeDefaults = true
-                        isLenient = true
-                        allowSpecialFloatingPointValues = true
-                        allowStructuredMapKeys = true
-                        prettyPrint = false
-                        useArrayPolymorphism = false
+                    Json(DefaultJson) {
                         ignoreUnknownKeys = true
                     }
                 )

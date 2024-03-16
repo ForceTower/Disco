@@ -1,11 +1,10 @@
 package dev.forcetower.unes.club.data.processor
 
-import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuid4
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
-import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import dev.forcetower.unes.club.data.storage.database.Message
 import dev.forcetower.unes.club.util.primitives.asBoolean
+import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
@@ -22,14 +21,11 @@ class MessagesProcessor(
     suspend fun execute() = withContext(Dispatchers.IO) {
         val messages = page.messages.map { it.fromMessage(notified) }
         val newMessages = database.transactionWithResult {
-            val result = transaction {
-                messages.forEach { message ->
-                    prepareMessageInTransaction(message)
-                }
-                val result = database.messageQueries.getNewMessages().executeAsList()
-                database.messageQueries.setAllNotified()
-                result
+            messages.forEach { message ->
+                prepareMessageInTransaction(message)
             }
+            val result = database.messageQueries.getNewMessages().executeAsList()
+            database.messageQueries.setAllNotified()
             result
         }
         newMessages
@@ -42,7 +38,6 @@ class MessagesProcessor(
             return
         }
 
-        println("Updating existing message ${message.platformId}")
         if (message.senderName != direct.senderName) {
             database.messageQueries.updateSenderName(message.senderName, message.platformId)
         }
@@ -88,7 +83,7 @@ fun dev.forcetower.unes.singer.data.model.dto.Message.fromMessage(notified: Bool
 
     return Message(
         0L,
-        content = me.content.replace("\\n", "\n").replace("\\r", "\r"),
+        content = me.content.replace("\\n", "\n").replace("\\r", "\r").trim(),
         platformId = me.id,
         senderName = me.sender,
         senderProfile = me.senderType.toLong(),

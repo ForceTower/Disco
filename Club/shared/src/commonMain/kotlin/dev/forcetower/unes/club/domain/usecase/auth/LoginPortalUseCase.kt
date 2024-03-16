@@ -1,6 +1,7 @@
 package dev.forcetower.unes.club.domain.usecase.auth
 
 import dev.forcetower.unes.club.data.processor.MessagesProcessor
+import dev.forcetower.unes.club.data.processor.SemestersProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.LoginState
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
@@ -30,9 +31,13 @@ class LoginPortalUseCase(
                 emit(LoginState.Messages)
 
                 val semesters = singer.semesters(person.id)
+                SemestersProcessor(semesters, database).execute()
+                emit(LoginState.Semesters)
 
-
+                val current = semesters.maxByOrNull { it.start } ?: return@flow
                 emit(LoginState.Grades)
+
+                repository.insert(username, password)
             } catch (error: Exception) {
                 println(error)
                 emit(LoginState.Failed(error))
