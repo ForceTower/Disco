@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Club"
 include(":shared")
+include(":singer")

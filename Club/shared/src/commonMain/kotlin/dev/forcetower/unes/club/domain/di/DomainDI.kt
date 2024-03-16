@@ -5,6 +5,6 @@ import org.koin.dsl.module
 
 object DomainDI {
     val useCase = module {
-        single { InsertAccessUseCase(get()) }
+        single { InsertAccessUseCase(get(), get()) }
     }
 }

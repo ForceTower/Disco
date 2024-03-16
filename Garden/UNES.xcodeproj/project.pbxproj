@@ -17,7 +17,6 @@
 		6C7E57B72B9E4DE10086A32D /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57B62B9E4DE10086A32D /* AppDIContainer.swift */; };
 		6C7E57B92B9E4DFA0086A32D /* DataModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57B82B9E4DFA0086A32D /* DataModuleAssembly.swift */; };
 		6C7E57BD2B9E4F250086A32D /* DomainModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57BC2B9E4F250086A32D /* DomainModuleAssembly.swift */; };
-		6C7E57C22B9E77B50086A32D /* Arcadia in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E57C12B9E77B50086A32D /* Arcadia */; };
 		6C7E57C52B9E78B40086A32D /* LoginPortalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57C42B9E78B40086A32D /* LoginPortalUseCase.swift */; };
 		6C7E57C92B9E88690086A32D /* PortalLoginStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57C82B9E88690086A32D /* PortalLoginStatus.swift */; };
 		6C7E57CC2B9E93000086A32D /* Stream+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */; };
@@ -65,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C7E57C22B9E77B50086A32D /* Arcadia in Frameworks */,
 				6C7E57B22B9E4DB10086A32D /* Swinject in Frameworks */,
 				6C7E57B42B9E4DB10086A32D /* Swinject-Dynamic in Frameworks */,
 			);
@@ -316,7 +314,6 @@
 			packageProductDependencies = (
 				6C7E57B12B9E4DB10086A32D /* Swinject */,
 				6C7E57B32B9E4DB10086A32D /* Swinject-Dynamic */,
-				6C7E57C12B9E77B50086A32D /* Arcadia */,
 			);
 			productName = UNES;
 			productReference = 6CBE06982B8BD11500C2E649 /* UNES.app */;
@@ -348,7 +345,6 @@
 			mainGroup = 6CBE068F2B8BD11500C2E649;
 			packageReferences = (
 				6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */,
-				6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */,
 			);
 			productRefGroup = 6CBE06992B8BD11500C2E649 /* Products */;
 			projectDirPath = "";
@@ -656,14 +652,6 @@
 				minimumVersion = 2.8.4;
 			};
 		};
-		6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ForceTower/Arcadia";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -676,11 +664,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6C7E57B02B9E4DB10086A32D /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = "Swinject-Dynamic";
-		};
-		6C7E57C12B9E77B50086A32D /* Arcadia */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6C7E57C02B9E77B50086A32D /* XCRemoteSwiftPackageReference "Arcadia" */;
-			productName = Arcadia;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

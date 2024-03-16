@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -12,16 +12,16 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework {
-            baseName = "Club"
-            isStatic = true
-        }
+//        it.binaries.framework {
+//            baseName = "Singer"
+//            isStatic = true
+//        }
 
         it.compilations.configureEach {
             compilerOptions.configure {
@@ -55,18 +55,17 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.sqldelight.androidDriver)
-            implementation(libs.androidx.viewmodel)
-            implementation(libs.koin.android)
+            implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.nativeDriver)
-            implementation(libs.koin.core)
+            implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
-            implementation(libs.sqldelight.coroutinesExtensions)
-            implementation(libs.koin.core)
-            api(projects.singer)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.contentnegotiation)
+            implementation(libs.ktor.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -74,16 +73,8 @@ kotlin {
     }
 }
 
-sqldelight {
-    databases {
-        create("GeneralDatabase") {
-            packageName.set("dev.forcetower.unes.club.data.storage.database")
-        }
-    }
-}
-
 android {
-    namespace = "dev.forcetower.unes.club"
+    namespace = "dev.forcetower.unes.singer"
     compileSdk = 34
     defaultConfig {
         minSdk = 28

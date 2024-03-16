@@ -5,11 +5,11 @@
 //  Created by João Paulo Santos Sena on 10/03/24.
 //
 
-import Arcadia
+import Club
 
 enum PortalLoginStatus {
     case handshake
-    case fetchedUser(person: Person)
+    case fetchedUser(person: SingerPerson)
     case fetchedMessages
     case fetchedSemesterInfo
     case fetchedGrades

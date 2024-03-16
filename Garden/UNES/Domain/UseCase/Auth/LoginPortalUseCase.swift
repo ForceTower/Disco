@@ -5,26 +5,20 @@
 //  Created by João Paulo Santos Sena on 10/03/24.
 //
 
-import Arcadia
 import Club
 
 class LoginPortalUseCase {
     
     func login(username: String, password: String) -> AsyncThrowingStream<PortalLoginStatus, Error> {
-        let arcadia = Arcadia(username: username, password: password)
-        let usecase = KMMUseCases().messages
+        let usecase = KMMUseCases().insertAccessUseCase
         
         return AsyncThrowingStream<PortalLoginStatus, Error> { continuation in
             Task {
                 do {
-                    let person = try await arcadia.login().get()
-                    continuation.yield(.fetchedUser(person: person))
-                    
-                    let messages = try await arcadia.messages(forProfile: person.id).get()
-                    try await
-                    continuation.yield(.fetchedMessages)
-                    
-                    
+                    let person = try await usecase.me(username: username, password: password)
+                    usecase.setSingerAuth(auth: SingerSingerAuthorization(username: username, password: password))
+                    let semesters = try await usecase.semesters(id: person.id)
+                    print(String(describing: semesters))
                 } catch {
                     print("Failed with error \(error.localizedDescription)")
                     print(error)
