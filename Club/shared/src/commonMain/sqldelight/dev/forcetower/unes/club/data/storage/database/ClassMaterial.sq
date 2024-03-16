@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS `ClassMaterial` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `groupId` INTEGER NOT NULL,
+    `classItemId` INTEGER,
+    `name` TEXT NOT NULL,
+    `link` TEXT NOT NULL,
+    `isNew` INTEGER NOT NULL,
+    `uuid` TEXT NOT NULL,
+    `notified` INTEGER NOT NULL,
+    FOREIGN KEY(`groupId`) REFERENCES `ClassGroup`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`classItemId`) REFERENCES `ClassItem`(`id`) ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS `index_ClassMaterial_name` ON `ClassMaterial` (`name`);
+CREATE INDEX IF NOT EXISTS `index_ClassMaterial_link` ON `ClassMaterial` (`link`);
+CREATE INDEX IF NOT EXISTS `index_ClassMaterial_group_id` ON `ClassMaterial` (`groupId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassMaterial_name_link_group_id` ON `ClassMaterial` (`name`, `link`, `groupId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassMaterial_uuid` ON `ClassMaterial` (`uuid`);
+
+getMaterialsByIdentifiers:
+SELECT * FROM ClassMaterial WHERE groupId = :groupId AND name = :name AND link = :link LIMIT 1;
+
+insertIgnore:
+INSERT OR IGNORE INTO `ClassMaterial` (`id`,`groupId`,`classItemId`,`name`,`link`,`isNew`,`uuid`,`notified`) VALUES (nullif(?, 0),?,?,?,?,?,?,?);
+
+updateReplace:
+UPDATE OR REPLACE `ClassMaterial` SET `id` = ?,`groupId` = ?,`classItemId` = ?,`name` = ?,`link` = ?,`isNew` = ?,`uuid` = ?,`notified` = ? WHERE `id` = ?;
+
+lastInsertedRow:
+SELECT last_insert_rowid();

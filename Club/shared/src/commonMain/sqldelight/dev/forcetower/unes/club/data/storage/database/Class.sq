@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS `Class` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `disciplineId` INTEGER NOT NULL,
+    `semesterId` INTEGER NOT NULL,
+    `status` TEXT,
+    `finalScore` REAL,
+    `partialScore` REAL,
+    `missedClasses` INTEGER NOT NULL,
+    `lastClass` TEXT NOT NULL,
+    `nextClass` TEXT NOT NULL,
+    `scheduleOnly` INTEGER NOT NULL,
+    FOREIGN KEY(`disciplineId`) REFERENCES `Discipline`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`semesterId`) REFERENCES `Semester`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS `index_Class_semester_id` ON `Class` (`semesterId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Class_discipline_id_semester_id` ON `Class` (`disciplineId`, `semesterId`);
+
+getClassNew:
+SELECT * FROM Class WHERE semesterId = :semesterId AND disciplineId = :disciplineId;
+
+insertIgnore:
+INSERT OR IGNORE INTO `Class` (`disciplineId`,`semesterId`,`status`,`finalScore`,`partialScore`,`missedClasses`,`lastClass`,`nextClass`,`scheduleOnly`) VALUES (?,?,?,?,?,?,?,?,?);
+
+lastInsertedRow:
+SELECT last_insert_rowid();
+
+update:
+UPDATE OR ABORT `Class` SET `id` = ?,`disciplineId` = ?,`semesterId` = ?,`status` = ?,`finalScore` = ?,`partialScore` = ?,`missedClasses` = ?,`lastClass` = ?,`nextClass` = ?,`scheduleOnly` = ? WHERE `id` = ?;

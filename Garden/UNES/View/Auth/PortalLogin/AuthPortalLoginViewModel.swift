@@ -34,15 +34,28 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     }
     
     func login(username: String, password: String) {
-        let subject = loginUseCase.login(username: username, password: password)
-        PassthroughSubject.emittingValues(from: subject)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                
-            } receiveValue: { status in
-                
-            }
-            .store(in: &subscriptions)
+        do {
+            let subject = try loginUseCase.doLogin(username: username, password: password)
+            FlowPublisher(wrappedFlow: subject)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    print("Finished.")
+                } receiveValue: { value in
+                    print("Received value: \(String(describing: value))")
+                }
+                .store(in: &subscriptions)
+
+//            PassthroughSubject.emittingValues(from: subject)
+//                .receive(on: DispatchQueue.main)
+//                .sink { completion in
+//                    
+//                } receiveValue: { status in
+//                    
+//                }
+//                .store(in: &subscriptions)
+        } catch {
+            
+        }
 
     }
     

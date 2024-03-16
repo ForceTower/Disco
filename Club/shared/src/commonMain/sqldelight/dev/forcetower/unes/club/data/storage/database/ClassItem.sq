@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS `ClassItem` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `groupId` INTEGER NOT NULL,
+    `number` INTEGER NOT NULL,
+    `situation` TEXT,
+    `subject` TEXT,
+    `date` TEXT,
+    `numberOfMaterials` INTEGER NOT NULL,
+    `materialLinks` TEXT NOT NULL,
+    `isNew` INTEGER NOT NULL,
+    FOREIGN KEY(`groupId`) REFERENCES `ClassGroup`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassItem_group_id_number` ON `ClassItem` (`groupId`, `number`);
+CREATE INDEX IF NOT EXISTS `index_ClassItem_number_of_materials` ON `ClassItem` (`numberOfMaterials`);
+CREATE INDEX IF NOT EXISTS `index_ClassItem_situation` ON `ClassItem` (`situation`);
+CREATE INDEX IF NOT EXISTS `index_ClassItem_date` ON `ClassItem` (`date`);
+CREATE INDEX IF NOT EXISTS `index_ClassItem_is_new` ON `ClassItem` (`isNew`);
+
+lastInsertedRow:
+SELECT last_insert_rowid();
+
+insertReplace:
+INSERT OR REPLACE INTO `ClassItem` (`id`,`groupId`,`number`,`situation`,`subject`,`date`,`numberOfMaterials`,`materialLinks`,`isNew`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?);
+
+updateReplace:
+UPDATE OR REPLACE `ClassItem` SET `id` = ?,`groupId` = ?,`number` = ?,`situation` = ?,`subject` = ?,`date` = ?,`numberOfMaterials` = ?,`materialLinks` = ?,`isNew` = ? WHERE `id` = ?;
+
+getItemByIdentifiers:
+SELECT * FROM ClassItem WHERE groupId = :groupId AND number = :number LIMIT 1;

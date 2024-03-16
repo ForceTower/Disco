@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS `Grade` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `classId` INTEGER NOT NULL,
+    `name` TEXT NOT NULL,
+    `date` TEXT,
+    `grade` TEXT,
+    `grouping` INTEGER NOT NULL,
+    `groupingName` TEXT NOT NULL,
+    `notified` INTEGER NOT NULL,
+    FOREIGN KEY(`classId`) REFERENCES `Class`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS `index_Grade_class_id` ON `Grade` (`classId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Grade_name_class_id_grouping` ON `Grade` (`name`, `classId`, `grouping`);
+
+lastInsertedRow:
+SELECT last_insert_rowid();
+
+getNamedGrade:
+SELECT * FROM Grade WHERE classId = :classId AND name = :name AND grouping = :grouping;
+
+insertIgnore:
+INSERT OR IGNORE INTO `Grade` (`id`,`classId`,`name`,`date`,`grade`,`grouping`,`groupingName`,`notified`) VALUES (nullif(?, 0),?,?,?,?,?,?,?);
+
+updateIgnore:
+UPDATE OR IGNORE `Grade` SET `id` = ?,`classId` = ?,`name` = ?,`date` = ?,`grade` = ?,`grouping` = ?,`groupingName` = ?,`notified` = ? WHERE `id` = ?;

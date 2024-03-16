@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS `Teacher` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `name` TEXT NOT NULL,
+    `email` TEXT,
+    `platformId` INTEGER,
+    `department` TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Teacher_platformId` ON `Teacher` (`platformId`);
+
+insertReplace:
+INSERT OR REPLACE INTO `Teacher` (`id`,`name`,`email`,`platformId`,`department`) VALUES (nullif(?, 0),?,?,?,?);
+
+lastInsertedRow:
+SELECT last_insert_rowid();

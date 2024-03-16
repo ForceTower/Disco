@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS `Discipline` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `name` TEXT NOT NULL,
+    `code` TEXT NOT NULL,
+    `credits` INTEGER NOT NULL,
+    `department` TEXT,
+    `resume` TEXT,
+    `shortText` TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Discipline_code` ON `Discipline` (`code`);
+
+getDisciplineByCode:
+SELECT * FROM Discipline WHERE LOWER(code) = LOWER(:code) LIMIT 1;
+
+updateIgnore:
+UPDATE OR IGNORE `Discipline` SET `id` = ?,`name` = ?,`code` = ?,`credits` = ?,`department` = ?,`resume` = ?,`shortText` = ? WHERE `id` = ?;
+
+insertIgnore:
+INSERT OR IGNORE INTO `Discipline` (`name`,`code`,`credits`,`department`,`resume`,`shortText`) VALUES (?,?,?,?,?,?);
+
+lastInsertedRow:
+SELECT last_insert_rowid();

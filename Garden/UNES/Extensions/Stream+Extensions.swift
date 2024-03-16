@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Club
 
 extension PassthroughSubject where Failure == Error {
     static func emittingValues<T: AsyncSequence>(

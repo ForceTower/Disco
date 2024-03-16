@@ -32,5 +32,8 @@ SELECT * FROM Semester WHERE platformId = :platformId LIMIT 1;
 insertIgnoring:
 INSERT OR IGNORE INTO `Semester` (`platformId`,`name`,`codename`,`start`,`end`,`startClass`,`endClass`) VALUES (?,?,?,?,?,?,?);
 
+selectAll:
+SELECT * FROM Semester;
+
 deleteAll:
 DELETE FROM Semester;

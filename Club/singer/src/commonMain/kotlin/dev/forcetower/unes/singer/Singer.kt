@@ -1,5 +1,6 @@
 package dev.forcetower.unes.singer
 
+import dev.forcetower.unes.singer.data.model.dto.DisciplineData
 import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import dev.forcetower.unes.singer.data.model.dto.Semester
 import dev.forcetower.unes.singer.data.model.dto.Person
@@ -30,5 +31,9 @@ class Singer internal constructor(
 
     suspend fun semesters(id: Long, authorization: Authorization? = null): List<Semester> {
         return api.semesters(id, authorization ?: requireAuth())
+    }
+
+    suspend fun grades(personId: Long, semesterId: Long, authorization: Authorization? = null): List<DisciplineData> {
+        return api.grades(personId, semesterId, authorization ?: requireAuth())
     }
 }

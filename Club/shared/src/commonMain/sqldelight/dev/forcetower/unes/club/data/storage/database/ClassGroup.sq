@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS `ClassGroup` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `classId` INTEGER NOT NULL,
+    `group` TEXT NOT NULL,
+    `teacher` TEXT,
+    `credits` INTEGER NOT NULL,
+    `draft` INTEGER NOT NULL,
+    `ignored` INTEGER NOT NULL,
+    `teacherId` INTEGER,
+    `platformId` INTEGER,
+    `teacherEmail` TEXT,
+    FOREIGN KEY(`classId`) REFERENCES `Class`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`teacherId`) REFERENCES `Teacher`(`id`) ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassGroup_class_id_group` ON `ClassGroup` (`classId`, `group`);
+CREATE INDEX IF NOT EXISTS `index_ClassGroup_teacher_id` ON `ClassGroup` (`teacherId`);
+
+selectGroupsFromClass:
+SELECT * FROM ClassGroup WHERE classId = :classId;
+
+insertIgnore:
+INSERT OR IGNORE INTO `ClassGroup` (`classId`,`group`,`teacher`,`credits`,`draft`,`ignored`,`teacherId`,`platformId`,`teacherEmail`) VALUES (?,?,?,?,?,?,?,?,?);
+
+update:
+UPDATE OR ABORT `ClassGroup` SET `id` = ?,`classId` = ?,`group` = ?,`teacher` = ?,`credits` = ?,`draft` = ?,`ignored` = ?,`teacherId` = ?,`platformId` = ?,`teacherEmail` = ? WHERE `id` = ?;
+
+lastInsertedRow:
+SELECT last_insert_rowid();

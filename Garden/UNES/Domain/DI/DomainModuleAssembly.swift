@@ -7,6 +7,7 @@
 
 import Foundation
 import Swinject
+import Club
 
 class DomainModuleAssembly : Assembly {
     func assemble(container: Container) {
@@ -15,7 +16,7 @@ class DomainModuleAssembly : Assembly {
         }
         
         container.register(LoginPortalUseCase.self) { _ in
-            LoginPortalUseCase()
+            KMMUseCases().loginUseCase
         }
     }
 }

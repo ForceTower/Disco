@@ -3,6 +3,7 @@ package dev.forcetower.unes.club.data.processor
 import com.benasher44.uuid.uuid4
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.Message
+import dev.forcetower.unes.club.util.date.parseZonedDateTime
 import dev.forcetower.unes.club.util.primitives.asBoolean
 import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import kotlinx.coroutines.Dispatchers
@@ -71,14 +72,8 @@ class MessagesProcessor(
 fun dev.forcetower.unes.singer.data.model.dto.Message.fromMessage(notified: Boolean): Message {
     val me = this
 
-    val timezoneStart = me.timestamp.lastIndexOf("-").takeIf { it > 0 }
-            ?: me.timestamp.lastIndexOf("+").takeIf { it > 0 }
-            ?: me.timestamp.length
-
-    val part = me.timestamp.substring(0..<timezoneStart)
-    val localDateTime = LocalDateTime.parse(part)
-
-    val timestamp = localDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+    val (local, offset) = parseZonedDateTime(me.timestamp)
+    val timestamp = local.toInstant(offset).toEpochMilliseconds()
     val processingTime = Clock.System.now().toEpochMilliseconds()
 
     return Message(

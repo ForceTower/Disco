@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -40,6 +41,7 @@ kotlin {
                 freeCompilerArgs.addAll(
                     "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
                     "-opt-in=kotlinx.cinterop.BetaInteropApi",
+                    "-opt-in=kotlin.experimental.ExperimentalObjCName"
                 )
             }
         }

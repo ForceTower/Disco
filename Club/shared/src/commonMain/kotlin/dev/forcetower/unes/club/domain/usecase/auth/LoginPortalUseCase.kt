@@ -1,7 +1,9 @@
 package dev.forcetower.unes.club.domain.usecase.auth
 
+import dev.forcetower.unes.club.data.processor.DisciplinesProcessor
 import dev.forcetower.unes.club.data.processor.MessagesProcessor
 import dev.forcetower.unes.club.data.processor.SemestersProcessor
+import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.LoginState
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
@@ -15,7 +17,9 @@ class LoginPortalUseCase(
     private val database: GeneralDatabase,
     private val singer: Singer
 ) {
+    @Throws(Exception::class)
     fun doLogin(username: String, password: String): CommonFlow<LoginState> {
+        val general = GeneralDB(database)
         val flow = flow {
             try {
                 emit(LoginState.Handshake)
@@ -23,6 +27,9 @@ class LoginPortalUseCase(
                 val auth = Authorization(username, password)
                 val person = singer.me(auth)
                 emit(LoginState.Connected(person))
+
+                repository.insert(username, password)
+                val profileId = general.profileDao.insert(person)
 
                 singer.setDefaultAuthorization(auth)
 
@@ -37,7 +44,11 @@ class LoginPortalUseCase(
                 val current = semesters.maxByOrNull { it.start } ?: return@flow
                 emit(LoginState.Grades)
 
-                repository.insert(username, password)
+                val disciplines = singer.grades(person.id, current.id)
+                val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
+                DisciplinesProcessor(general, disciplines, semester, profileId, false).execute()
+
+                emit(LoginState.Completed)
             } catch (error: Exception) {
                 println(error)
                 emit(LoginState.Failed(error))

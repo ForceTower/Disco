@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `ClassAbsence` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `classId` INTEGER NOT NULL,
+    `profileId` INTEGER NOT NULL,
+    `sequence` INTEGER NOT NULL,
+    `description` TEXT NOT NULL,
+    `date` TEXT NOT NULL,
+    `grouping` TEXT NOT NULL,
+    `uuid` TEXT NOT NULL,
+    `notified` INTEGER NOT NULL,
+    FOREIGN KEY(`classId`) REFERENCES `Class`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`profileId`) REFERENCES `Profile`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS `index_ClassAbsence_profile_id` ON `ClassAbsence` (`profileId`);
+CREATE INDEX IF NOT EXISTS `index_ClassAbsence_class_id` ON `ClassAbsence` (`classId`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassAbsence_class_id_profile_id_sequence_grouping` ON `ClassAbsence` (`classId`, `profileId`, `sequence`, `grouping`);
+
+lastInsertedRow:
+SELECT last_insert_rowid();

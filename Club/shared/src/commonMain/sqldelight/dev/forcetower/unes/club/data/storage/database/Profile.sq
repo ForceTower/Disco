@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS `Profile` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `name` TEXT,
+    `email` TEXT,
+    `score` REAL NOT NULL,
+    `calcScore` REAL NOT NULL,
+    `course` INTEGER,
+    `imageUrl` TEXT,
+    `platformId` INTEGER NOT NULL,
+    `me` INTEGER NOT NULL,
+    `mocked` INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_Profile_platformId` ON `Profile`(platformId);
+
+selectMe:
+SELECT * FROM Profile WHERE me = 1 LIMIT 1;
+
+updateName:
+UPDATE Profile SET name = :name;
+
+updateEmail:
+UPDATE Profile SET email = :email;
+
+updatePlatformId:
+UPDATE Profile SET platformId = :platformId;
+
+updateMockedStatus:
+UPDATE Profile SET mocked = :mocked;
+
+insertReplace:
+INSERT OR REPLACE INTO `Profile` (`id`,`name`,`email`,`score`,`calcScore`,`course`,`imageUrl`,`platformId`,`me`,`mocked`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?);
+
+lastInsertedRow:
+SELECT last_insert_rowid();

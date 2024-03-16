@@ -8,5 +8,6 @@ sealed class LoginState {
     data object Messages : LoginState()
     data object Semesters : LoginState()
     data object Grades : LoginState()
+    data object Completed : LoginState()
     data class Failed(val error: Exception) : LoginState()
 }
