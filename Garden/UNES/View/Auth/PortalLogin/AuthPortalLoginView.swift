@@ -14,6 +14,8 @@ struct AuthPortalLoginView: View {
     }
     
     @Environment(\.authorizationController) private var authorizationController
+    @EnvironmentObject private var router: RootRouter
+    
     @Binding var path: NavigationPath
     @State var username = ""
     @State var password = ""
@@ -86,9 +88,7 @@ struct AuthPortalLoginView: View {
                     .background(.background.opacity(0.7))
                     .clipShape(.rect(cornerRadius: 8))
                     .padding(.horizontal)
-                }.formStyle(.columns).onAppear(perform: {
-                    focusedField = .username
-                })
+                }.formStyle(.columns)
                 
                 Button(action: {
                     Task { await login() }
@@ -130,7 +130,15 @@ struct AuthPortalLoginView: View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.regular)
             }
-        }
+        }.alert(viewModel.errorTitle, isPresented: $viewModel.showLoginError) {
+            Button("OK") {
+                viewModel.showLoginError = false
+            }
+        } message: {
+            Text(viewModel.errorDescription)
+        }.onAppear(perform: {
+            viewModel.router = router
+        })
     }
     
     func login() async {
@@ -144,5 +152,5 @@ struct AuthPortalLoginView: View {
 
 #Preview {
     @State var path: NavigationPath = .init()
-    return AuthPortalLoginView(path: $path)
+    return AuthPortalLoginView(path: $path).environmentObject(RootRouter())
 }

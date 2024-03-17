@@ -9,5 +9,6 @@ sealed class LoginState {
     data object Semesters : LoginState()
     data object Grades : LoginState()
     data object Completed : LoginState()
+    data class LoginFailed(val reason: LoginFailReason, val message: String?) : LoginState()
     data class Failed(val error: Exception) : LoginState()
 }

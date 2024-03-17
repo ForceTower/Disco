@@ -1,8 +1,8 @@
 package dev.forcetower.unes.club.data.di
 
 import dev.forcetower.unes.club.data.repository.local.AccessRepositoryImpl
+import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
-import dev.forcetower.unes.club.data.storage.database.GeneralDatabaseDriverFactory
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.SingerFactory
@@ -16,6 +16,7 @@ internal object DataDI {
 
     val data = module {
         single<GeneralDatabase> { GeneralDatabase(get()) }
+        single<GeneralDB> { GeneralDB(get()) }
         single<Singer> { SingerFactory().create(get(named("platform-user-agent"))) }
     }
 }

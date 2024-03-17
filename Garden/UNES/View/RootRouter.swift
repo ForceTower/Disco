@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum RootState : Hashable {
+    case initializing, login, connected
+}
+
 class RootRouter : ObservableObject {
-    @Published var currentRoot = 0
+    @Published var state: RootState = .initializing
 }

@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct RootView: View {
-    @ObservedObject var router = RootRouter()
+    @EnvironmentObject var router: RootRouter
     
     var body: some View {
-        if (router.currentRoot == 0) {
+        switch router.state {
+        case .login:
             AuthRootView()
+        case .connected:
+            HomeView()
+        case .initializing:
+            InitializingView()
         }
     }
 }
 
 #Preview {
     RootView()
+        .environmentObject(RootRouter())
 }

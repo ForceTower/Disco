@@ -15,8 +15,10 @@ struct UNESApp: App {
     }
 
     var body: some Scene {
+        @ObservedObject var router = RootRouter()
         WindowGroup {
             RootView()
+                .environmentObject(router)
         }
     }
 }

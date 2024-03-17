@@ -1,8 +1,12 @@
+import com.rickclephas.kmp.nativecoroutines.gradle.ExposedSeverity
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kmpNativeCoroutines)
+//    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -85,6 +89,16 @@ sqldelight {
         }
     }
 }
+
+nativeCoroutines {
+    exposedSeverity = ExposedSeverity.NONE
+}
+
+//skie {
+//    features {
+//        coroutinesInterop.set(false)
+//    }
+//}
 
 android {
     namespace = "dev.forcetower.unes.club"
