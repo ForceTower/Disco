@@ -19,7 +19,7 @@ struct HomeView: View {
                 viewModel.tabSelection = .messages
             })
             .tabItem {
-                Label("Dashboard", systemImage: "newspaper")
+                Label("Início", systemImage: "newspaper")
             }.tag(HomeTabSelection.dashboard)
             
             HomeScheduleView()
@@ -38,7 +38,7 @@ struct HomeView: View {
                     Label("Disciplinas", systemImage: "graduationcap")
                 }.tag(HomeTabSelection.disciplines)
             
-            Text("Menu")
+            Text("Aqui teremos o menu")
                 .tabItem {
                     Label("Menu", systemImage: "circle.grid.2x2")
                 }.tag(HomeTabSelection.others)
