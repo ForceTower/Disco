@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MessageRepository {
     fun getAllMessages(): Flow<List<Message>>
+
+    fun getLastMessage(): Flow<Message?>
 }

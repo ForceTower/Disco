@@ -12,4 +12,9 @@ class GetAllMessagesUseCase(
     fun get(): Flow<List<Message>> {
         return repository.getAllMessages()
     }
+
+    @NativeCoroutines
+    fun last(): Flow<Message?> {
+        return repository.getLastMessage()
+    }
 }
