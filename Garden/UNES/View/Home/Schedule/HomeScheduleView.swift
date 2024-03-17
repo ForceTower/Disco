@@ -22,10 +22,15 @@ struct HomeScheduleView: View {
                             ForEach(vm.blocks, id: \.id) { row in
                                 HStack(spacing: 2) {
                                     ForEach(row.items, id: \.id) { tile in
-                                        ScheduleTileView(tile: tile)
+                                        ScheduleTileView(tile: tile) { code in
+                                            vm.colorIndices[code]?.intValue ?? 0
+                                        }
                                     }
-                                }.padding(.top, 1)
+                                }
+                                .padding(.top, 1)
                             }
+                            .padding(.trailing, 12)
+                            .padding(.leading, 8)
                         }
                         .frame(alignment: .leading)
                     }
@@ -46,6 +51,7 @@ struct HomeScheduleView: View {
 
 struct ScheduleTileView: View {
     let tile: ProcessedClassLocation
+    let findColorIndex: (String) -> Int
     
     var body: some View {
         switch tile {
@@ -79,9 +85,9 @@ struct ScheduleTileView: View {
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(lineWidth: 0.8)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(findColor(element.reference.discipline.code))
             )
-            .background(.blue.opacity(0.1))
+            .background(findColor(element.reference.discipline.code).opacity(0.1))
             .clipShape(.rect(cornerRadius: 8))
         default:
             VStack {
@@ -90,6 +96,11 @@ struct ScheduleTileView: View {
             }
             .frame(width: 56, height: 48)
         }
+    }
+    func findColor(_ code: String) -> Color {
+        let index = findColorIndex(code)
+        let color = HomeScheduleViewModel.colors[index % HomeScheduleViewModel.colors.count]
+        return color
     }
 }
 
