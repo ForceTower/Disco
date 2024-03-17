@@ -24,5 +24,9 @@ class DomainModuleAssembly : Assembly {
         container.register(ConnectedUserUseCase.self) { _ in
             useCases.connectedUser
         }
+        
+        container.register(GetAllMessagesUseCase.self) { _ in
+            useCases.allMessages
+        }
     }
 }

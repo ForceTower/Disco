@@ -18,22 +18,23 @@ struct HomeView: View {
             }, selectMessages: {
                 viewModel.tabSelection = .messages
             })
-                .tabItem {
-                    Label("Dashboard", systemImage: "newspaper")
-                }.tag(HomeTabSelection.dashboard)
+            .tabItem {
+                Label("Dashboard", systemImage: "newspaper")
+            }.tag(HomeTabSelection.dashboard)
             
-            Text("Horários")
+            HomeScheduleView()
                 .tabItem {
                     Label("Horários", systemImage: "clock")
-                }.tag(HomeTabSelection.schedule)
+                }
+                .tag(HomeTabSelection.schedule)
             
-            Text("Mensagens")
-                .tabItem { 
+            HomeMessagesView()
+                .tabItem {
                     Label("Mensagens", systemImage: "envelope")
                 }.tag(HomeTabSelection.messages)
             
             Text("Disciplinas")
-                .tabItem { 
+                .tabItem {
                     Label("Disciplinas", systemImage: "graduationcap")
                 }.tag(HomeTabSelection.disciplines)
             
