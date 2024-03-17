@@ -112,13 +112,13 @@ struct HomeDisciplineItemView: View {
                                 
                                 if let date = grade.dateSeconds?.int64Value {
                                     Text(Date(timeIntervalSince1970: TimeInterval(date)).formatted(date: .numeric, time: .omitted))
-                                        .font(.callout)
+                                        .font(.footnote)
                                         .fontWeight(.regular)
                                         .foregroundStyle(.gray)
                                         .padding(.top, 2)
                                 } else {
                                     Text("Data não divulgada")
-                                        .font(.callout)
+                                        .font(.footnote)
                                         .fontWeight(.regular)
                                         .foregroundStyle(.gray)
                                         .padding(.top, 2)
