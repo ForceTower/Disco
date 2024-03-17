@@ -65,9 +65,9 @@ struct MessageItemView: View {
             }
         }
         .padding()
-        .background(.white)
+        .background(.background)
         .clipShape(.rect(cornerRadius: 8))
-        .shadow(color: .gray.opacity(0.7), radius: 1, x: 0.2, y: 0.7)
+        .shadow(color: .gray.opacity(0.7), radius: 1, x: 0.2, y: 0.6)
         .padding(.horizontal)
         .padding(.vertical, 4)
     }

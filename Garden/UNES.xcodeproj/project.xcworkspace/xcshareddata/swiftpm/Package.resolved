@@ -1,5 +1,5 @@
 {
-  "originHash" : "306ebcd26040fb97492ad9b1e8400d9e94658408bb5fe74c78aec26c4ee39aef",
+  "originHash" : "6bb6950d02dc3dcdc58e53ecf096c3c6b7ec51121ce46332d96a7f97370f7099",
   "pins" : [
     {
       "identity" : "kmp-nativecoroutines",
@@ -40,7 +40,7 @@
     {
       "identity" : "swinject",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Swinject/Swinject.git",
+      "location" : "git@github.com:Swinject/Swinject.git",
       "state" : {
         "revision" : "463cb2d659c8ae34899d18057ea5b1bb86fc3178",
         "version" : "2.8.4"

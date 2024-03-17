@@ -194,7 +194,7 @@ struct CurrentClassCardView: View {
     
     func classColorOverlay() -> Color {
         if item != nil { return .indigo }
-        return .init(hex: "ff6c00")
+        return .init(hex: "FFFF9649")
     }
 }
 
