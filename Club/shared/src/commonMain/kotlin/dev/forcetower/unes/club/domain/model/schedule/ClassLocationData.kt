@@ -11,3 +11,9 @@ data class ClassLocationData(
     val clazz: Class,
     val discipline: Discipline
 )
+
+data class ExtendedClassLocationData(
+    val ref: ClassLocationData,
+    val currentClass: Boolean,
+    val differenceMin: Long?
+)

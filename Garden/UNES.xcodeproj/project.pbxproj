@@ -46,6 +46,7 @@
 		6CDB80312BA70FE900A1134B /* HomeDisciplinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80302BA70FE900A1134B /* HomeDisciplinesView.swift */; };
 		6CDB80332BA71E2700A1134B /* HomeDisciplinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */; };
 		6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */; };
+		6CDB80372BA769A700A1134B /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80362BA769A700A1134B /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		6CDB80302BA70FE900A1134B /* HomeDisciplinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDisciplinesView.swift; sourceTree = "<group>"; };
 		6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDisciplinesViewModel.swift; sourceTree = "<group>"; };
 		6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleViewModel.swift; sourceTree = "<group>"; };
+		6CDB80362BA769A700A1134B /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */,
+				6CDB80362BA769A700A1134B /* Color+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */,
 				6C7E57CC2B9E93000086A32D /* Stream+Extensions.swift in Sources */,
 				6C7E57BD2B9E4F250086A32D /* DomainModuleAssembly.swift in Sources */,
+				6CDB80372BA769A700A1134B /* Color+Extension.swift in Sources */,
 				6CBE06B52B8BDAB800C2E649 /* RootRouter.swift in Sources */,
 				6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */,
 				6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */,

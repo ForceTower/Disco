@@ -4,12 +4,18 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.schedule.ClassLocationData
+import dev.forcetower.unes.club.domain.model.schedule.ExtendedClassLocationData
 import dev.forcetower.unes.club.domain.model.schedule.ProcessedClassLocation
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.toLocalDateTime
 
 internal class ScheduleRepositoryImpl(
     private val database: GeneralDatabase
@@ -55,4 +61,22 @@ internal class ScheduleRepositoryImpl(
         val startString: String,
         val endString: String
     )
+
+    override suspend fun currentClass(): ExtendedClassLocationData? = withContext(Dispatchers.IO) {
+        val now = Clock.System.now()
+        val date = now.toLocalDateTime(TimeZone.currentSystemDefault())
+        val dayInt = date.dayOfWeek.isoDayNumber
+        val currentTimeInt = date.hour * 60 + date.minute
+        val location = database.classLocationQueries.selectCurrentClass(dayInt.toLong(), currentTimeInt.toLong())
+            .executeAsOneOrNull() ?: return@withContext null
+
+        val group = database.classGroupQueries.findById(location.groupId).executeAsOne()
+        val clazz = database.classQueries.findById(group.classId).executeAsOne()
+        val discipline = database.disciplineQueries.findById(clazz.disciplineId).executeAsOne()
+
+        val data = ClassLocationData(location, group, clazz, discipline)
+        val current = location.startsAtInt <= currentTimeInt
+
+        ExtendedClassLocationData(data, current, location.startsAtInt - currentTimeInt)
+    }
 }

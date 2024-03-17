@@ -33,5 +33,8 @@ DELETE FROM ClassLocation WHERE profileId = :profileId;
 selectVisibleSchedule:
 SELECT cl.* FROM ClassLocation cl, Profile p WHERE cl.profileId = p.id AND p.me = 1 AND cl.hiddenOnSchedule = 0;
 
+selectCurrentClass:
+SELECT cl.* FROM ClassLocation cl, Profile p WHERE cl.profileId = p.id AND p.me = 1 AND cl.hiddenOnSchedule = 0 AND cl.dayInt = :dayInt AND (((cl.endsAtInt - cl.startsAtInt) / 2) + cl.startsAtInt) > :currentTimeInt ORDER BY startsAtInt LIMIT 1;
+
 setClassHidden:
 UPDATE ClassLocation SET hiddenOnSchedule = :hide WHERE groupId = :groupId AND day = :day AND startsAt = :startsAt AND endsAt = :endsAt AND profileId = :profileId;

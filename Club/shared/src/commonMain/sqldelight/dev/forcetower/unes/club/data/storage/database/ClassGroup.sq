@@ -30,3 +30,6 @@ SELECT last_insert_rowid();
 
 selectAll:
 SELECT * FROM ClassGroup;
+
+findById:
+SELECT * FROM ClassGroup WHERE id = :id LIMIT 1;

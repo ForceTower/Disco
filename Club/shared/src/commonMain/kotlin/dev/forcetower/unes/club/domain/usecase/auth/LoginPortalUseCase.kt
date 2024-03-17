@@ -16,7 +16,7 @@ import dev.forcetower.unes.singer.domain.model.Authorization
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class LoginPortalUseCase(
+class LoginPortalUseCase internal constructor(
     private val repository: AccessRepository,
     private val general: GeneralDB,
     private val database: GeneralDatabase,

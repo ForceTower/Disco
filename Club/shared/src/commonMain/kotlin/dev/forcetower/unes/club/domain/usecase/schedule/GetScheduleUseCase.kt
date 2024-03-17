@@ -3,6 +3,8 @@ package dev.forcetower.unes.club.domain.usecase.schedule
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import dev.forcetower.unes.club.domain.model.schedule.BlockLine
 import dev.forcetower.unes.club.domain.model.schedule.BlockSchedule
+import dev.forcetower.unes.club.domain.model.schedule.ClassLocationData
+import dev.forcetower.unes.club.domain.model.schedule.ExtendedClassLocationData
 import dev.forcetower.unes.club.domain.model.schedule.LineSchedule
 import dev.forcetower.unes.club.domain.model.schedule.LinedClassLocation
 import dev.forcetower.unes.club.domain.model.schedule.ProcessedClassLocation
@@ -10,8 +12,13 @@ import dev.forcetower.unes.club.domain.model.schedule.ScheduleData
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
 import dev.forcetower.unes.club.extensions.toLongWeekDay
 import dev.forcetower.unes.club.extensions.toWeekDay
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.isActive
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
 
 class GetScheduleUseCase(
     private val repository: ScheduleRepository
@@ -26,6 +33,16 @@ class GetScheduleUseCase(
                     line = buildScheduleLine(it)
                 )
             }
+    }
+
+    @NativeCoroutines
+    suspend fun currentClass(delayMs: Long): Flow<ExtendedClassLocationData?> {
+        return flow {
+            while (currentCoroutineContext().isActive) {
+                emit(repository.currentClass())
+                delay(delayMs)
+            }
+        }
     }
 
     private fun mapScheduleToBlocks(

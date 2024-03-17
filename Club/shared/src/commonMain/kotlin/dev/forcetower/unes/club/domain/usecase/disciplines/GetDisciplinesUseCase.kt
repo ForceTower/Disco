@@ -7,7 +7,7 @@ import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetDisciplinesUseCase(
+class GetDisciplinesUseCase internal constructor(
     private val repository: DisciplineRepository
 ) {
     @NativeCoroutines

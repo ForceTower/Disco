@@ -22,5 +22,8 @@ INSERT OR IGNORE INTO `Discipline` (`name`,`code`,`credits`,`department`,`resume
 selectAll:
 SELECT * FROM Discipline;
 
+findById:
+SELECT * FROM Discipline WHERE id = :id;
+
 lastInsertedRow:
 SELECT last_insert_rowid();
