@@ -45,6 +45,7 @@
 		6CDB802E2BA68DF900A1134B /* HomeMessagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB802D2BA68DF900A1134B /* HomeMessagesViewModel.swift */; };
 		6CDB80312BA70FE900A1134B /* HomeDisciplinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80302BA70FE900A1134B /* HomeDisciplinesView.swift */; };
 		6CDB80332BA71E2700A1134B /* HomeDisciplinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */; };
+		6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		6CDB802D2BA68DF900A1134B /* HomeMessagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMessagesViewModel.swift; sourceTree = "<group>"; };
 		6CDB80302BA70FE900A1134B /* HomeDisciplinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDisciplinesView.swift; sourceTree = "<group>"; };
 		6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDisciplinesViewModel.swift; sourceTree = "<group>"; };
+		6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				6CDB80282BA671B500A1134B /* HomeScheduleView.swift */,
+				6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				6CBE06B52B8BDAB800C2E649 /* RootRouter.swift in Sources */,
 				6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */,
 				6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */,
+				6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */,
 				6CDB80292BA671B500A1134B /* HomeScheduleView.swift in Sources */,
 				6CDB80232BA6569B00A1134B /* HomeDashboardView.swift in Sources */,
 				6CDB80142BA64BA800A1134B /* HomeView.swift in Sources */,

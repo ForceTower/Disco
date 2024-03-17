@@ -8,11 +8,11 @@ data class DisciplineResult(
     @SerialName("media")
     val mean: Double? = null,
     @SerialName("totalFaltas")
-    val missedClasses: Int,
+    val missedClasses: Int? = null,
     @SerialName("descricao")
-    val description: String,
+    val description: String? = null,
     @SerialName("aprovado")
-    val approved: Boolean,
+    val approved: Boolean? = null,
     @SerialName("emRevisao")
     val underRevision: Boolean
 )

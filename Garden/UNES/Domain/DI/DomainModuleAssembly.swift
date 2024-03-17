@@ -32,5 +32,9 @@ class DomainModuleAssembly : Assembly {
         container.register(GetDisciplinesUseCase.self) { _ in
             useCases.getDisciplines
         }
+        
+        container.register(GetScheduleUseCase.self) { _ in
+            useCases.getSchedule
+        }
     }
 }

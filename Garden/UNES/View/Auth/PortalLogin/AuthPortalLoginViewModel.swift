@@ -82,6 +82,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     }
     
     func onLoginError(_ error: Error) {
+        print(error.localizedDescription)
         errorTitle = "Falha de conexão"
         errorDescription = "Ocorreu um erro de comunicação entre o UNES e o Portal... A internet está ruim ou o portal caiu de novo :)"
         showLoginError = true

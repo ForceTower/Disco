@@ -30,5 +30,8 @@ SELECT * FROM ClassLocation WHERE hiddenOnSchedule = 1;
 wipeProfileSchedule:
 DELETE FROM ClassLocation WHERE profileId = :profileId;
 
+selectVisibleSchedule:
+SELECT cl.* FROM ClassLocation cl, Profile p WHERE cl.profileId = p.id AND p.me = 1 AND cl.hiddenOnSchedule = 0;
+
 setClassHidden:
 UPDATE ClassLocation SET hiddenOnSchedule = :hide WHERE groupId = :groupId AND day = :day AND startsAt = :startsAt AND endsAt = :endsAt AND profileId = :profileId;

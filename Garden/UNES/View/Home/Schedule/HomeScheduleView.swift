@@ -8,124 +8,74 @@
 import SwiftUI
 import Club
 
-struct Line: Identifiable {
-    let id = UUID()
-    let items: [Tile]
-}
-
-struct Tile: Identifiable {
-    let id = UUID()
-    let element: ProcessedClassLocation
-}
-
-struct Horizontal: Identifiable {
-    let id = UUID()
-    let element: ProcessableLocation
-}
-
-enum ProcessableLocation {
-    case day(DaySpace), element(ElementSpace)
-}
-
-enum ProcessedClassLocation {
-    case empty
-    case element(ElementSpace)
-    case time(TimeSpace)
-    case day(DaySpace)
-}
-
-struct ElementSpace {
-    let location: String
-    let group: String
-}
-
-struct TimeSpace {
-    let start: String
-    let end: String
-    let startInt: Int
-    let endInt: Int
-}
-
-struct DaySpace {
-    let day: String
-    let dayInt: Int
-}
-
-let l1: [Tile] = [.empty, .day(DaySpace(day: "SEG", dayInt: 1)), .day(.init(day: "TER", dayInt: 2))].map({ Tile(element: $0)})
-let l2: [Tile] = [.time(.init(start: "10:30", end: "12:30", startInt: 1030, endInt: 1230)), .element(.init(location: "EXA220", group: "T01")), .element(.init(location: "TEC440", group: "P02"))].map({ Tile(element: $0)})
-let l3: [Tile] = [.time(.init(start: "14:30", end: "18:30", startInt: 1430, endInt: 1830)), .empty, .element(.init(location: "FIS330", group: "T01P03"))].map({ Tile(element: $0)})
-
-let common: [Horizontal] = [
-    .init(element: .day(.init(day: "Segunda", dayInt: 1))),
-    .init(element: .element(.init(location: "Cálculo II", group: "T01"))),
-    .init(element: .element(.init(location: "Principios da Condução Elétrica em Silício", group: "P02"))),
-    .init(element: .day(.init(day: "Terça", dayInt: 2))),
-    .init(element: .element(.init(location: "Física III", group: "T01P03"))),
-]
-
 struct HomeScheduleView: View {
     @State var path: NavigationPath = .init()
     
-    let elements: [Line] = [
-        Line(items: l1),
-        Line(items: l2),
-        Line(items: l3)
-    ]
+    @StateObject var vm: HomeScheduleViewModel = .init(scheduleUseCase: AppDIContainer.shared.resolve())
     
     var body: some View {
         NavigationStack(path: $path) {
-            GeometryReader(content: { geometry in
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        ForEach(elements) { row in
-                            HStack {
-                                ForEach(row.items) { tile in
-                                    ScheduleTileView(tile: tile)
-                                }
-                            }.padding(.top, 1)
+            ScrollView([.vertical]) {
+                VStack(spacing: 0) {
+                    ScrollView([.horizontal]) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            ForEach(vm.blocks, id: \.id) { row in
+                                HStack(spacing: 2) {
+                                    ForEach(row.items, id: \.id) { tile in
+                                        ScheduleTileView(tile: tile)
+                                    }
+                                }.padding(.top, 1)
+                            }
                         }
-                        
-                        ForEach(common) { item in
-                            ScheduleHorizontalView(item: item, geometry: geometry)
+                        .frame(alignment: .leading)
+                    }
+                    .scrollIndicators(.never)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(vm.lines, id: \.id) { line in
+                            ScheduleHorizontalView(item: line)
                         }
                     }
-                    .frame(width: geometry.size.width, alignment: .leading)
+                    .padding(.bottom)
                 }
-            })
+            }
             .navigationTitle("Horários")
         }
     }
 }
 
 struct ScheduleTileView: View {
-    let tile: Tile
+    let tile: ProcessedClassLocation
     
     var body: some View {
-        switch tile.element {
-        case .empty:
+        switch tile {
+        case is ProcessedClassLocation.EmptySpace:
             VStack {
                 Spacer()
-            }.frame(width: 64, height: 27)
-        case .day(let day):
+            }
+            .frame(width: 56, height: 27)
+        case let day as ProcessedClassLocation.DaySpace:
             VStack {
                 Text(day.day)
-                    .font(.footnote)
-            }.frame(width: 64, height: 27)
-        case .time(let time):
+                    .font(.caption)
+            }
+            .frame(width: 56, height: 27)
+        case let time as ProcessedClassLocation.TimeSpace:
             VStack {
                 Text(time.start)
-                    .font(.footnote)
+                    .font(.caption)
                 Text(time.end)
-                    .font(.footnote)
-            }.frame(width: 64, height: 54)
-        case .element(let element):
+                    .font(.caption)
+            }
+            .frame(width: 56, height: 48)
+        case let element as ProcessedClassLocation.ElementSpace:
             VStack {
-                Text(element.location)
-                    .font(.footnote)
-                Text(element.group)
+                Text(element.reference.discipline.code)
+                    .font(.caption)
+                Text(element.reference.group.group)
                     .font(.caption2)
             }
-            .frame(width: 64, height: 54)
+            .frame(width: 56, height: 48)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(lineWidth: 0.8)
@@ -133,17 +83,22 @@ struct ScheduleTileView: View {
             )
             .background(.blue.opacity(0.1))
             .clipShape(.rect(cornerRadius: 8))
+        default:
+            VStack {
+                Text("What?")
+                    .font(.caption)
+            }
+            .frame(width: 56, height: 48)
         }
     }
 }
 
 struct ScheduleHorizontalView : View {
-    let item: Horizontal
-    let geometry: GeometryProxy
+    let item: LinedClassLocation
     
     var body: some View {
-        switch item.element {
-        case .day(let day):
+        switch item {
+        case let day as LinedClassLocation.DaySpace:
             VStack {
                 Text(day.day)
                     .font(.headline)
@@ -151,10 +106,10 @@ struct ScheduleHorizontalView : View {
             }
             .padding(.horizontal)
             .padding(.top)
-        case .element(let space):
+        case let space as LinedClassLocation.ElementSpace:
             HStack(spacing: 0) {
                 VStack(spacing: 0) {
-                    Text("08:30")
+                    Text(space.reference.location.startsAt)
                         .font(.caption)
                         .fontWeight(.regular)
                     
@@ -163,14 +118,14 @@ struct ScheduleHorizontalView : View {
                         .padding(.vertical, 4)
                         .foregroundStyle(.blue.opacity(0.5))
                     
-                    Text("10:30")
+                    Text(space.reference.location.endsAt)
                         .font(.caption)
                         .fontWeight(.regular)
                 }
                 .frame(width: 48)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(space.location)
+                    Text(WordUtils.shared.toTitleCase(str: space.reference.discipline.name))
                         .lineLimit(1)
                         .multilineTextAlignment(.leading)
                         .font(.caption)
@@ -182,19 +137,23 @@ struct ScheduleHorizontalView : View {
                         .foregroundStyle(.gray.opacity(0.3))
                     
                     HStack(spacing: 0) {
-                        Text("TEC510")
+                        Text(space.reference.discipline.code)
                             .font(.caption)
                             .fontWeight(.regular)
                         
-                        Text("Módulo 3")
-                            .font(.caption)
-                            .fontWeight(.regular)
-                            .padding(.leading)
+                        if let modulo = space.reference.location.modulo {
+                            Text(WordUtils.shared.toTitleCase(str: modulo))
+                                .font(.caption)
+                                .fontWeight(.regular)
+                                .padding(.leading)
+                        }
                         
-                        Text("PAT34")
-                            .font(.caption)
-                            .fontWeight(.regular)
-                            .padding(.leading)
+                        if let room = space.reference.location.room {
+                            Text(room)
+                                .font(.caption)
+                                .fontWeight(.regular)
+                                .padding(.leading)
+                        }
                     }
                 }
                 .padding(.leading)
@@ -202,15 +161,14 @@ struct ScheduleHorizontalView : View {
             .padding(.horizontal, 8)
             .padding(.top, 1)
             .frame(height: 56, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(lineWidth: 0.8)
-                    .foregroundStyle(.blue)
-                    .shadow(color: .blue, radius: 10)
-            )
-            .background(.blue.opacity(0.1))
+            .background(.white)
             .clipShape(.rect(cornerRadius: 8))
+            .shadow(color: .gray.opacity(0.7),radius: 1, x: 0.2, y: 0.7)
             .padding(.horizontal)
+        default:
+            VStack {
+                Text("?????")
+            }
         }
     }
 }

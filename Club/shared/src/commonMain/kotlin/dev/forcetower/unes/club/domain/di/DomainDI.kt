@@ -5,6 +5,7 @@ import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
 import dev.forcetower.unes.club.domain.usecase.disciplines.GetDisciplinesUseCase
 import dev.forcetower.unes.club.domain.usecase.messages.GetAllMessagesUseCase
+import dev.forcetower.unes.club.domain.usecase.schedule.GetScheduleUseCase
 import org.koin.dsl.module
 
 object DomainDI {
@@ -14,5 +15,6 @@ object DomainDI {
         factory { ConnectedUserUseCase(get()) }
         factory { GetAllMessagesUseCase(get()) }
         factory { GetDisciplinesUseCase(get()) }
+        factory { GetScheduleUseCase(get()) }
     }
 }
