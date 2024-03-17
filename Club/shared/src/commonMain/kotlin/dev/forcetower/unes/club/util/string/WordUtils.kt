@@ -40,6 +40,11 @@ object WordUtils {
                 continue
             }
 
+            if (isPossessivePronoun(anArr)) {
+                sb.append(anArr).append(" ")
+                continue
+            }
+
             // Special case only for "MI's". PBL!!!!
             if (anArr.equals("MI", ignoreCase = true)) {
                 sb.append(anArr.uppercase()).append(" ")
@@ -61,6 +66,21 @@ object WordUtils {
                 .append(anArr.substring(1)).append(" ")
         }
         return sb.toString().trim()
+    }
+
+    private fun isPossessivePronoun(str: String): Boolean {
+        return str.equals("meu", ignoreCase = true) ||
+                str.equals("seu", ignoreCase = true) ||
+                str.equals("teu", ignoreCase = true) ||
+                str.equals("minha", ignoreCase = true) ||
+                str.equals("sua", ignoreCase = true) ||
+                str.equals("tua", ignoreCase = true) ||
+                str.equals("minhas", ignoreCase = true) ||
+                str.equals("suas", ignoreCase = true) ||
+                str.equals("tuas", ignoreCase = true) ||
+                str.equals("nossa", ignoreCase = true) ||
+                str.equals("vossa", ignoreCase = true) ||
+                str.equals("nossas", ignoreCase = true)
     }
 
     private fun isGreekOneToTen(str: String): Boolean {

@@ -6,8 +6,8 @@ import dev.forcetower.unes.club.data.processor.MessagesProcessor
 import dev.forcetower.unes.club.data.processor.SemestersProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
-import dev.forcetower.unes.club.domain.model.LoginFailReason
-import dev.forcetower.unes.club.domain.model.LoginState
+import dev.forcetower.unes.club.domain.model.auth.LoginFailReason
+import dev.forcetower.unes.club.domain.model.auth.LoginState
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.domain.exception.InvalidLoginCredentialException
@@ -64,7 +64,7 @@ class LoginPortalUseCase(
 
             val disciplines = singer.grades(person.id, current.id)
             val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
-            DisciplinesProcessor(general, disciplines, semester, profileId, false).execute()
+            DisciplinesProcessor(general, disciplines, semester.id, profileId, false).execute()
 
             emit(LoginState.Completed)
         }

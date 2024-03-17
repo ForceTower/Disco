@@ -19,5 +19,8 @@ UPDATE OR IGNORE `Discipline` SET `id` = ?,`name` = ?,`code` = ?,`credits` = ?,`
 insertIgnore:
 INSERT OR IGNORE INTO `Discipline` (`name`,`code`,`credits`,`department`,`resume`,`shortText`) VALUES (?,?,?,?,?,?);
 
+selectAll:
+SELECT * FROM Discipline;
+
 lastInsertedRow:
 SELECT last_insert_rowid();

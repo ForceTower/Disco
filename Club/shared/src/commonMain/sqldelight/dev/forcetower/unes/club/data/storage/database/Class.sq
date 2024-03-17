@@ -27,3 +27,6 @@ SELECT last_insert_rowid();
 
 update:
 UPDATE OR ABORT `Class` SET `id` = ?,`disciplineId` = ?,`semesterId` = ?,`status` = ?,`finalScore` = ?,`partialScore` = ?,`missedClasses` = ?,`lastClass` = ?,`nextClass` = ?,`scheduleOnly` = ? WHERE `id` = ?;
+
+selectParticipatingClasses:
+SELECT * FROM Class WHERE scheduleOnly = 0;

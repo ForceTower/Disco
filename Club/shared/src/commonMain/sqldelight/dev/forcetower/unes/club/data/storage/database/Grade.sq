@@ -24,3 +24,6 @@ INSERT OR IGNORE INTO `Grade` (`id`,`classId`,`name`,`date`,`grade`,`grouping`,`
 
 updateIgnore:
 UPDATE OR IGNORE `Grade` SET `id` = ?,`classId` = ?,`name` = ?,`date` = ?,`grade` = ?,`grouping` = ?,`groupingName` = ?,`notified` = ? WHERE `id` = ?;
+
+selectAll:
+SELECT * FROM Grade;

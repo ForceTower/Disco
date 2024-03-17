@@ -33,7 +33,7 @@ struct HomeView: View {
                     Label("Mensagens", systemImage: "envelope")
                 }.tag(HomeTabSelection.messages)
             
-            Text("Disciplinas")
+            HomeDisciplinesView()
                 .tabItem {
                     Label("Disciplinas", systemImage: "graduationcap")
                 }.tag(HomeTabSelection.disciplines)

@@ -27,3 +27,6 @@ UPDATE OR ABORT `ClassGroup` SET `id` = ?,`classId` = ?,`group` = ?,`teacher` = 
 
 lastInsertedRow:
 SELECT last_insert_rowid();
+
+selectAll:
+SELECT * FROM ClassGroup;

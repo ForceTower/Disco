@@ -1,4 +1,4 @@
-package dev.forcetower.unes.club.domain.model
+package dev.forcetower.unes.club.domain.model.auth
 
 enum class LoginFailReason {
     InvalidCredentials,

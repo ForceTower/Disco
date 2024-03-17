@@ -40,95 +40,104 @@ struct AuthPortalLoginView: View {
                 
                 Spacer()
                 
-                Text("Insira os dados de login do Portal")
-                    .font(.title3)
-                    .fontWeight(.light)
-                
-                Form {
-                    HStack {
-                        Text("Usuário")
-                            .font(.subheadline)
-                            .fontWeight(.light)
-                            .frame(width: 70, alignment: .leading)
-                        Divider().frame(height: 15)
-                        TextField("", text: $username)
-                            .textFieldStyle(.automatic)
-                            .textContentType(.username)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)
-                            .focused($focusedField, equals: .username)
-                            .submitLabel(.next)
-                            .onSubmit {
-                                focusedField = .password
-                            }
-                    }
-                    .padding()
-                    .background(.background.opacity(0.7))
-                    .clipShape(.rect(cornerRadius: 8))
-                    .padding(.horizontal)
-                    
-                    HStack {
-                        Text("Senha")
-                            .font(.subheadline)
-                            .fontWeight(.light)
-                            .frame(width: 70, alignment: .leading)
-                        Divider().frame(height: 15)
-                        SecureField("", text: $password)
-                            .textFieldStyle(.automatic)
-                            .textContentType(.password)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)
-                            .submitLabel(.done)
-                            .focused($focusedField, equals: .password)
-                            .onSubmit {
-                                focusedField = nil
-                            }
-                    }
-                    .padding()
-                    .background(.background.opacity(0.7))
-                    .clipShape(.rect(cornerRadius: 8))
-                    .padding(.horizontal)
-                }.formStyle(.columns)
-                
-                Button(action: {
-                    Task { await login() }
-                }, label: {
-                    Text("Entrar")
-                        .padding(.horizontal)
-                })
-                .buttonStyle(.borderedProminent)
-                .controlSize(.regular)
-                .padding(.top)
-                
-                HStack {
-                    Rectangle()
-                        .frame(width: 100, height: 1)
-                        .foregroundColor(.white.opacity(0.7))
-                    Text("Ou")
-                        .font(.caption2)
+                VStack {
+                    Text("Insira os dados de login do Portal")
+                        .font(.title3)
                         .fontWeight(.light)
-                        .padding(.horizontal)
-                    Rectangle()
-                        .frame(width: 100, height: 1)
-                        .foregroundColor(.white.opacity(0.7))
-                }
-                .padding(.vertical, 4)
-                
-                Button(action: {
-                    Task { await signIn() }
-                }, label: {
-                    Label(
-                        title: { 
-                            Text("Entrar usando Chave Senha")
-                            .padding(.horizontal)
-                        },
-                        icon: {
-                            Image(systemName: "person.badge.key.fill")
+                    
+                    Form {
+                        HStack {
+                            Text("Usuário")
+                                .font(.subheadline)
+                                .fontWeight(.light)
+                                .frame(width: 70, alignment: .leading)
+                            Divider().frame(height: 15)
+                            TextField("", text: $username)
+                                .textFieldStyle(.automatic)
+                                .textContentType(.username)
+                                .disabled(viewModel.loading)
+                                .autocorrectionDisabled()
+                                .textInputAutocapitalization(.never)
+                                .focused($focusedField, equals: .username)
+                                .submitLabel(.next)
+                                .onSubmit {
+                                    focusedField = .password
+                                }
                         }
-                    )
-                })
-                .buttonStyle(.borderedProminent)
-                .controlSize(.regular)
+                        .padding()
+                        .background(.background.opacity(0.7))
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal)
+                        
+                        HStack {
+                            Text("Senha")
+                                .font(.subheadline)
+                                .fontWeight(.light)
+                                .frame(width: 70, alignment: .leading)
+                            Divider().frame(height: 15)
+                            SecureField("", text: $password)
+                                .textFieldStyle(.automatic)
+                                .textContentType(.password)
+                                .disabled(viewModel.loading)
+                                .autocorrectionDisabled()
+                                .textInputAutocapitalization(.never)
+                                .submitLabel(.done)
+                                .focused($focusedField, equals: .password)
+                                .onSubmit {
+                                    focusedField = nil
+                                }
+                        }
+                        .padding()
+                        .background(.background.opacity(0.7))
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal)
+                    }.formStyle(.columns)
+                    
+                    if !viewModel.loading {
+                        Button(action: {
+                            Task { await login() }
+                        }, label: {
+                            Text("Entrar")
+                                .padding(.horizontal)
+                        })
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.regular)
+                        .padding(.top)
+                        
+                        HStack {
+                            Rectangle()
+                                .frame(width: 100, height: 1)
+                                .foregroundColor(.white.opacity(0.7))
+                            Text("Ou")
+                                .font(.caption2)
+                                .fontWeight(.light)
+                                .padding(.horizontal)
+                            Rectangle()
+                                .frame(width: 100, height: 1)
+                                .foregroundColor(.white.opacity(0.7))
+                        }
+                        .padding(.vertical, 4)
+                        
+                        Button(action: {
+                            Task { await signIn() }
+                        }, label: {
+                            Label(
+                                title: {
+                                    Text("Entrar usando Chave Senha")
+                                        .padding(.horizontal)
+                                },
+                                icon: {
+                                    Image(systemName: "person.badge.key.fill")
+                                }
+                            )
+                        })
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.regular)
+                    } else {
+                        ProgressView()
+                            .frame(height: 120)
+                    }
+                }
             }
         }.alert(viewModel.errorTitle, isPresented: $viewModel.showLoginError) {
             Button("OK") {

@@ -79,7 +79,7 @@ struct MessageItemView: View {
         }
         
         let text = discipline ?? message.senderName ?? "Desconhecido"
-        return text.localizedCapitalized
+        return WordUtils.shared.toTitleCase(str: text)
     }
     
     func senderName() -> String? {
@@ -93,7 +93,7 @@ struct MessageItemView: View {
         }
         
         let text = message.senderName ?? "????"
-        return text.localizedCapitalized
+        return WordUtils.shared.toTitleCase(str: text)
     }
     
     func messageSent() -> String {
@@ -116,10 +116,15 @@ struct MessageItemView: View {
                 return "Mensagem recebida \(hours)h \(minutes)m atrás"
             }
         }
+        
         return "Mensagem recebida \(timestamp.formatted(date: .abbreviated, time: .shortened))"
     }
 }
 
 #Preview {
     HomeMessagesView()
+}
+
+#Preview {
+    MessageItemView(message: .init(id: 33, content: "Uma grande mensagem deixada pelos antigos professores. Dizem que esta mensagem atravessa o tempo como nenhuma outra jamais atravessou. Uma beleza da modernidade.", platformId: 54, timestamp: Int64(Date().timeIntervalSince1970 * 1000), senderProfile: 3, senderName: "Marina dos Campos Nevados", notified: 1, discipline: "Mágica e suas Poções", uuid: "fddfdfd", codeDiscipline: "EXA110", html: 0, dateString: "Grande dia", processingTime: 0, hashMessage: 12, attachmentName: nil, attachmentLink: nil))
 }

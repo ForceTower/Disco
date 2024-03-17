@@ -18,3 +18,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassAbsence_class_id_profile_id_sequen
 
 lastInsertedRow:
 SELECT last_insert_rowid();
+
+selectAll:
+SELECT * FROM ClassAbsence;

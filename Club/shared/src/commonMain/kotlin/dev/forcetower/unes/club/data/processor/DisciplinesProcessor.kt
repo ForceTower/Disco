@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 class DisciplinesProcessor(
     private val database: GeneralDB,
     private val disciplines: List<DisciplineData>,
-    private val semester: Semester,
+    private val semesterId: Long,
     private val localProfileId: Long,
     private val notify: Boolean
 ) {
@@ -32,8 +32,6 @@ class DisciplinesProcessor(
     }
 
     private fun executeInTransaction() {
-        val semesterId = semester.id
-
         val currentSemester = findCurrentSemester()
         val allocations = mutableListOf<ClassLocation>()
 
@@ -49,7 +47,7 @@ class DisciplinesProcessor(
                 shortText = null
             )
             val disciplineId = database.discipline.insertOrUpdate(discipline)
-            println("Discipline id inserted: $disciplineId at ${semester.id}")
+            println("Discipline id inserted: $disciplineId at $semesterId")
             val bound = Class(
                 id = 0L,
                 disciplineId = disciplineId,

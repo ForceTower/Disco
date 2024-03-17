@@ -13,7 +13,7 @@ class HomeMessagesViewModel : ObservableObject {
     private let messagesUseCase: GetAllMessagesUseCase
     
     @Published var messages: [Message] = []
-    // [.init(id: 33, content: "Message", platformId: 54, timestamp: Int64(Date().timeIntervalSince1970 * 1000), senderProfile: 3, senderName: "Marina", notified: 1, discipline: "Magica", uuid: "fddfdfd", codeDiscipline: "EXA110", html: 0, dateString: "Grande dia", processingTime: 0, hashMessage: 12, attachmentName: nil, attachmentLink: nil)]
+    
     private var subscriptions = Set<AnyCancellable>()
     private var observing = false
     

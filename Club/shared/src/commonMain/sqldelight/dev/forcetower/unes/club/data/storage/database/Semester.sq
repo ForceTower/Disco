@@ -35,5 +35,11 @@ INSERT OR IGNORE INTO `Semester` (`platformId`,`name`,`codename`,`start`,`end`,`
 selectAll:
 SELECT * FROM Semester;
 
+selectParticipating:
+SELECT * FROM Semester ORDER BY platformId DESC;
+
+findById:
+SELECT * FROM Semester WHERE id = :id LIMIT 1;
+
 deleteAll:
 DELETE FROM Semester;

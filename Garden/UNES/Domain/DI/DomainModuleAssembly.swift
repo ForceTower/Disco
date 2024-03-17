@@ -28,5 +28,9 @@ class DomainModuleAssembly : Assembly {
         container.register(GetAllMessagesUseCase.self) { _ in
             useCases.allMessages
         }
+        
+        container.register(GetDisciplinesUseCase.self) { _ in
+            useCases.getDisciplines
+        }
     }
 }
