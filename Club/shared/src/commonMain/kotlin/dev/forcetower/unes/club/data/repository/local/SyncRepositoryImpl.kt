@@ -61,7 +61,7 @@ class SyncRepositoryImpl(
         singer.setDefaultAuthorization(auth)
 
         val messages = singer.messages(person.id)
-        MessagesProcessor(messages, database, true).execute()
+        MessagesProcessor(messages, database, false).execute()
 
         val semesters = singer.semesters(person.id)
         SemestersProcessor(semesters, database).execute()
@@ -69,7 +69,7 @@ class SyncRepositoryImpl(
         val current = semesters.maxByOrNull { it.start } ?: return SyncResult.InvalidSemester
         val disciplines = singer.grades(person.id, current.id)
         val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
-        DisciplinesProcessor(general, disciplines, semester.id, profileId, false).execute()
+        DisciplinesProcessor(general, disciplines, semester.id, profileId, true).execute()
 
         if (!loadDetails) return SyncResult.Completed
 
