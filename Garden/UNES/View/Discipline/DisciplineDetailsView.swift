@@ -36,7 +36,7 @@ struct DisciplineDetailsView: View {
                 DisciplineAbsencesView(items: vm.absences)
                     .tag(4)
             })
-            .tabViewStyle(.page)
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .padding(.top, 4)
         }
         .onAppear(perform: {
