@@ -30,13 +30,14 @@ internal class ScheduleRepositoryImpl(
         return combine(disciplines, classes, groups, locations) { dcp, cls, grp, data ->
             val timers = data.map { Timed(it.startsAtInt.toInt(), it.endsAtInt.toInt(), it.startsAt, it.endsAt) }.distinctBy { it.start }.sortedBy { it.start }
             data.groupBy { it.dayInt.toInt() }.mapValues { entry ->
-                val dayList = timers.map { timed ->
+                val dayList = timers.mapNotNull { timed ->
                     val location = entry.value.find { it.startsAtInt.toInt() == timed.start && it.endsAtInt.toInt() == timed.end }
                     val element = if (location == null)
                         ProcessedClassLocation.EmptySpace()
                     else {
-                        val group = grp.first { it.id == location.groupId }
-                        val clazz = cls.first { it.id == group.classId }
+                        // early return null due to concurrent modifications during transactions :^)
+                        val group = grp.firstOrNull { it.id == location.groupId } ?: return@mapNotNull null
+                        val clazz = cls.firstOrNull { it.id == group.classId } ?: return@mapNotNull null
                         ProcessedClassLocation.ElementSpace(
                             ClassLocationData(
                                 location,

@@ -37,10 +37,12 @@ internal class DisciplineRepositoryImpl(
             sem.map { semester ->
                 SemesterClassData(
                     semester,
-                    cls.filter { it.semesterId == semester.id }.map { clazz ->
+                    cls.filter { it.semesterId == semester.id }.mapNotNull { clazz ->
+                        // early return null due to concurrent modifications during transactions :^)
+                        val discipline = dis.firstOrNull { it.id == clazz.disciplineId } ?: return@mapNotNull null
                         ClassData(
                             clazz,
-                            dis.first { it.id == clazz.disciplineId },
+                            discipline,
                             grp.filter { it.classId == clazz.id },
                             abs.filter { it.classId == clazz.id }.size,
                             grd.filter { it.classId == clazz.id }.map { grade ->
