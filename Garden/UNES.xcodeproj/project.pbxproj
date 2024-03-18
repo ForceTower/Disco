@@ -16,6 +16,7 @@
 		6C617F8C2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F8B2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift */; };
 		6C617F8E2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F8D2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift */; };
 		6C617F922BA8970300CD3A87 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F912BA8970300CD3A87 /* NotificationManager.swift */; };
+		6C617F962BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -65,6 +66,7 @@
 		6C617F8B2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSyncDataUseCase.swift; sourceTree = "<group>"; };
 		6C617F8D2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBackgroundProcessingUseCase.swift; sourceTree = "<group>"; };
 		6C617F912BA8970300CD3A87 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -103,7 +105,6 @@
 		6CDB80362BA769A700A1134B /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		6CDB803C2BA7836500A1134B /* DisciplineDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsView.swift; sourceTree = "<group>"; };
 		6CDB803E2BA78D8300A1134B /* DisciplineDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsViewModel.swift; sourceTree = "<group>"; };
-		6CDB80402BA7D5BE00A1134B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,7 +324,7 @@
 				6C7E579F2B9E42FA0086A32D /* Domain */,
 				6CBE06AB2B8BD53C00C2E649 /* View */,
 				6CAB41842B9D27E100F20D32 /* Info.plist */,
-				6CDB80402BA7D5BE00A1134B /* PrivacyInfo.xcprivacy */,
+				6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */,
 				6C617F892BA8794800CD3A87 /* GoogleService-Info.plist */,
 				6CAB41832B9D27B900F20D32 /* UNES.entitlements */,
 				6C617F872BA878F100CD3A87 /* AppDelegate.swift */,
@@ -513,6 +514,7 @@
 			files = (
 				6CBE06A52B8BD11600C2E649 /* Preview Assets.xcassets in Resources */,
 				6CBE06A22B8BD11600C2E649 /* Assets.xcassets in Resources */,
+				6C617F962BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy in Resources */,
 				6C617F8A2BA8794800CD3A87 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
