@@ -40,7 +40,7 @@ class DisciplineDetailsViewModel : ObservableObject {
         createPublisher(for: classData.materials(groupId: groupId))
             .receive(on: DispatchQueue.main)
             .sink { _ in
-                print("Completed materials")
+                
             } receiveValue: { [weak self] data in
                 self?.materials = data
             }
@@ -49,9 +49,8 @@ class DisciplineDetailsViewModel : ObservableObject {
         createPublisher(for: classData.absences(groupId: groupId))
             .receive(on: DispatchQueue.main)
             .sink { _ in
-                print("Completed absences")
+                
             } receiveValue: { [weak self] data in
-                print("received \(data.count) items")
                 self?.absences = data
             }
             .store(in: &subscriptions)
@@ -59,7 +58,7 @@ class DisciplineDetailsViewModel : ObservableObject {
         createPublisher(for: classData.groupItems(groupId: groupId))
             .receive(on: DispatchQueue.main)
             .sink { _ in
-                print("Completed items")
+
             } receiveValue: { [weak self] data in
                 self?.items = data
             }

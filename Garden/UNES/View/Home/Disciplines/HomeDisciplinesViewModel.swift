@@ -26,7 +26,6 @@ class HomeDisciplinesViewModel : ObservableObject {
             .sink { completion in
                 print("Completed with \(completion)")
             } receiveValue: { [weak self] semesters in
-                print("Semesters \(semesters.count)")
                 self?.semesters = semesters
             }
             .store(in: &subscriptions)

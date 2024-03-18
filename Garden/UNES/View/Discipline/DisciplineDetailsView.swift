@@ -302,7 +302,7 @@ struct ClassItemView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text(item.date ?? "????")
+                Text(formatDate() ?? "????")
                     .font(.footnote)
                     .foregroundStyle(.foreground.opacity(0.6))
                 
@@ -326,6 +326,17 @@ struct ClassItemView: View {
         .clipShape(.rect(cornerRadius: 8))
         .shadow(radius: 0.5)
         .padding(.horizontal)
+    }
+    
+    func formatDate() -> String? {
+        guard let date = item.date else {
+            return nil
+        }
+        if let parsed = try? Date(date, strategy: .iso8601) {
+            return parsed.formatted(date: .numeric, time: .omitted)
+        } else {
+            return nil
+        }
     }
 }
 
