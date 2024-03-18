@@ -6,17 +6,43 @@
 //
 
 import KMPNativeCoroutinesAsync
+import KMPNativeCoroutinesCombine
 import FirebaseCrashlytics
 import Club
 
 class LocalSyncDataUseCase {
     private let sync: SyncDataUseCase
+    private let notifications: PendingNotificationsUseCase
     
-    init(sync: SyncDataUseCase) {
+    init(sync: SyncDataUseCase, notifications: PendingNotificationsUseCase) {
         self.sync = sync
+        self.notifications = notifications
     }
     
     func execute() async -> Bool {
+        let result = await doExecute()
+        await checkNotifications()
+        return result
+    }
+    
+    func checkNotifications() async {
+        do {
+            let messages = try await asyncFunction(for: notifications.messages(markNotified: true))
+            messages.forEach { message in
+                NotificationManager.shared.createNotification(forMessage: message)
+            }
+            let grades = try await asyncFunction(for: notifications.grades(markNotified: true))
+            grades.forEach { grade in
+                NotificationManager.shared.createNotification(forGrade: grade)
+            }
+        } catch {
+            print("Failed to post notifications. \(error.localizedDescription)")
+            Crashlytics.crashlytics().log("Failed to post notifications: \(error.localizedDescription)")
+            Crashlytics.crashlytics().record(error: error)
+        }
+    }
+    
+    private func doExecute() async -> Bool {
         do {
             let result = try await asyncFunction(for: sync.execute())
             switch result {

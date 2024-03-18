@@ -42,7 +42,7 @@ class DomainModuleAssembly : Assembly {
         }
         
         container.register(LocalSyncDataUseCase.self) { _ in
-            LocalSyncDataUseCase(sync: useCases.syncData)
+            LocalSyncDataUseCase(sync: useCases.syncData, notifications: useCases.pendingNotifications)
         }
         
         container.register(ScheduleBackgroundProcessingUseCase.self) { _ in

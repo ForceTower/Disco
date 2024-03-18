@@ -43,6 +43,9 @@ struct HomeView: View {
                     Label("Menu", systemImage: "circle.grid.2x2")
                 }.tag(HomeTabSelection.others)
         })
+        .onAppear {
+            NotificationManager.shared.requestPermission()
+        }
     }
 }
 

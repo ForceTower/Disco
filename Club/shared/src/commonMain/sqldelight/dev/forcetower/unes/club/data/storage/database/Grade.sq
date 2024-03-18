@@ -28,5 +28,11 @@ UPDATE OR IGNORE `Grade` SET `id` = ?,`classId` = ?,`name` = ?,`date` = ?,`grade
 selectAll:
 SELECT * FROM Grade;
 
+getPendingNotifications:
+SELECT * FROM Grade WHERE notified <> 0;
+
 markAllNotified:
 UPDATE Grade SET notified = 0;
+
+markSelectedNotified:
+UPDATE Grade SET notified = 0 WHERE id IN :ids;
