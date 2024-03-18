@@ -123,13 +123,34 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         } catch let error as ASAuthorizationError where error.code == .canceled {
             Logger.authorization.log("The user cancelled passkey authorization.")
         } catch let error as ASAuthorizationError {
+            DispatchQueue.main.async { [weak self] in
+                self?.errorTitle = "Passkey err"
+                self?.errorDescription = "Passkey authorization failed. Error: \(error.localizedDescription)"
+                self?.showLoginError = true
+            }
             Logger.authorization.error("Passkey authorization failed. Error: \(error.localizedDescription)")
         } catch let AuthorizationHandlingError.unknownAuthorizationResult(authorizationResult) {
+            DispatchQueue.main.async { [weak self] in
+                self?.errorTitle = "Passkey err"
+                self?.errorDescription = """
+                Passkey authorization handling failed. \
+                Received an unknown result: \(String(describing: authorizationResult))
+                """
+                self?.showLoginError = true
+            }
             Logger.authorization.error("""
             Passkey authorization handling failed. \
             Received an unknown result: \(String(describing: authorizationResult))
             """)
         } catch {
+            DispatchQueue.main.async { [weak self] in
+                self?.errorTitle = "Passkey err"
+                self?.errorDescription = """
+                Passkey authorization handling failed. \
+                Caught an unknown error during passkey authorization or handling: \(error.localizedDescription)"
+                """
+                self?.showLoginError = true
+            }
             Logger.authorization.error("""
             Passkey authorization handling failed. \
             Caught an unknown error during passkey authorization or handling: \(error.localizedDescription)"
@@ -138,6 +159,11 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     }
     
     func handleResponse(controller: AuthorizationController, authorization: ASAuthorizationResult) {
+        DispatchQueue.main.async { [weak self] in
+            self?.errorTitle = "Passkey err"
+            self?.errorDescription = "Got response..."
+            self?.showLoginError = true
+        }
         switch authorization {
         case let .passkeyAssertion(passkeyAssertion):
             guard let username = String(bytes: passkeyAssertion.userID, encoding: .utf8) else {

@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>webcredentials:edge-unes.forcetower.dev?mode=developer</string>
+		<string>webcredentials:edge-unes.forcetower.dev</string>
 	</array>
 </dict>
 </plist>
