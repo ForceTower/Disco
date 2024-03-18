@@ -425,6 +425,7 @@
 				6CBE06942B8BD11500C2E649 /* Sources */,
 				6CBE06952B8BD11500C2E649 /* Frameworks */,
 				6CBE06962B8BD11500C2E649 /* Resources */,
+				6C617F8F2BA8947F00CD3A87 /* Upload Crashlytics DSYM File */,
 			);
 			buildRules = (
 			);
@@ -518,6 +519,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd \"$SRCROOT/../Club\"\n\necho \"Building :shared module\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode --stacktrace\n";
+		};
+		6C617F8F2BA8947F00CD3A87 /* Upload Crashlytics DSYM File */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Upload Crashlytics DSYM File";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
