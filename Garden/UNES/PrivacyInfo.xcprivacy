@@ -8,34 +8,10 @@
 	<array>
 		<dict>
 			<key>NSPrivacyAccessedAPIType</key>
-			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
-			<key>NSPrivacyAccessedAPITypeReasons</key>
-			<array>
-				<string>Check disk space for writing files and saving data to local database</string>
-			</array>
-		</dict>
-		<dict>
-			<key>NSPrivacyAccessedAPIType</key>
-			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
-			<key>NSPrivacyAccessedAPITypeReasons</key>
-			<array>
-				<string>Store data in local storage</string>
-			</array>
-		</dict>
-		<dict>
-			<key>NSPrivacyAccessedAPIType</key>
 			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
 			<key>NSPrivacyAccessedAPITypeReasons</key>
 			<array>
-				<string>Update user profile</string>
-			</array>
-		</dict>
-		<dict>
-			<key>NSPrivacyAccessedAPIType</key>
-			<string>NSPrivacyAccessedAPICategorySystemBootTime</string>
-			<key>NSPrivacyAccessedAPITypeReasons</key>
-			<array>
-				<string>Get current date of system</string>
+				<string>0A2A.1</string>
 			</array>
 		</dict>
 	</array>

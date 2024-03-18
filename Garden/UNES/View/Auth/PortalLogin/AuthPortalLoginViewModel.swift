@@ -166,10 +166,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         }
         switch authorization {
         case let .passkeyAssertion(passkeyAssertion):
-            guard let username = String(bytes: passkeyAssertion.userID, encoding: .utf8) else {
-                fatalError("Invalid credential: \(passkeyAssertion)")
-            }
-            print(username)
+            print("Got passkey assertion")
         default:
             Logger.authorization.error("Invalid type received during attestation")
         }
