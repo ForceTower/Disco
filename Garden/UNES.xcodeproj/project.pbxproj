@@ -89,6 +89,7 @@
 		6CDB80362BA769A700A1134B /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		6CDB803C2BA7836500A1134B /* DisciplineDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsView.swift; sourceTree = "<group>"; };
 		6CDB803E2BA78D8300A1134B /* DisciplineDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsViewModel.swift; sourceTree = "<group>"; };
+		6CDB80402BA7D5BE00A1134B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +290,7 @@
 				6CBE069B2B8BD11500C2E649 /* UNESApp.swift */,
 				6CBE06A12B8BD11600C2E649 /* Assets.xcassets */,
 				6CBE06A32B8BD11600C2E649 /* Preview Content */,
+				6CDB80402BA7D5BE00A1134B /* PrivacyInfo.xcprivacy */,
 			);
 			path = UNES;
 			sourceTree = "<group>";
