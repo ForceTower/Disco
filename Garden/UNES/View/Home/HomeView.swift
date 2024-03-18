@@ -38,7 +38,7 @@ struct HomeView: View {
                     Label("Disciplinas", systemImage: "graduationcap")
                 }.tag(HomeTabSelection.disciplines)
             
-            Text("Aqui teremos o menu")
+            HomeMenuView()
                 .tabItem {
                     Label("Menu", systemImage: "circle.grid.2x2")
                 }.tag(HomeTabSelection.others)

@@ -17,6 +17,8 @@
 		6C617F8E2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F8D2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift */; };
 		6C617F922BA8970300CD3A87 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F912BA8970300CD3A87 /* NotificationManager.swift */; };
 		6C617F962BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */; };
+		6C617F992BA8BF0000CD3A87 /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F982BA8BF0000CD3A87 /* HomeMenuView.swift */; };
+		6C617F9B2BA8C44100CD3A87 /* HomeMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F9A2BA8C44100CD3A87 /* HomeMenuViewModel.swift */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -67,6 +69,8 @@
 		6C617F8D2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBackgroundProcessingUseCase.swift; sourceTree = "<group>"; };
 		6C617F912BA8970300CD3A87 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		6C617F982BA8BF0000CD3A87 /* HomeMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
+		6C617F9A2BA8C44100CD3A87 /* HomeMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuViewModel.swift; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -150,6 +154,15 @@
 				6C617F8D2BA88A4F00CD3A87 /* ScheduleBackgroundProcessingUseCase.swift */,
 			);
 			path = Sync;
+			sourceTree = "<group>";
+		};
+		6C617F972BA8BEEC00CD3A87 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				6C617F982BA8BF0000CD3A87 /* HomeMenuView.swift */,
+				6C617F9A2BA8C44100CD3A87 /* HomeMenuViewModel.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 		6C7E579F2B9E42FA0086A32D /* Domain */ = {
@@ -370,6 +383,7 @@
 		6CBE06AF2B8BD56B00C2E649 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				6C617F972BA8BEEC00CD3A87 /* Menu */,
 				6CDB802F2BA70FD400A1134B /* Disciplines */,
 				6CDB802A2BA68D3100A1134B /* Messages */,
 				6CDB80272BA671A400A1134B /* Schedule */,
@@ -585,10 +599,12 @@
 				6CBE06B32B8BDA4900C2E649 /* AuthRootView.swift in Sources */,
 				6C617F8C2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift in Sources */,
 				6CDB80312BA70FE900A1134B /* HomeDisciplinesView.swift in Sources */,
+				6C617F992BA8BF0000CD3A87 /* HomeMenuView.swift in Sources */,
 				6C7E57AB2B9E47000086A32D /* BaseService.swift in Sources */,
 				6CBE06B12B8BD5B700C2E649 /* AuthWelcomeView.swift in Sources */,
 				6C7E57B92B9E4DFA0086A32D /* DataModuleAssembly.swift in Sources */,
 				6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */,
+				6C617F9B2BA8C44100CD3A87 /* HomeMenuViewModel.swift in Sources */,
 				6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */,
 				6CAB41822B9D22B700F20D32 /* AuthPortalLoginViewModel.swift in Sources */,
 				6CDB80212BA6568C00A1134B /* HomeDashboardViewModel.swift in Sources */,
