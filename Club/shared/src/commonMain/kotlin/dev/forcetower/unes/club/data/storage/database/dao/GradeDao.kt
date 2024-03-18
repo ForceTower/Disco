@@ -44,7 +44,6 @@ class GradeDao(
                 println("Attempt to insert ${evaluation.name?.trim()} ${grade.name.trim()} ${grade.value}")
                 val current = getNamedGradeDirect(classId, "${grade.nameShort.trim()} - ${grade.name.trim()}", evaluation.name?.trim().hashCode())
                 println("Attempt to override ${current?.name} ${current?.groupingName} ${current?.grade}")
-                println("Current $current")
                 if (current == null) {
                     val notified = if (grade.hasGrade()) 3L else 1L
                     insert(

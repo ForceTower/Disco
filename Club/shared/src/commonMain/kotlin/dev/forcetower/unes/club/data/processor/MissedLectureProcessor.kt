@@ -47,8 +47,6 @@ class MissedLectureProcessor(
             )
         }
 
-        println("Storing ${mapped.size} absences for ${group.group}")
-
         general.classAbsenceDao.insert(mapped)
 
 //        val after = database.classAbsenceDao.getDirectWithDetails(classId)

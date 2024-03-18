@@ -47,7 +47,6 @@ class DisciplinesProcessor(
                 shortText = null
             )
             val disciplineId = database.discipline.insertOrUpdate(discipline)
-            println("Discipline id inserted: $disciplineId at $semesterId")
             val bound = Class(
                 id = 0L,
                 disciplineId = disciplineId,
@@ -77,7 +76,6 @@ class DisciplinesProcessor(
                     ignored = 0
                 )
                 val groupId = database.classGroupDao.insertNewWay(group)
-                println("Group id: $groupId")
                 if (currentSemester?.id == semesterId) {
                     clazz.allocations.forEach { allocation ->
                         val time = allocation.time
@@ -140,16 +138,11 @@ class DisciplinesProcessor(
             val allMapped = starts + ends
             val allTimes = allMapped.keys.toList().sorted()
 
-            println("All Mapped: $allMapped")
-            println("All times $allTimes")
-
             return locations.flatMap { location ->
                 val result = mutableListOf<ClassLocation>()
                 var start = location.startsAtInt
                 var index = allTimes.indexOf(start) + 1
                 var end = allTimes[index]
-
-                println("About to expand $location")
 
                 while (location.endsAtInt != end) {
                     result += location.copy(
@@ -171,8 +164,6 @@ class DisciplinesProcessor(
                     endsAt = allMapped.getValue(end),
                     endsAtInt = end
                 )
-
-                println("Expanded into: $result")
                 result
             }
         }
