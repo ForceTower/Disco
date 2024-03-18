@@ -58,7 +58,9 @@ struct HomeMenuView: View {
                 }
             }
             .navigationDestination(for: MenuItem.self) { item in
-                
+                if item.destination == .restaurant {
+                    BigTrayView(path: $path)
+                }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
                 Button(role: .destructive, action: {

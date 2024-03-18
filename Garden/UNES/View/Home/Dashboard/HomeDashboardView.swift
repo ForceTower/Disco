@@ -174,7 +174,7 @@ struct CurrentClassCardView: View {
         case 1...60: 
             return "Começa em \(difference) minutos"
         case -30 ... -1:
-            return "Comecou \(abs(difference)) minutos atrás"
+            return "Começou \(abs(difference)) minutos atrás"
         default: 
             return nil
         }

@@ -64,16 +64,22 @@ kotlin {
             implementation(libs.sqldelight.androidDriver)
             implementation(libs.androidx.viewmodel)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.nativeDriver)
             implementation(libs.koin.core)
+            implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
             implementation(libs.sqldelight.coroutinesExtensions)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.datetime)
             implementation(libs.uuid)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.contentnegotiation)
+            implementation(libs.ktor.serialization.json)
             api(projects.singer)
         }
         commonTest.dependencies {

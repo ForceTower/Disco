@@ -7,6 +7,8 @@ import dev.forcetower.unes.club.data.repository.local.GradeRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.MessageRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.ScheduleRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.SyncRepositoryImpl
+import dev.forcetower.unes.club.data.repository.remote.uefs.BigTrayRepositoryImpl
+import dev.forcetower.unes.club.data.service.client.createBasicClient
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
@@ -16,8 +18,10 @@ import dev.forcetower.unes.club.domain.repository.local.GradeRepository
 import dev.forcetower.unes.club.domain.repository.local.MessageRepository
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
 import dev.forcetower.unes.club.domain.repository.local.SyncRepository
+import dev.forcetower.unes.club.domain.repository.remote.uefs.BigTrayRepository
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.SingerFactory
+import io.ktor.client.HttpClient
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -30,11 +34,13 @@ internal object DataDI {
         single<ClassRepository> { ClassRepositoryImpl(get(), get(), get()) }
         single<SyncRepository> { SyncRepositoryImpl(get(), get(), get()) }
         single<GradeRepository> { GradeRepositoryImpl(get()) }
+        single<BigTrayRepository> { BigTrayRepositoryImpl(get()) }
     }
 
     val data = module {
         single<GeneralDatabase> { GeneralDatabase(get()) }
         single<GeneralDB> { GeneralDB(get()) }
+        single<HttpClient> { createBasicClient() }
         single<Singer> { SingerFactory().create(get(named("platform-user-agent"))) }
     }
 }

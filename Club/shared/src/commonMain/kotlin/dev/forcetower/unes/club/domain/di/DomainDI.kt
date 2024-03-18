@@ -2,6 +2,7 @@ package dev.forcetower.unes.club.domain.di
 
 import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
+import dev.forcetower.unes.club.domain.usecase.bigtray.GetBigTrayQuotaUseCase
 import dev.forcetower.unes.club.domain.usecase.classes.ClassDataUseCase
 import dev.forcetower.unes.club.domain.usecase.disciplines.GetDisciplinesUseCase
 import dev.forcetower.unes.club.domain.usecase.messages.GetAllMessagesUseCase
@@ -20,5 +21,6 @@ object DomainDI {
         factory { ClassDataUseCase(get()) }
         factory { SyncDataUseCase(get()) }
         factory { PendingNotificationsUseCase(get(), get()) }
+        factory { GetBigTrayQuotaUseCase(get()) }
     }
 }

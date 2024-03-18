@@ -48,5 +48,9 @@ class DomainModuleAssembly : Assembly {
         container.register(ScheduleBackgroundProcessingUseCase.self) { _ in
             ScheduleBackgroundProcessingUseCase()
         }
+        
+        container.register(GetBigTrayQuotaUseCase.self) { _ in
+            useCases.getBigTrayQuota
+        }
     }
 }
