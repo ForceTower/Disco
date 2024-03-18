@@ -19,8 +19,8 @@ class LocalSyncDataUseCase {
         self.notifications = notifications
     }
     
-    func execute() async -> Bool {
-        let result = await doExecute()
+    func execute(loadDetails: Bool) async -> Bool {
+        let result = await doExecute(loadDetails)
         await checkNotifications()
         return result
     }
@@ -28,12 +28,12 @@ class LocalSyncDataUseCase {
     func checkNotifications() async {
         do {
             let messages = try await asyncFunction(for: notifications.messages(markNotified: true))
-            messages.forEach { message in
-                NotificationManager.shared.createNotification(forMessage: message)
+            for message in messages {
+                try await NotificationManager.shared.createNotification(forMessage: message)
             }
             let grades = try await asyncFunction(for: notifications.grades(markNotified: true))
-            grades.forEach { grade in
-                NotificationManager.shared.createNotification(forGrade: grade)
+            for grade in grades {
+                try await NotificationManager.shared.createNotification(forGrade: grade)
             }
         } catch {
             print("Failed to post notifications. \(error.localizedDescription)")
@@ -42,9 +42,9 @@ class LocalSyncDataUseCase {
         }
     }
     
-    private func doExecute() async -> Bool {
+    private func doExecute(_ loadDetails: Bool) async -> Bool {
         do {
-            let result = try await asyncFunction(for: sync.execute())
+            let result = try await asyncFunction(for: sync.execute(loadDetails: loadDetails))
             switch result {
             case is SyncResult.Completed:
                 return true

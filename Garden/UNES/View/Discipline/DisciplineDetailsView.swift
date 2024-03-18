@@ -172,15 +172,18 @@ struct DisciplineOverviewView: View {
                     }
                     
                     if let program = data.discipline.resume {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Ementa")
-                                .font(.callout)
-                                .fontWeight(.medium)
-                            
-                            Text(program)
-                                .font(.callout)
-                                .padding(.top, 8)
-                                .foregroundStyle(.foreground.opacity(0.8))
+                        HStack {
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Ementa")
+                                    .font(.callout)
+                                    .fontWeight(.medium)
+                                
+                                Text(program)
+                                    .font(.callout)
+                                    .padding(.top, 8)
+                                    .foregroundStyle(.foreground.opacity(0.8))
+                            }
+                            Spacer()
                         }
                         .padding()
                         .background(.green.opacity(0.4))

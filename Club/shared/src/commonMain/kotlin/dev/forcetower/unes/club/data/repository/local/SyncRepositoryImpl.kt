@@ -25,15 +25,15 @@ class SyncRepositoryImpl(
     private val general: GeneralDB,
     private val singer: Singer
 ) : SyncRepository {
-    override suspend fun sync(): SyncResult = withContext(Dispatchers.IO) {
+    override suspend fun sync(loadDetails: Boolean): SyncResult = withContext(Dispatchers.IO) {
         try {
-            doSync()
+            doSync(loadDetails)
         } catch (e: Exception) {
             SyncResult.OtherError(e.message ?: "Fail empty message", e)
         }
     }
 
-    private suspend fun doSync(): SyncResult {
+    private suspend fun doSync(loadDetails: Boolean): SyncResult {
         val access = database.accessQueries.selectAccess().executeAsOneOrNull() ?: return SyncResult.NoOp
         if (!access.valid.asBoolean()) {
             return SyncResult.NoOp
@@ -70,6 +70,8 @@ class SyncRepositoryImpl(
         val disciplines = singer.grades(person.id, current.id)
         val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
         DisciplinesProcessor(general, disciplines, semester.id, profileId, false).execute()
+
+        if (!loadDetails) return SyncResult.Completed
 
         val classes = disciplines.flatMap { it.classes }
 

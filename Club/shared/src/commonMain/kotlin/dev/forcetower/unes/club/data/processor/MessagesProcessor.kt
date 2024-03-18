@@ -21,15 +21,11 @@ class MessagesProcessor(
 ) {
     suspend fun execute() = withContext(Dispatchers.IO) {
         val messages = page.messages.map { it.fromMessage(notified) }
-        val newMessages = database.transactionWithResult {
+        database.transaction {
             messages.forEach { message ->
                 prepareMessageInTransaction(message)
             }
-            val result = database.messageQueries.getNewMessages().executeAsList()
-            database.messageQueries.setAllNotified()
-            result
         }
-        newMessages
     }
 
     private fun prepareMessageInTransaction(message: Message) {

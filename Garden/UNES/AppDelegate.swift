@@ -46,7 +46,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         fetchTask = Task {
             UserDefaults.standard.set(Date(), forKey: "last_sync")
             let sync: LocalSyncDataUseCase = AppDIContainer.shared.resolve()
-            let result = await sync.execute()
+            let result = await sync.execute(loadDetails: false)
             Analytics.logEvent("app_background_fetch_complete", parameters: nil)
             task.setTaskCompleted(success: result)
         }
@@ -67,5 +67,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         if let fcmToken = fcmToken {
             print("Received fcm token: \(fcmToken)")
         }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .banner])
     }
 }

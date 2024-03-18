@@ -56,7 +56,7 @@ class HomeDisciplinesViewModel : ObservableObject {
             self?.loading = true
         }
         
-        let result = await syncUseCase.execute()
+        let result = await syncUseCase.execute(loadDetails: false)
         print("Sync result: \(result)")
         
         DispatchQueue.main.async { [weak self] in

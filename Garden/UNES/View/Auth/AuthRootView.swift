@@ -21,6 +21,9 @@ struct AuthRootView: View {
                     }
                 }
         }
+        .onAppear {
+            NotificationManager.shared.requestPermission()
+        }
     }
 }
 

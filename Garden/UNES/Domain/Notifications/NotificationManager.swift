@@ -21,7 +21,7 @@ class NotificationManager {
         }
     }
     
-    func createNotification(forMessage message: Message) {
+    func createNotification(forMessage message: Message) async throws {
         var title = "Nova mensagem!"
         if message.senderProfile == 3 {
             title = "UEFS"
@@ -42,10 +42,10 @@ class NotificationManager {
             trigger: nil
         )
         
-        UNUserNotificationCenter.current().add(request)
+        try await UNUserNotificationCenter.current().add(request)
     }
     
-    func createNotification(forGrade grade: GradeData) {
+    func createNotification(forGrade grade: GradeData) async throws {
         if grade.ref.notified == 0 { return }
         var title = "Notas!"
         var body = "Houveram mudanças nas notas"
@@ -80,7 +80,7 @@ class NotificationManager {
             trigger: nil
         )
         
-        UNUserNotificationCenter.current().add(request)
+        try await UNUserNotificationCenter.current().add(request)
     }
 }
 

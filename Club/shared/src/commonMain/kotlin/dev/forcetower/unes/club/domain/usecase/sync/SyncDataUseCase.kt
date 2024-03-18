@@ -7,5 +7,5 @@ class SyncDataUseCase(
     private val repository: SyncRepository
 ) {
     @NativeCoroutines
-    suspend fun execute() = repository.sync()
+    suspend fun execute(loadDetails: Boolean) = repository.sync(loadDetails)
 }
