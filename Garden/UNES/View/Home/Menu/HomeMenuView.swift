@@ -20,8 +20,7 @@ struct HomeMenuView: View {
                     VStack(alignment: .leading) {
                         if let name = vm.currentProfile?.name {
                             Text(name)
-                                .font(.body)
-                                .fontWeight(.regular)
+                                .font(.title3)
                             Text("Engenharia de Computação")
                                 .font(.footnote)
                                 .fontWeight(.regular)
@@ -107,7 +106,7 @@ struct SectionItemView: View {
                     Text(item.name)
                     Spacer()
                 }
-                .background()
+                .background(.background.opacity(0.001))
                 .onTapGesture {
                     onItemTapped(item)
                 }
