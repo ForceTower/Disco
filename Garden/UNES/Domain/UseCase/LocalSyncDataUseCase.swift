@@ -30,20 +30,24 @@ class LocalSyncDataUseCase {
                 // Display notification
                 return true
             case let error as SyncResult.LoginError:
+                print(error.error)
                 Crashlytics.crashlytics().log("Sync failed: Login Error. \(error.error)")
                 Crashlytics.crashlytics().record(error: NSError(domain: "Sync Failed: Login Error", code: 1110))
                 return false
             case let other as SyncResult.OtherError:
+                print(other.error)
                 Crashlytics.crashlytics().log("Sync Failed: Other Error. \(other.error)")
                 Crashlytics.crashlytics().record(error: NSError(domain: "Sync Failed: Other Error", code: 1115))
                 return false
             default:
+                print("Unknown result")
                 // Unknown result.
                 Crashlytics.crashlytics().log("Sync Failed: Unknown reason. \(String(describing: result))")
                 Crashlytics.crashlytics().record(error: NSError(domain: "Sync Failed: Unknown reason", code: 1120))
                 return false
             }
         } catch {
+            print("Catch \(error.localizedDescription)")
             Crashlytics.crashlytics().log("Sync Failed: \(error.localizedDescription)")
             Crashlytics.crashlytics().record(error: error)
             return false

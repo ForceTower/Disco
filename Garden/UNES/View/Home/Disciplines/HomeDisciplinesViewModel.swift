@@ -12,11 +12,14 @@ import KMPNativeCoroutinesCombine
 class HomeDisciplinesViewModel : ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let disciplinesUseCase: GetDisciplinesUseCase
+    private let syncUseCase: LocalSyncDataUseCase
     
     @Published var semesters: [SemesterClassData] = []
+    @Published private(set) var loading = false
     
-    init(disciplinesUseCase: GetDisciplinesUseCase) {
+    init(disciplinesUseCase: GetDisciplinesUseCase, syncUseCase: LocalSyncDataUseCase) {
         self.disciplinesUseCase = disciplinesUseCase
+        self.syncUseCase = syncUseCase
         observeDisciplines()
     }
     
@@ -45,5 +48,19 @@ class HomeDisciplinesViewModel : ObservableObject {
                 
             }
             .store(in: &subscriptions)
+    }
+    
+    func syncData() async {
+        if loading { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.loading = true
+        }
+        
+        let result = await syncUseCase.execute()
+        print("Sync result: \(result)")
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.loading = false
+        }
     }
 }

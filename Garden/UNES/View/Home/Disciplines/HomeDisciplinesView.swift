@@ -10,7 +10,7 @@ import Club
 
 struct HomeDisciplinesView: View {
     @State var path: NavigationPath = .init()
-    @StateObject private var vm: HomeDisciplinesViewModel = .init(disciplinesUseCase: AppDIContainer.shared.resolve())
+    @StateObject private var vm: HomeDisciplinesViewModel = .init(disciplinesUseCase: AppDIContainer.shared.resolve(), syncUseCase: AppDIContainer.shared.resolve())
     
     @State var showGroupSelector = false
     @State var selectorGroups: [ClassGroup] = []
@@ -31,6 +31,11 @@ struct HomeDisciplinesView: View {
                         }
                     }
                 })
+            }
+            .refreshable {
+                await Task {
+                    await vm.syncData()
+                }.value
             }
             .navigationDestination(for: ClassGroup.self) { item in
                 DisciplineDetailsView(groupId: item.id, path: $path)
