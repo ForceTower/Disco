@@ -19,7 +19,6 @@ class InitializingViewModel : ObservableObject {
     }
     
     func load() {
-        print("Loading..")
         Task {
             await doLoad()
         }
@@ -33,10 +32,7 @@ class InitializingViewModel : ObservableObject {
             print("Failed to retrieve state \(error.localizedDescription)")
         }
         
-        print("Got result! \(connected)")
-        
         DispatchQueue.main.async { [weak self, connected] in
-            print("Has self? \(self != nil) and router? \(self?.router != nil)")
             if connected {
                 self?.router?.state = .connected
             } else {
