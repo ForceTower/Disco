@@ -3,6 +3,7 @@ package dev.forcetower.unes.club.domain.model.disciplines
 import dev.forcetower.unes.club.data.storage.database.Class
 import dev.forcetower.unes.club.data.storage.database.ClassAbsence
 import dev.forcetower.unes.club.data.storage.database.ClassGroup
+import dev.forcetower.unes.club.data.storage.database.ClassMaterial
 import dev.forcetower.unes.club.data.storage.database.Discipline
 import dev.forcetower.unes.club.data.storage.database.Grade
 import dev.forcetower.unes.club.data.storage.database.Semester
@@ -18,8 +19,15 @@ data class ClassData(
     val clazz: Class,
     val discipline: Discipline,
     val groups: List<ClassGroup>,
-    val absences: List<ClassAbsence>,
+    val absences: Int,
     val grades: List<ProcessedGrade>
+)
+
+data class ClassGroupData(
+    val clazz: Class,
+    val discipline: Discipline,
+    val group: ClassGroup,
+    val absences: Int
 )
 
 data class ProcessedGrade(

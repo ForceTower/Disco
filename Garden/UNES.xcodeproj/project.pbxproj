@@ -46,6 +46,8 @@
 		6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */; };
 		6CDB80372BA769A700A1134B /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB80362BA769A700A1134B /* Color+Extension.swift */; };
 		6CDB803A2BA76F0F00A1134B /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDB80392BA76F0F00A1134B /* Swinject */; };
+		6CDB803D2BA7836500A1134B /* DisciplineDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB803C2BA7836500A1134B /* DisciplineDetailsView.swift */; };
+		6CDB803F2BA78D8300A1134B /* DisciplineDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDB803E2BA78D8300A1134B /* DisciplineDetailsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +87,8 @@
 		6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDisciplinesViewModel.swift; sourceTree = "<group>"; };
 		6CDB80342BA735EE00A1134B /* HomeScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScheduleViewModel.swift; sourceTree = "<group>"; };
 		6CDB80362BA769A700A1134B /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		6CDB803C2BA7836500A1134B /* DisciplineDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsView.swift; sourceTree = "<group>"; };
+		6CDB803E2BA78D8300A1134B /* DisciplineDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisciplineDetailsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +304,7 @@
 		6CBE06AB2B8BD53C00C2E649 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6CDB803B2BA7835200A1134B /* Discipline */,
 				6CDB80152BA64D4600A1134B /* Initializing */,
 				6CBE06AF2B8BD56B00C2E649 /* Home */,
 				6CBE06AE2B8BD56500C2E649 /* Auth */,
@@ -376,6 +381,15 @@
 				6CDB80322BA71E2700A1134B /* HomeDisciplinesViewModel.swift */,
 			);
 			path = Disciplines;
+			sourceTree = "<group>";
+		};
+		6CDB803B2BA7835200A1134B /* Discipline */ = {
+			isa = PBXGroup;
+			children = (
+				6CDB803C2BA7836500A1134B /* DisciplineDetailsView.swift */,
+				6CDB803E2BA78D8300A1134B /* DisciplineDetailsViewModel.swift */,
+			);
+			path = Discipline;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,8 +523,10 @@
 				6C7E57BD2B9E4F250086A32D /* DomainModuleAssembly.swift in Sources */,
 				6CDB80372BA769A700A1134B /* Color+Extension.swift in Sources */,
 				6CBE06B52B8BDAB800C2E649 /* RootRouter.swift in Sources */,
+				6CDB803F2BA78D8300A1134B /* DisciplineDetailsViewModel.swift in Sources */,
 				6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */,
 				6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */,
+				6CDB803D2BA7836500A1134B /* DisciplineDetailsView.swift in Sources */,
 				6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */,
 				6CDB80292BA671B500A1134B /* HomeScheduleView.swift in Sources */,
 				6CDB80232BA6569B00A1134B /* HomeDashboardView.swift in Sources */,

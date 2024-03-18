@@ -36,5 +36,9 @@ class DomainModuleAssembly : Assembly {
         container.register(GetScheduleUseCase.self) { _ in
             useCases.getSchedule
         }
+        
+        container.register(ClassDataUseCase.self) { _ in
+            useCases.classData
+        }
     }
 }

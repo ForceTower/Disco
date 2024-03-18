@@ -2,10 +2,12 @@ package dev.forcetower.unes.club.data.repository.local
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import dev.forcetower.unes.club.data.processor.DisciplinesProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.disciplines.ClassData
+import dev.forcetower.unes.club.domain.model.disciplines.ClassGroupData
 import dev.forcetower.unes.club.domain.model.disciplines.ProcessedGrade
 import dev.forcetower.unes.club.domain.model.disciplines.SemesterClassData
 import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
@@ -16,6 +18,7 @@ import dev.forcetower.unes.singer.domain.model.Authorization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 internal class DisciplineRepositoryImpl(
     private val database: GeneralDatabase,
@@ -39,7 +42,7 @@ internal class DisciplineRepositoryImpl(
                             clazz,
                             dis.first { it.id == clazz.disciplineId },
                             grp.filter { it.classId == clazz.id },
-                            abs.filter { it.classId == clazz.id },
+                            abs.filter { it.classId == clazz.id }.size,
                             grd.filter { it.classId == clazz.id }.map { grade ->
                                 ProcessedGrade(grade)
                             }

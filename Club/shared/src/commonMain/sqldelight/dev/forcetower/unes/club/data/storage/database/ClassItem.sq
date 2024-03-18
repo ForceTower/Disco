@@ -28,3 +28,6 @@ UPDATE OR REPLACE `ClassItem` SET `id` = ?,`groupId` = ?,`number` = ?,`situation
 
 getItemByIdentifiers:
 SELECT * FROM ClassItem WHERE groupId = :groupId AND number = :number LIMIT 1;
+
+getItemsFromGroup:
+SELECT * FROM ClassItem WHERE groupId = :groupId ORDER BY number;

@@ -1,5 +1,8 @@
 package dev.forcetower.unes.club.domain.repository.local
 
+import dev.forcetower.unes.club.data.storage.database.ClassItem
+import dev.forcetower.unes.club.data.storage.database.ClassMaterial
+import dev.forcetower.unes.club.domain.model.disciplines.ClassGroupData
 import dev.forcetower.unes.club.domain.model.disciplines.SemesterClassData
 import kotlinx.coroutines.flow.Flow
 

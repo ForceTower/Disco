@@ -19,5 +19,23 @@ CREATE UNIQUE INDEX IF NOT EXISTS `index_ClassAbsence_class_id_profile_id_sequen
 lastInsertedRow:
 SELECT last_insert_rowid();
 
+insertIgnore:
+INSERT OR IGNORE INTO `ClassAbsence` (`id`,`classId`,`profileId`,`sequence`,`description`,`date`,`grouping`,`uuid`,`notified`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?);
+
 selectAll:
 SELECT * FROM ClassAbsence;
+
+selectClassCount:
+SELECT COUNT(id) FROM ClassAbsence WHERE classId = :classId;
+
+selectFromClass:
+SELECT * FROM ClassAbsence WHERE classId = :classId;
+
+selectFromGroup:
+SELECT ca.* FROM ClassAbsence ca INNER JOIN ClassGroup cg ON cg.classId == ca.classId WHERE cg.id = :groupId ORDER BY ca.sequence;
+
+resetAbsenceForClass:
+DELETE FROM ClassAbsence WHERE classId = :classId;
+
+markAllNotified:
+UPDATE ClassAbsence SET notified = 1;

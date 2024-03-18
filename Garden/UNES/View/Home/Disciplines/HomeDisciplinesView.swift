@@ -12,6 +12,9 @@ struct HomeDisciplinesView: View {
     @State var path: NavigationPath = .init()
     @StateObject private var vm: HomeDisciplinesViewModel = .init(disciplinesUseCase: AppDIContainer.shared.resolve())
     
+    @State var showGroupSelector = false
+    @State var selectorGroups: [ClassGroup] = []
+    
     var body: some View {
         NavigationStack(path: $path) {
             ScrollView {
@@ -19,18 +22,52 @@ struct HomeDisciplinesView: View {
                     ForEach(vm.semesters, id: \.semester.id) { element in
                         HomeDisciplineSemesterItemView(data: element) { semester in
                             vm.fetchDataFor(semester: semester)
+                        } onClassSelected: { data in
+                            if data.groups.count == 1 {
+                                path.append(data.groups[0])
+                            } else {
+                                showGroupSelector(data.groups)
+                            }
                         }
                     }
                 })
             }
+            .navigationDestination(for: ClassGroup.self) { item in
+                DisciplineDetailsView(groupId: item.id, path: $path)
+            }
             .navigationTitle("Disciplinas")
+            .confirmationDialog("Selecione uma turma", isPresented: $showGroupSelector, titleVisibility: .visible) {
+                ForEach(selectorGroups, id: \.id) { group in
+                    Button(action: {
+                        selectGroup(group)
+                    }, label: {
+                        Text(group.group)
+                    })
+                }
+            } message: {
+                Text("Sobre qual turma você deseja ver mais detalhes?")
+            }
+
         }
+    }
+    
+    func showGroupSelector(_ groups: [ClassGroup]) {
+        showGroupSelector = true
+        selectorGroups = groups
+    }
+    
+    func selectGroup(_ group: ClassGroup) {
+        showGroupSelector = false
+        selectorGroups = []
+        path.append(group)
     }
 }
 
 struct HomeDisciplineSemesterItemView: View {
     let data: SemesterClassData
     let fetchSemesterData: (Semester) -> Void
+    let onClassSelected: (ClassData) -> Void
+    
     var body: some View {
         VStack {
             HomeDisciplineSemesterNameView(semester: data.semester.name)
@@ -51,6 +88,9 @@ struct HomeDisciplineSemesterItemView: View {
                 LazyVStack(spacing: 0) {
                     ForEach(data.classes, id: \.clazz.id) { item in
                         HomeDisciplineItemView(item: item)
+                            .onTapGesture {
+                                onClassSelected(item)
+                            }
                             .padding(.bottom, 32)
                     }
                 }
@@ -164,15 +204,12 @@ struct HomeDisciplineItemView: View {
             }
         }
         .padding(.horizontal)
+        .background(.background)
     }
 }
 
 #Preview {
     HomeDisciplinesView()
-}
-
-#Preview {
-    HomeDisciplineSemesterNameView(semester: "2024.1")
 }
 
 //#Preview {

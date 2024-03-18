@@ -1,10 +1,14 @@
 package dev.forcetower.unes.singer.data.network
 
 import dev.forcetower.unes.singer.data.model.dto.DisciplineData
+import dev.forcetower.unes.singer.data.model.dto.Lecture
+import dev.forcetower.unes.singer.data.model.dto.LectureMissed
 import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import dev.forcetower.unes.singer.data.model.dto.Person
 import dev.forcetower.unes.singer.data.model.dto.Semester
+import dev.forcetower.unes.singer.data.network.operation.AbsencesOperation
 import dev.forcetower.unes.singer.data.network.operation.GradesOperation
+import dev.forcetower.unes.singer.data.network.operation.LecturesOperation
 import dev.forcetower.unes.singer.data.network.operation.MessagesOperation
 import dev.forcetower.unes.singer.data.network.operation.SemestersOperation
 import dev.forcetower.unes.singer.domain.exception.InvalidLoginCredentialException
@@ -26,6 +30,8 @@ class SingerAPI(
     private val messages = MessagesOperation(client)
     private val semesters = SemestersOperation(client)
     private val grades = GradesOperation(client)
+    private val lectures = LecturesOperation(client)
+    private val absences = AbsencesOperation(client)
 
     private fun createAuth(auth: Authorization): String {
         val usernameAndPassword = "${auth.username}:${auth.password}"
@@ -58,6 +64,25 @@ class SingerAPI(
 
     suspend fun grades(personId: Long, semesterId: Long, auth: Authorization): List<DisciplineData> {
         return grades.execute(personId, semesterId, auth)
+    }
+
+    suspend fun lectures(
+        classId: Long,
+        limit: Int,
+        offset: Int,
+        auth: Authorization
+    ): List<Lecture> {
+        return lectures.execute(classId, limit, offset, auth)
+    }
+
+    suspend fun absences(
+        personId: Long,
+        classId: Long,
+        limit: Int,
+        offset: Int,
+        auth: Authorization
+    ): List<LectureMissed> {
+        return absences.execute(personId, classId, limit, offset, auth)
     }
 
     private suspend fun HttpClient.getWithAuth(urlString: String, auth: Authorization, block: HttpRequestBuilder.() -> Unit = {}): HttpResponse {

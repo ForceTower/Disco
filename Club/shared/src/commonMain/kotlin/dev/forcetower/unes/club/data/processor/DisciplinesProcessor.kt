@@ -77,6 +77,7 @@ class DisciplinesProcessor(
                     ignored = 0
                 )
                 val groupId = database.classGroupDao.insertNewWay(group)
+                println("Group id: $groupId")
                 if (currentSemester?.id == semesterId) {
                     clazz.allocations.forEach { allocation ->
                         val time = allocation.time

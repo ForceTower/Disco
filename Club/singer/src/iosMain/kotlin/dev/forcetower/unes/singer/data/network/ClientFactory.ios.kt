@@ -45,7 +45,7 @@ actual class PlatformClientFactory : SingerClientFactory {
             }
 //            install(Logging) {
 //                logger = Logger.DEFAULT
-//                level = LogLevel.INFO
+//                level = LogLevel.ALL
 //            }
         }
     }

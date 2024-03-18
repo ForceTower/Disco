@@ -33,3 +33,6 @@ SELECT * FROM ClassGroup;
 
 findById:
 SELECT * FROM ClassGroup WHERE id = :id LIMIT 1;
+
+findByIdWithDependencies:
+SELECT cg.* FROM ClassGroup cg INNER JOIN Class c ON cg.classId = c.id INNER JOIN Discipline d ON c.disciplineId = d.id WHERE cg.id = :id LIMIT 1;

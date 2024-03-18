@@ -28,3 +28,6 @@ UPDATE OR REPLACE `ClassMaterial` SET `id` = ?,`groupId` = ?,`classItemId` = ?,`
 
 lastInsertedRow:
 SELECT last_insert_rowid();
+
+getMaterialsFromGroup:
+SELECT * FROM ClassMaterial WHERE groupId = :groupId;

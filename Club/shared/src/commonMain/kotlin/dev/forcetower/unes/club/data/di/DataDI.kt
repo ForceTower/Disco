@@ -1,12 +1,14 @@
 package dev.forcetower.unes.club.data.di
 
 import dev.forcetower.unes.club.data.repository.local.AccessRepositoryImpl
+import dev.forcetower.unes.club.data.repository.local.ClassRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.DisciplineRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.MessageRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.ScheduleRepositoryImpl
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
+import dev.forcetower.unes.club.domain.repository.local.ClassRepository
 import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
 import dev.forcetower.unes.club.domain.repository.local.MessageRepository
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
@@ -21,6 +23,7 @@ internal object DataDI {
         single<MessageRepository> { MessageRepositoryImpl(get()) }
         single<DisciplineRepository> { DisciplineRepositoryImpl(get(), get(), get()) }
         single<ScheduleRepository> { ScheduleRepositoryImpl(get()) }
+        single<ClassRepository> { ClassRepositoryImpl(get(), get(), get()) }
     }
 
     val data = module {
