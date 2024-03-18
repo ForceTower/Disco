@@ -43,6 +43,7 @@ struct DisciplineDetailsView: View {
             vm.fetchDataFor(groupId: groupId)
             vm.loadDataFor(groupId: groupId)
         })
+        .navigationTitle("Disciplina")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -163,8 +164,8 @@ struct DisciplineOverviewView: View {
                                     .foregroundStyle(.foreground.opacity(0.6))
                             }
                             Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.blue)
+//                            Image(systemName: "chevron.right")
+//                                .foregroundStyle(.blue)
                         }
                         .background()
                         .padding(.horizontal)

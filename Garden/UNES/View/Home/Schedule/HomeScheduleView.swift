@@ -121,7 +121,7 @@ struct ScheduleHorizontalView : View {
             HStack(spacing: 0) {
                 VStack(spacing: 0) {
                     Text(space.reference.location.startsAt)
-                        .font(.caption)
+                        .font(.callout)
                         .fontWeight(.regular)
                     
                     Rectangle()
@@ -130,16 +130,17 @@ struct ScheduleHorizontalView : View {
                         .foregroundStyle(.blue.opacity(0.5))
                     
                     Text(space.reference.location.endsAt)
-                        .font(.caption)
+                        .font(.callout)
                         .fontWeight(.regular)
                 }
-                .frame(width: 48)
+                .padding(.leading, 6)
+                .padding(.vertical, 8)
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(WordUtils.shared.toTitleCase(str: space.reference.discipline.name))
                         .lineLimit(1)
                         .multilineTextAlignment(.leading)
-                        .font(.caption)
+                        .font(.callout)
                         .fontWeight(.regular)
                     
                     Rectangle()
@@ -149,29 +150,31 @@ struct ScheduleHorizontalView : View {
                     
                     HStack(spacing: 0) {
                         Text(space.reference.discipline.code)
-                            .font(.caption)
+                            .font(.callout)
                             .fontWeight(.regular)
                         
                         if let modulo = space.reference.location.modulo {
                             Text(WordUtils.shared.toTitleCase(str: modulo))
-                                .font(.caption)
+                                .font(.callout)
                                 .fontWeight(.regular)
                                 .padding(.leading)
                         }
                         
                         if let room = space.reference.location.room {
                             Text(room)
-                                .font(.caption)
+                                .font(.callout)
                                 .fontWeight(.regular)
                                 .padding(.leading)
                         }
                     }
                 }
+                .padding(.vertical, 8)
+                .padding(.trailing, 6)
                 .padding(.leading)
             }
             .padding(.horizontal, 8)
             .padding(.top, 1)
-            .frame(height: 56, alignment: .leading)
+            .frame(alignment: .leading)
             .background(.background)
             .clipShape(.rect(cornerRadius: 8))
             .shadow(color: .gray.opacity(0.7),radius: 1, x: 0.2, y: 0.7)

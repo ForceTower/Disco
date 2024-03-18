@@ -66,7 +66,7 @@ internal class ScheduleRepositoryImpl(
     override suspend fun currentClass(): ExtendedClassLocationData? = withContext(Dispatchers.IO) {
         val now = Clock.System.now()
         val date = now.toLocalDateTime(TimeZone.currentSystemDefault())
-        val dayInt = date.dayOfWeek.isoDayNumber
+        val dayInt = date.dayOfWeek.isoDayNumber + 1
         val currentTimeInt = date.hour * 60 + date.minute
         val location = database.classLocationQueries.selectCurrentClass(dayInt.toLong(), currentTimeInt.toLong())
             .executeAsOneOrNull() ?: return@withContext null
