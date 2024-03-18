@@ -43,12 +43,39 @@ struct BigTrayView: View {
                             .multilineTextAlignment(.center)
                             .font(.footnote)
                     }
-                    .padding(.horizontal)
+                    .padding()
+                } else if !data.error {
+                    VStack {
+                        Spacer()
+                        Image(uiImage: UIImage(resource: .fineMeal))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                        Text("O restaurante está fechado")
+                        Spacer()
+                        Text("Última atualização\n\(Date(timeIntervalSince1970: TimeInterval(data.time / 1000)).formatted(date: .abbreviated, time: .standard))")
+                            .multilineTextAlignment(.center)
+                            .font(.footnote)
+                    }
                 } else {
-                    Text("O Restaurante está fechado")
+                    VStack {
+                        Spacer()
+                        Image(systemName: "xmark.seal.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.red)
+                            .frame(height: 100)
+                        Text("Erro ao carregar dados\nTentarei recarregar em breve")
+                            .multilineTextAlignment(.center)
+                            .padding(.top)
+                        Spacer()
+                        Text("Última atualização\n\(Date(timeIntervalSince1970: TimeInterval(data.time / 1000)).formatted(date: .abbreviated, time: .standard))")
+                            .multilineTextAlignment(.center)
+                            .font(.footnote)
+                    }
                 }
             } else {
-                ProgressView()
+                ProgressView("Carregando dados...")
             }
         }
         .navigationTitle("Bandejão")
