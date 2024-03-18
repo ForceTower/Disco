@@ -7,6 +7,7 @@ import dev.forcetower.unes.club.domain.usecase.classes.ClassDataUseCase
 import dev.forcetower.unes.club.domain.usecase.disciplines.GetDisciplinesUseCase
 import dev.forcetower.unes.club.domain.usecase.messages.GetAllMessagesUseCase
 import dev.forcetower.unes.club.domain.usecase.schedule.GetScheduleUseCase
+import dev.forcetower.unes.club.domain.usecase.sync.SyncDataUseCase
 import org.koin.dsl.module
 
 object DomainDI {
@@ -18,5 +19,6 @@ object DomainDI {
         factory { GetDisciplinesUseCase(get()) }
         factory { GetScheduleUseCase(get()) }
         factory { ClassDataUseCase(get()) }
+        factory { SyncDataUseCase(get()) }
     }
 }

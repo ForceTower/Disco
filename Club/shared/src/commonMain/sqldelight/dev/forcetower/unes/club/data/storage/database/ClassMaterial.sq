@@ -31,3 +31,6 @@ SELECT last_insert_rowid();
 
 getMaterialsFromGroup:
 SELECT * FROM ClassMaterial WHERE groupId = :groupId;
+
+markAllNotified:
+UPDATE ClassMaterial SET notified = 1;

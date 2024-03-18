@@ -40,5 +40,13 @@ class DomainModuleAssembly : Assembly {
         container.register(ClassDataUseCase.self) { _ in
             useCases.classData
         }
+        
+        container.register(LocalSyncDataUseCase.self) { _ in
+            LocalSyncDataUseCase(sync: useCases.syncData)
+        }
+        
+        container.register(ScheduleBackgroundProcessingUseCase.self) { _ in
+            ScheduleBackgroundProcessingUseCase()
+        }
     }
 }
