@@ -31,3 +31,6 @@ SELECT * FROM SyncRegistry WHERE id = :id;
 
 updateReplace:
 UPDATE OR REPLACE `SyncRegistry` SET `id` = ?,`uuid` = ?,`start` = ?,`end` = ?,`completed` = ?,`success` = ?,`error` = ?,`executor` = ?,`message` = ?,`skipped` = ? WHERE `id` = ?;
+
+updateRegistry:
+UPDATE `SyncRegistry` SET end = ?, completed = ?, success = ?, error = ?, message = ? WHERE id = :id;

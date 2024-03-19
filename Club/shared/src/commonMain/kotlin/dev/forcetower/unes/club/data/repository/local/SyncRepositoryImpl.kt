@@ -114,7 +114,16 @@ class SyncRepositoryImpl(
         val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
         DisciplinesProcessor(general, disciplines, semester.id, profileId, true).execute()
 
-        if (!loadDetails) return SyncResult.Completed
+        if (!loadDetails) {
+            general.syncRegistryDao.finish(
+                registry,
+                completed = 1,
+                error = 0,
+                success = 1,
+                message = "Finalizado com sucesso"
+            )
+            return SyncResult.Completed
+        }
 
         val classes = disciplines.flatMap { it.classes }
 
@@ -147,7 +156,7 @@ class SyncRepositoryImpl(
             completed = 1,
             error = 0,
             success = 1,
-            message = "Finalizado com sucesso"
+            message = "Finalizado com sucesso. Detalhes atualizados"
         )
 
         return SyncResult.Completed

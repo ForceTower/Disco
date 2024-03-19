@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SyncRegistryView: View {
     @StateObject private var vm: SyncRegistryViewModel = .init()
+    @State private var showingDetails = false
+    @State private var showingDetailsItem: SyncRegistry? = nil
     
     var body: some View {
         List {
@@ -19,9 +21,25 @@ struct SyncRegistryView: View {
             } else {
                 ForEach(vm.elements, id: \.id) { registry in
                     SyncItemView(registry: registry)
+                        .onTapGesture {
+                            showingDetails = true
+                            showingDetailsItem = registry
+                        }
                 }
             }
         }
+        .alert("Detalhes", isPresented: $showingDetails, actions: {
+            Button("OK") {
+                showingDetails = false
+                showingDetailsItem = nil
+            }
+        }, message: {
+            if let message = showingDetailsItem?.message {
+                Text(message.isEmpty ? "Nenhuma mensagem" : message)
+            } else {
+                Text("Nenhuma mensagem")
+            }
+        })
         .navigationTitle("Sincronização")
     }
 }
@@ -58,7 +76,7 @@ struct SyncItemView: View {
             
             HStack {
                 Label(
-                    title: { Text("Snowpiercer") },
+                    title: { Text(registry.executor) },
                     icon: { Image(systemName: "gear") }
                 )
                 .labelStyle(.automatic)
@@ -66,7 +84,7 @@ struct SyncItemView: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 
                 Label(
-                    title: { Text("Concluído") },
+                    title: { Text(statusText()) },
                     icon: { Image(systemName: "arrow.triangle.2.circlepath") }
                 )
                 .font(.callout)
@@ -74,6 +92,7 @@ struct SyncItemView: View {
             }
             .padding(.top, 2)
         }
+        .contentShape(.rect)
         .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
     }
     
@@ -84,7 +103,17 @@ struct SyncItemView: View {
     func formattedDate(_ millis: Int64?) -> String {
         guard let millis = millis else { return "--" }
         let date = Date(timeIntervalSince1970: TimeInterval(millis / 1000))
-        return date.formatted(date: .numeric, time: .shortened)
+        return date.formatted(date: .numeric, time: .standard)
+    }
+    
+    func statusText() -> String {
+        if registry.completed == 0 {
+            return "Executando"
+        }
+        if registry.success == 1 {
+            return "Concluído"
+        }
+        return "Falhou"
     }
 }
 

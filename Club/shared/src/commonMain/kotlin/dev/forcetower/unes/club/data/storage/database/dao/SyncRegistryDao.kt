@@ -39,14 +39,15 @@ class SyncRegistryDao(
         success: Long,
         message: String
     ) {
-        val next = registry.copy(
+        println("Updating id: ${registry.id}")
+        database.syncRegistryQueries.updateRegistry(
             completed = completed,
             error = error,
             success = success,
             message = message,
-            end = Clock.System.now().toEpochMilliseconds()
+            end = Clock.System.now().toEpochMilliseconds(),
+            id = registry.id
         )
-        update(next)
     }
 
     fun update(element: SyncRegistry) {
