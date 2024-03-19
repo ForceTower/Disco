@@ -5,19 +5,30 @@
 //  Created by João Paulo Santos Sena on 19/03/24.
 //
 
+import Club
 import SwiftUI
 
 struct SyncRegistryView: View {
+    @StateObject private var vm: SyncRegistryViewModel = .init()
+    
     var body: some View {
         List {
-            SyncItemView()
-            SyncItemView()
+            if vm.elements.isEmpty {
+                Text("Nenhum registro de sincronização até o momento.")
+                    .multilineTextAlignment(.leading)
+            } else {
+                ForEach(vm.elements, id: \.id) { registry in
+                    SyncItemView(registry: registry)
+                }
+            }
         }
         .navigationTitle("Sincronização")
     }
 }
 
 struct SyncItemView: View {
+    let registry: SyncRegistry
+    
     var body: some View {
         VStack {
             HStack {
@@ -26,7 +37,7 @@ struct SyncItemView: View {
                         .multilineTextAlignment(.center)
                         .font(.callout)
                     
-                    Text("18/03/2024 13:45:12")
+                    Text(formattedDate(registry.start))
                         .multilineTextAlignment(.center)
                         .font(.footnote)
                 }
@@ -37,7 +48,7 @@ struct SyncItemView: View {
                         .multilineTextAlignment(.center)
                         .font(.callout)
                     
-                    Text("18/03/2024 13:45:12")
+                    Text(formattedDate(kLong: registry.end))
                         .multilineTextAlignment(.center)
                         .font(.footnote)
                 }
@@ -64,6 +75,16 @@ struct SyncItemView: View {
             .padding(.top, 2)
         }
         .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
+    }
+    
+    func formattedDate(kLong: KotlinLong?) -> String {
+        return formattedDate(kLong?.int64Value)
+    }
+    
+    func formattedDate(_ millis: Int64?) -> String {
+        guard let millis = millis else { return "--" }
+        let date = Date(timeIntervalSince1970: TimeInterval(millis / 1000))
+        return date.formatted(date: .numeric, time: .shortened)
     }
 }
 

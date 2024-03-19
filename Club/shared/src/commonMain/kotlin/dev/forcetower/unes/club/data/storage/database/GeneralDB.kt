@@ -12,6 +12,7 @@ import dev.forcetower.unes.club.data.storage.database.dao.DisciplineDao
 import dev.forcetower.unes.club.data.storage.database.dao.GradeDao
 import dev.forcetower.unes.club.data.storage.database.dao.ProfileDao
 import dev.forcetower.unes.club.data.storage.database.dao.SemesterDao
+import dev.forcetower.unes.club.data.storage.database.dao.SyncRegistryDao
 import dev.forcetower.unes.club.data.storage.database.dao.TeacherDao
 
 class GeneralDB(
@@ -28,6 +29,7 @@ class GeneralDB(
     val classMaterialDao = ClassMaterialDao(database)
     val classAbsenceDao = ClassAbsenceDao(database)
     val gradeDao = GradeDao(database)
+    val syncRegistryDao = SyncRegistryDao(database)
 
     fun <R> transactionWithResult(
         noEnclosing: Boolean = false,

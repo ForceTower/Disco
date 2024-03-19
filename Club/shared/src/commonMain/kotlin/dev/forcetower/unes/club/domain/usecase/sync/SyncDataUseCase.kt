@@ -8,4 +8,7 @@ class SyncDataUseCase(
 ) {
     @NativeCoroutines
     suspend fun execute(loadDetails: Boolean) = repository.sync(loadDetails)
+
+    @NativeCoroutines
+    fun registry() = repository.getSyncRegistry()
 }

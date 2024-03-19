@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS SyncRegistry (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `uuid` TEXT NOT NULL,
+    `start` INTEGER NOT NULL,
+    `end` INTEGER,
+    `completed` INTEGER NOT NULL,
+    `success` INTEGER NOT NULL,
+    `error` INTEGER NOT NULL,
+    `executor` TEXT NOT NULL,
+    `message` TEXT NOT NULL,
+    `skipped` INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_SyncRegistry_uuid` ON SyncRegistry (`uuid`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_SyncRegistry_start` ON SyncRegistry (`start`);

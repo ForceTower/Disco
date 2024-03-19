@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS SyncRegistry (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `uuid` TEXT NOT NULL,
+    `start` INTEGER NOT NULL,
+    `end` INTEGER,
+    `completed` INTEGER NOT NULL,
+    `success` INTEGER NOT NULL,
+    `error` INTEGER NOT NULL,
+    `executor` TEXT NOT NULL,
+    `message` TEXT NOT NULL,
+    `skipped` INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_SyncRegistry_uuid` ON SyncRegistry (`uuid`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_SyncRegistry_start` ON SyncRegistry (`start`);
+
+lastInsertedRow:
+SELECT last_insert_rowid();
+
+selectAll:
+SELECT * FROM SyncRegistry ORDER BY id DESC;
+
+insertReplace:
+INSERT OR REPLACE INTO `SyncRegistry` (`id`,`uuid`,`start`,`end`,`completed`,`success`,`error`,`executor`,`message`,`skipped`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?);
+
+insertReplaceObj:
+INSERT OR REPLACE INTO `SyncRegistry` (`id`,`uuid`,`start`,`end`,`completed`,`success`,`error`,`executor`,`message`,`skipped`) VALUES ?;
+
+findById:
+SELECT * FROM SyncRegistry WHERE id = :id;
+
+updateReplace:
+UPDATE OR REPLACE `SyncRegistry` SET `id` = ?,`uuid` = ?,`start` = ?,`end` = ?,`completed` = ?,`success` = ?,`error` = ?,`executor` = ?,`message` = ?,`skipped` = ? WHERE `id` = ?;

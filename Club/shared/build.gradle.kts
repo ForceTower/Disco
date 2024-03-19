@@ -92,7 +92,7 @@ sqldelight {
     databases {
         create("GeneralDatabase") {
             packageName.set("dev.forcetower.unes.club.data.storage.database")
-            schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
             verifyMigrations.set(true)
         }
     }
