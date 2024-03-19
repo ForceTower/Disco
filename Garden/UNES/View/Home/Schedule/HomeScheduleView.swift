@@ -36,7 +36,7 @@ struct HomeScheduleView: View {
                     }
                     .scrollIndicators(.never)
                     
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 10) {
                         ForEach(vm.lines, id: \.id) { line in
                             ScheduleHorizontalView(item: line)
                         }
@@ -44,6 +44,7 @@ struct HomeScheduleView: View {
                     .padding(.bottom)
                 }
             }
+            .background(Color(uiColor: UIColor.systemGroupedBackground))
             .navigationTitle("Horários")
         }
     }
@@ -175,9 +176,9 @@ struct ScheduleHorizontalView : View {
             .padding(.horizontal, 8)
             .padding(.top, 1)
             .frame(alignment: .leading)
-            .background(.background)
+            .background(Color(UIColor.secondarySystemGroupedBackground))
             .clipShape(.rect(cornerRadius: 8))
-            .shadow(color: .gray.opacity(0.7),radius: 1, x: 0.2, y: 0.7)
+            .shadow(color: Color(UIColor.secondarySystemGroupedBackground).opacity(0.7),radius: 1, x: 0.2, y: 0.7)
             .padding(.horizontal)
         default:
             VStack {
