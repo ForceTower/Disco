@@ -42,6 +42,10 @@ class ProfileDao(
         }
     }
 
+    private fun updateProfileImage(url: String) {
+        database.profileQueries.updateImageUrl(url)
+    }
+
     private fun updateProfileEmail(email: String) {
         database.profileQueries.updateEmail(email)
     }

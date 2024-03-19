@@ -19,31 +19,33 @@ struct HomeMenuView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                HStack {
-                    VStack(alignment: .leading) {
-                        if let profile = vm.currentProfile, let name = profile.name {
-                            Text(name)
-                                .font(.title3)
-                            
-                            if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
-                                Text(subtitle)
-                                    .font(.footnote)
-                                    .fontWeight(.regular)
+                NavigationLink(value: MenuItem(name: "", icon: "", destination: .account, navigates: false)) {
+                    HStack {
+                        if let imageUrl = vm.currentProfile?.imageUrl {
+                            WebImage(url: URL(string: imageUrl)) { image in
+                                image.resizable()
+                            } placeholder: {
+                                Rectangle().foregroundColor(.gray)
+                            }
+                            .indicator(.activity)
+                            .scaledToFit()
+                            .transition(.fade(duration: 0.5))
+                            .frame(width: 48, height: 48)
+                            .clipShape(.circle)
+                            .padding(.trailing, 8)
+                        }
+                        VStack(alignment: .leading) {
+                            if let profile = vm.currentProfile, let name = profile.name {
+                                Text(name)
+                                    .font(.title3)
+                                
+                                if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
+                                    Text(subtitle)
+                                        .font(.footnote)
+                                        .fontWeight(.regular)
+                                }
                             }
                         }
-                    }
-                    Spacer()
-                    if let imageUrl = vm.currentProfile?.imageUrl {
-                        WebImage(url: URL(string: imageUrl)) { image in
-                            image.resizable()
-                        } placeholder: {
-                            Rectangle().foregroundColor(.gray)
-                        }
-                        .indicator(.activity)
-                        .scaledToFit()
-                        .transition(.fade(duration: 0.5))
-                        .frame(width: 48, height: 48)
-                        .clipShape(.circle)
                     }
                 }
                 

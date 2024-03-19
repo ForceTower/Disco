@@ -31,6 +31,7 @@
 		6C617FD02BAA277B00CD3A87 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FCF2BAA277B00CD3A87 /* Bundle.swift */; };
 		6C617FD32BAA33E500CD3A87 /* ParadoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FD22BAA33E500CD3A87 /* ParadoxView.swift */; };
 		6C617FD62BAA360700CD3A87 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FD52BAA360700CD3A87 /* AccountView.swift */; };
+		6C617FD82BAA4A9000CD3A87 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FD72BAA4A9000CD3A87 /* AccountViewModel.swift */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -95,6 +96,7 @@
 		6C617FCF2BAA277B00CD3A87 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		6C617FD22BAA33E500CD3A87 /* ParadoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParadoxView.swift; sourceTree = "<group>"; };
 		6C617FD52BAA360700CD3A87 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		6C617FD72BAA4A9000CD3A87 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				6C617FD52BAA360700CD3A87 /* AccountView.swift */,
+				6C617FD72BAA4A9000CD3A87 /* AccountViewModel.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -725,6 +728,7 @@
 				6CDB80292BA671B500A1134B /* HomeScheduleView.swift in Sources */,
 				6CDB80232BA6569B00A1134B /* HomeDashboardView.swift in Sources */,
 				6C617F882BA878F100CD3A87 /* AppDelegate.swift in Sources */,
+				6C617FD82BAA4A9000CD3A87 /* AccountViewModel.swift in Sources */,
 				6CDB80142BA64BA800A1134B /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -29,6 +29,9 @@ UPDATE Profile SET platformCourseValue = :platformCourseValue;
 updatePlatformId:
 UPDATE Profile SET platformId = :platformId;
 
+updateImageUrl:
+UPDATE Profile SET imageUrl = :imageUrl;
+
 updateMockedStatus:
 UPDATE Profile SET mocked = :mocked;
 
