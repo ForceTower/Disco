@@ -20,4 +20,9 @@ class GetDisciplinesUseCase internal constructor(
         repository.fetchData(semester)
         emit(SemesterFetchState.Completed)
     }
+
+    @NativeCoroutines
+    suspend fun loadMissingSemesters(loaded: List<Long>): List<Long> {
+        return repository.loadMissingSemesters(loaded)
+    }
 }

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel: HomeViewModel = .init()
+    @StateObject private var vm: HomeViewModel = .init()
     
     var body: some View {
-        TabView(selection: $viewModel.tabSelection,
+        TabView(selection: $vm.tabSelection,
                 content:  {
             HomeDashboardView(selectSchedule: {
-                viewModel.tabSelection = .schedule
+                vm.tabSelection = .schedule
             }, selectMessages: {
-                viewModel.tabSelection = .messages
+                vm.tabSelection = .messages
             })
             .tabItem {
                 Label("Início", systemImage: "newspaper")
@@ -45,6 +45,7 @@ struct HomeView: View {
         })
         .onAppear {
             NotificationManager.shared.requestPermission()
+            vm.loadMissingSemesters()
         }
     }
 }

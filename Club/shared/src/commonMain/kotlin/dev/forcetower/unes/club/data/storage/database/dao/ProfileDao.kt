@@ -9,7 +9,7 @@ import dev.forcetower.unes.singer.data.model.dto.Person
 class ProfileDao(
     private val database: GeneralDatabase
 ) {
-    fun insert(person: Person): Long {
+    fun insert(person: Person, platformCourseValue: String?): Long {
         val name = person.name.trim().toTitleCase()
         val me = selectMeDirect()
         if (me != null) {
@@ -18,6 +18,9 @@ class ProfileDao(
             updateProfilePlatformId(person.id)
             person.email?.trim()?.lowercase()?.let {
                 updateProfileEmail(it)
+            }
+            if (platformCourseValue != null) {
+                updateProfilePlatformCourseValue(platformCourseValue.toTitleCase())
             }
             return me.id
         } else {
@@ -32,7 +35,8 @@ class ProfileDao(
                     course = 0L,
                     imageUrl = null,
                     mocked = 0L,
-                    score = 0.0
+                    score = 0.0,
+                    platformCourseValue = platformCourseValue?.trim()?.toTitleCase()
                 )
             )
         }
@@ -40,6 +44,10 @@ class ProfileDao(
 
     private fun updateProfileEmail(email: String) {
         database.profileQueries.updateEmail(email)
+    }
+
+    private fun updateProfilePlatformCourseValue(platformCourseValue: String?) {
+        database.profileQueries.updatePlatformCourseValue(platformCourseValue?.trim())
     }
 
     private fun updateProfilePlatformId(platformId: Long) {
@@ -70,9 +78,14 @@ class ProfileDao(
                 profile.imageUrl,
                 profile.platformId,
                 profile.me,
-                profile.mocked
+                profile.mocked,
+                profile.platformCourseValue
             )
             database.profileQueries.lastInsertedRow().executeAsOne()
         }
+    }
+
+    fun updateCalculatedScore(score: Double) {
+        database.profileQueries.updateCalcScore(score)
     }
 }

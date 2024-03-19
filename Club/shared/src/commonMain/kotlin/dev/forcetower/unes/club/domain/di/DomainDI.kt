@@ -14,12 +14,12 @@ import org.koin.dsl.module
 object DomainDI {
     val useCase = module {
         factory { LoginPortalUseCase(get(), get(), get(), get()) }
-        factory { ConnectedUserUseCase(get()) }
+        factory { ConnectedUserUseCase(get(), get()) }
         factory { GetAllMessagesUseCase(get()) }
         factory { GetDisciplinesUseCase(get()) }
         factory { GetScheduleUseCase(get()) }
         factory { ClassDataUseCase(get()) }
-        factory { SyncDataUseCase(get()) }
+        factory { SyncDataUseCase(get(), get()) }
         factory { PendingNotificationsUseCase(get(), get()) }
         factory { GetBigTrayQuotaUseCase(get()) }
     }

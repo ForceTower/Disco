@@ -47,6 +47,7 @@ class DisciplinesProcessor(
                 shortText = null
             )
             val disciplineId = database.discipline.insertOrUpdate(discipline)
+
             val bound = Class(
                 id = 0L,
                 disciplineId = disciplineId,

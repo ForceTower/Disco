@@ -27,3 +27,6 @@ SELECT * FROM Discipline WHERE id = :id;
 
 lastInsertedRow:
 SELECT last_insert_rowid();
+
+deleteAll:
+DELETE FROM Discipline;

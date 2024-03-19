@@ -8,5 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface DisciplineRepository {
     fun getSemesterWithDisciplines(): Flow<List<SemesterClassData>>
+    suspend fun calculateScoreSnapshot(): Double?
     suspend fun fetchData(semesterId: Long)
+    fun userCalculatedStore(): Flow<Double?>
+    suspend fun loadMissingSemesters(fetchState: List<Long>): List<Long>
 }

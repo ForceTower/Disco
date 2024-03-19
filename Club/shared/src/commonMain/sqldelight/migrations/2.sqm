@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS PlatformCourse (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    platformId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    resumedName TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_PlatformCourse_platformId` ON `PlatformCourse`(platformId);
+
+ALTER TABLE `Profile` ADD COLUMN `platformCourseValue` TEXT;

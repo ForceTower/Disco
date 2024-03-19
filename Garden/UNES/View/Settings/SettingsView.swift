@@ -64,7 +64,7 @@ enum SpoilerOption: String, Codable, CaseIterable {
 struct SettingsView: View {
     @AppStorage("settings_sync_frequency") private var selectedFrequency: FrequencyOption = .minutes15
     @AppStorage("settings_sync_discipline") private var selectedDiscipline: DisciplineSyncFrequency = .manual
-    @AppStorage("settings_exhibition_subtitle") private var selectSubtitle: SubtitleOption = .score
+    @AppStorage("settings_exhibition_subtitle") private var selectSubtitle: SubtitleOption = .course
     @AppStorage("settings_exhibition_grade_spoiler") private var selectedSpoiler: SpoilerOption = .none
     @AppStorage("settings_exhibition_schedule_shrink") private var shrinkSchedule: Bool = true
     

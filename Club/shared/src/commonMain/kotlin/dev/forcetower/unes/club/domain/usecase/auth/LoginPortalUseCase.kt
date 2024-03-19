@@ -6,9 +6,11 @@ import dev.forcetower.unes.club.data.processor.MessagesProcessor
 import dev.forcetower.unes.club.data.processor.SemestersProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
+import dev.forcetower.unes.club.data.storage.database.PlatformCourse
 import dev.forcetower.unes.club.domain.model.auth.LoginFailReason
 import dev.forcetower.unes.club.domain.model.auth.LoginState
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
+import dev.forcetower.unes.club.extensions.toTitleCase
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.domain.exception.InvalidLoginCredentialException
 import dev.forcetower.unes.singer.domain.exception.LoginDevException
@@ -47,9 +49,20 @@ class LoginPortalUseCase internal constructor(
             emit(LoginState.Connected(person))
 
             repository.insert(username, password)
-            val profileId = general.profileDao.insert(person)
 
             singer.setDefaultAuthorization(auth)
+
+            val course = runCatching {
+                singer.course(person.id)
+            }.getOrNull()
+
+            val profileId = general.profileDao.insert(person, course?.name)
+
+            if (course != null) {
+                database.platformCourseQueries.insertItem(
+                    PlatformCourse(0, course.id, course.name.toTitleCase(), course.resumedName)
+                )
+            }
 
             val messages = singer.messages(person.id)
             MessagesProcessor(messages, database, true).execute()

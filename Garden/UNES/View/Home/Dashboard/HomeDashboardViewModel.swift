@@ -19,6 +19,7 @@ class HomeDashboardViewModel : ObservableObject {
     @Published private(set) var currentClass: ExtendedClassLocationData? = nil
     @Published private(set) var latestMessage: Message? = nil
     @Published private(set) var currentProfile: Profile? = nil
+    @Published private(set) var semestersCount: Int? = nil
     
     init(schedule: GetScheduleUseCase, messages: GetAllMessagesUseCase, user: ConnectedUserUseCase) {
         self.schedule = schedule
@@ -28,6 +29,7 @@ class HomeDashboardViewModel : ObservableObject {
         fetchCurrentClass()
         fetchMessage()
         fetchProfile()
+        fetchSemestersCount()
     }
     
     func fetchCurrentClass() {
@@ -61,5 +63,43 @@ class HomeDashboardViewModel : ObservableObject {
                 self?.currentProfile = profile
             }
             .store(in: &subscriptions)
+    }
+    
+    private func fetchSemestersCount() {
+        createPublisher(for: user.semestersCount())
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                
+            } receiveValue: { [weak self] count in
+                self?.semestersCount = count.intValue
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func findUserSubtitle(opt option: SubtitleOption) -> String? {
+        if option == .none { return nil }
+        
+        let university = "Universidade Estadual de Feira de Santana"
+        if option == .university { return university }
+        
+        let course = currentProfile?.platformCourseValue
+        if option == .course { return course ?? university }
+        
+        var semesterText: String?
+        if let semesters = semestersCount {
+            semesterText = "Você está no \(semesters)º semestre"
+        }
+        
+        if option == .semester {
+            return semesterText ?? course ?? university
+        }
+        
+        var scoreText: String?
+        
+        if let score = currentProfile?.calcScore {
+            scoreText = String(format: "Seu score calculado é %.1f", score)
+        }
+        
+        return scoreText ?? semesterText ?? course ?? university
     }
 }

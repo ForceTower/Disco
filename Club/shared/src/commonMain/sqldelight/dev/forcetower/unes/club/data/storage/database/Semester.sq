@@ -41,5 +41,8 @@ SELECT * FROM Semester ORDER BY platformId DESC;
 findById:
 SELECT * FROM Semester WHERE id = :id LIMIT 1;
 
+count:
+SELECT COUNT(id) FROM Semester;
+
 deleteAll:
 DELETE FROM Semester;

@@ -55,21 +55,34 @@ class HomeMenuViewModel : ObservableObject {
     
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
+    @Published private(set) var semestersCount: Int? = nil
     
     var router: RootRouter? = nil
     
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve()) {
         self.user = user
         fetchProfile()
+        fetchSemestersCount()
     }
     
-    func fetchProfile() {
+    private func fetchProfile() {
         createPublisher(for: user.currentProfile())
             .receive(on: DispatchQueue.main)
             .sink { _ in
                 
             } receiveValue: { [weak self] profile in
                 self?.currentProfile = profile
+            }
+            .store(in: &subscriptions)
+    }
+    
+    private func fetchSemestersCount() {
+        createPublisher(for: user.semestersCount())
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                
+            } receiveValue: { [weak self] count in
+                self?.semestersCount = count.intValue
             }
             .store(in: &subscriptions)
     }
@@ -85,5 +98,32 @@ class HomeMenuViewModel : ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.router?.state = .login
         }
+    }
+    
+    func findUserSubtitle(opt option: SubtitleOption) -> String? {
+        if option == .none { return nil }
+        
+        let university = "Universidade Estadual de Feira de Santana"
+        if option == .university { return university }
+        
+        let course = currentProfile?.platformCourseValue
+        if option == .course { return course ?? university }
+        
+        var semesterText: String?
+        if let semesters = semestersCount {
+            semesterText = "Você está no \(semesters)º semestre"
+        }
+        
+        if option == .semester {
+            return semesterText ?? course ?? university
+        }
+        
+        var scoreText: String?
+        
+        if let score = currentProfile?.calcScore {
+            scoreText = String(format: "Seu score calculado é %.1f", score)
+        }
+        
+        return scoreText ?? semesterText ?? course ?? university
     }
 }

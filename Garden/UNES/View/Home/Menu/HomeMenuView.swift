@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct HomeMenuView: View {
     @EnvironmentObject var router: RootRouter
+    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .course
     
     @State var path: NavigationPath = .init()
     @StateObject private var vm: HomeMenuViewModel = .init()
@@ -20,12 +21,15 @@ struct HomeMenuView: View {
             List {
                 HStack {
                     VStack(alignment: .leading) {
-                        if let name = vm.currentProfile?.name {
+                        if let profile = vm.currentProfile, let name = profile.name {
                             Text(name)
                                 .font(.title3)
-                            Text("Engenharia de Computação")
-                                .font(.footnote)
-                                .fontWeight(.regular)
+                            
+                            if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
+                                Text(subtitle)
+                                    .font(.footnote)
+                                    .fontWeight(.regular)
+                            }
                         }
                     }
                     Spacer()

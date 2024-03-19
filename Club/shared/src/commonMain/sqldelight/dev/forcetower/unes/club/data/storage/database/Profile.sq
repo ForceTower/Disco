@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `Profile` (
     `imageUrl` TEXT,
     `platformId` INTEGER NOT NULL,
     `me` INTEGER NOT NULL,
-    `mocked` INTEGER NOT NULL
+    `mocked` INTEGER NOT NULL,
+    `platformCourseValue` TEXT
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS `index_Profile_platformId` ON `Profile`(platformId);
@@ -22,14 +23,20 @@ UPDATE Profile SET name = :name;
 updateEmail:
 UPDATE Profile SET email = :email;
 
+updatePlatformCourseValue:
+UPDATE Profile SET platformCourseValue = :platformCourseValue;
+
 updatePlatformId:
 UPDATE Profile SET platformId = :platformId;
 
 updateMockedStatus:
 UPDATE Profile SET mocked = :mocked;
 
+updateCalcScore:
+UPDATE Profile SET calcScore = :score WHERE me = 1;
+
 insertReplace:
-INSERT OR REPLACE INTO `Profile` (`id`,`name`,`email`,`score`,`calcScore`,`course`,`imageUrl`,`platformId`,`me`,`mocked`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO `Profile` (`id`,`name`,`email`,`score`,`calcScore`,`course`,`imageUrl`,`platformId`,`me`,`mocked`, `platformCourseValue`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?, ?);
 
 lastInsertedRow:
 SELECT last_insert_rowid();

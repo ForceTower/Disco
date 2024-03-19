@@ -6,6 +6,7 @@ import dev.forcetower.unes.club.data.repository.local.DisciplineRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.GradeRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.MessageRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.ScheduleRepositoryImpl
+import dev.forcetower.unes.club.data.repository.local.SemesterRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.SyncRepositoryImpl
 import dev.forcetower.unes.club.data.repository.remote.uefs.BigTrayRepositoryImpl
 import dev.forcetower.unes.club.data.service.client.createBasicClient
@@ -17,6 +18,7 @@ import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
 import dev.forcetower.unes.club.domain.repository.local.GradeRepository
 import dev.forcetower.unes.club.domain.repository.local.MessageRepository
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
+import dev.forcetower.unes.club.domain.repository.local.SemesterRepository
 import dev.forcetower.unes.club.domain.repository.local.SyncRepository
 import dev.forcetower.unes.club.domain.repository.remote.uefs.BigTrayRepository
 import dev.forcetower.unes.singer.Singer
@@ -35,6 +37,7 @@ internal object DataDI {
         single<SyncRepository> { SyncRepositoryImpl(get(), get(), get()) }
         single<GradeRepository> { GradeRepositoryImpl(get()) }
         single<BigTrayRepository> { BigTrayRepositoryImpl(get()) }
+        single<SemesterRepository> { SemesterRepositoryImpl(get()) }
     }
 
     val data = module {

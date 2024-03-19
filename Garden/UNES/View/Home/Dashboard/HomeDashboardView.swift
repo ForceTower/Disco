@@ -13,10 +13,8 @@ struct HomeDashboardView: View {
     let selectSchedule: () -> Void
     let selectMessages: () -> Void
     
+    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .course
     @StateObject private var vm: HomeDashboardViewModel = .init(schedule: AppDIContainer.shared.resolve(), messages: AppDIContainer.shared.resolve(), user: AppDIContainer.shared.resolve())
-    
-    
-    var name = "João"
     
     var body: some View {
         VStack {
@@ -26,9 +24,12 @@ struct HomeDashboardView: View {
                         Text("Olá, \(name.split(separator: " ")[0])")
                             .font(.title3)
                             .fontWeight(.medium)
-                        Text("Universidade Estadual de Feira de Santana")
-                            .font(.footnote)
-                            .fontWeight(.regular)
+                        
+                        if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
+                            Text(subtitle)
+                                .font(.footnote)
+                                .fontWeight(.regular)
+                        }
                     }
                 }
                 Spacer()

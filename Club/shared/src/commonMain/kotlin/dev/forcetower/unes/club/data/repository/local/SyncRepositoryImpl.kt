@@ -7,9 +7,11 @@ import dev.forcetower.unes.club.data.processor.MissedLectureProcessor
 import dev.forcetower.unes.club.data.processor.SemestersProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
+import dev.forcetower.unes.club.data.storage.database.PlatformCourse
 import dev.forcetower.unes.club.data.storage.database.SyncRegistry
 import dev.forcetower.unes.club.domain.model.sync.SyncResult
 import dev.forcetower.unes.club.domain.repository.local.SyncRepository
+import dev.forcetower.unes.club.extensions.toTitleCase
 import dev.forcetower.unes.club.util.primitives.asBoolean
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.domain.exception.InvalidLoginCredentialException
@@ -99,9 +101,19 @@ class SyncRepositoryImpl(
             }
 
         val person = login.getOrThrow()
-        val profileId = general.profileDao.insert(person)
-
         singer.setDefaultAuthorization(auth)
+
+        val course = runCatching {
+            singer.course(person.id)
+        }.getOrNull()
+
+        val profileId = general.profileDao.insert(person, course?.name)
+
+        if (course != null) {
+            database.platformCourseQueries.insertItem(
+                PlatformCourse(0, course.id, course.name.toTitleCase(), course.resumedName)
+            )
+        }
 
         val messages = singer.messages(person.id)
         MessagesProcessor(messages, database, false).execute()

@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS PlatformCourse (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    platformId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    resumedName TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS `index_PlatformCourse_platformId` ON `PlatformCourse`(platformId);
+
+insertItem:
+INSERT OR REPLACE INTO PlatformCourse(id, platformId, name, resumedName) VALUES ?;
+
+lastInsertedRow:
+SELECT last_insert_rowid();

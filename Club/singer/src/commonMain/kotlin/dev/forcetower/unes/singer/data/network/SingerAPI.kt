@@ -1,5 +1,6 @@
 package dev.forcetower.unes.singer.data.network
 
+import dev.forcetower.unes.singer.data.model.dto.Course
 import dev.forcetower.unes.singer.data.model.dto.DisciplineData
 import dev.forcetower.unes.singer.data.model.dto.Lecture
 import dev.forcetower.unes.singer.data.model.dto.LectureMissed
@@ -7,6 +8,7 @@ import dev.forcetower.unes.singer.data.model.dto.MessagesDataPage
 import dev.forcetower.unes.singer.data.model.dto.Person
 import dev.forcetower.unes.singer.data.model.dto.Semester
 import dev.forcetower.unes.singer.data.network.operation.AbsencesOperation
+import dev.forcetower.unes.singer.data.network.operation.CoursesOperation
 import dev.forcetower.unes.singer.data.network.operation.GradesOperation
 import dev.forcetower.unes.singer.data.network.operation.LecturesOperation
 import dev.forcetower.unes.singer.data.network.operation.MessagesOperation
@@ -32,6 +34,7 @@ class SingerAPI(
     private val grades = GradesOperation(client)
     private val lectures = LecturesOperation(client)
     private val absences = AbsencesOperation(client)
+    private val courses = CoursesOperation(client)
 
     private fun createAuth(auth: Authorization): String {
         val usernameAndPassword = "${auth.username}:${auth.password}"
@@ -83,6 +86,10 @@ class SingerAPI(
         auth: Authorization
     ): List<LectureMissed> {
         return absences.execute(personId, classId, limit, offset, auth)
+    }
+
+    suspend fun course(personId: Long, auth: Authorization): Course? {
+        return courses.execute(personId, auth)
     }
 
     private suspend fun HttpClient.getWithAuth(urlString: String, auth: Authorization, block: HttpRequestBuilder.() -> Unit = {}): HttpResponse {
