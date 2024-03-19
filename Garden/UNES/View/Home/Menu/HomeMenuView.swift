@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct HomeMenuView: View {
     @EnvironmentObject var router: RootRouter
-    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .course
+    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .score
     
     @State var path: NavigationPath = .init()
     @StateObject private var vm: HomeMenuViewModel = .init()

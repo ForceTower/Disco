@@ -13,7 +13,7 @@ struct HomeDashboardView: View {
     let selectSchedule: () -> Void
     let selectMessages: () -> Void
     
-    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .course
+    @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .score
     @StateObject private var vm: HomeDashboardViewModel = .init(schedule: AppDIContainer.shared.resolve(), messages: AppDIContainer.shared.resolve(), user: AppDIContainer.shared.resolve())
     
     var body: some View {
