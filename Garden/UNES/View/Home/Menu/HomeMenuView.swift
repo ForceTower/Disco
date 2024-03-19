@@ -60,6 +60,8 @@ struct HomeMenuView: View {
             .navigationDestination(for: MenuItem.self) { item in
                 if item.destination == .restaurant {
                     BigTrayView(path: $path)
+                } else if item.destination == .finalCountdown {
+                    FinalCountdownView()
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
