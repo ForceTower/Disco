@@ -49,7 +49,7 @@ struct MessageItemView: View {
                     .frame(alignment: .leading)
             }
             
-            Text(message.content)
+            Text(LocalizedStringKey(message.content))
                 .font(.body)
                 .fontWeight(.light)
                 .multilineTextAlignment(.leading)

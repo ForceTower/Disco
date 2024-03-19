@@ -14,52 +14,60 @@ struct AboutView: View {
     
     var body: some View {
         VStack {
-            Image(.coloredLogo)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
             List {
-                Text(Bundle.main.appName)
-                HStack {
-                    Text("Versão")
-                    Spacer()
-                    Text(Bundle.main.appVersionLong)
-                        .foregroundStyle(.secondary)
-                }
-                HStack {
-                    Text("Compilação")
-                    Spacer()
-                    Text(Bundle.main.appBuild)
-                        .foregroundStyle(.secondary)
-                }
-                HStack {
-                    Text("ID")
-                    Spacer()
-                    Text(deviceId)
-                        .foregroundStyle(.secondary)
-                }
-                HStack {
-                    Text("Dispositivo")
-                    Spacer()
-                    Text(modelIdentifier())
-                        .foregroundStyle(.secondary)
-                }
-                HStack {
-                    Text("Idioma")
-                    Spacer()
-                    Text(Bundle.main.language)
-                        .foregroundStyle(.secondary)
-                }
-                Button {
-                    let info = """
+                Section {
+                    Text(Bundle.main.appName)
+                    HStack {
+                        Text("Versão")
+                        Spacer()
+                        Text(Bundle.main.appVersionLong)
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("Compilação")
+                        Spacer()
+                        Text(Bundle.main.appBuild)
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("ID")
+                        Spacer()
+                        Text(deviceId)
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("Dispositivo")
+                        Spacer()
+                        Text(modelIdentifier())
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("Idioma")
+                        Spacer()
+                        Text(Bundle.main.language)
+                            .foregroundStyle(.secondary)
+                    }
+                    Button {
+                        let info = """
                     UNES \(Bundle.main.appVersionLong)(\(Bundle.main.appBuild)) - \(modelIdentifier()) \(Bundle.main.language)
                     ID Instalação: \(deviceId)
                     """
-                    UIPasteboard.general.setValue(info,
-                                                  forPasteboardType: UTType.plainText.identifier)
-                    showInfoCopied = true
-                } label: {
-                    Text("Copiar informações")
+                        UIPasteboard.general.setValue(info,
+                                                      forPasteboardType: UTType.plainText.identifier)
+                        showInfoCopied = true
+                    } label: {
+                        Text("Copiar informações")
+                    }
+                } header: {
+                    HStack {
+                        Spacer()
+                        Image(.coloredLogo)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                        Spacer()
+                    }
+                    .padding(.bottom)
                 }
             }
         }
