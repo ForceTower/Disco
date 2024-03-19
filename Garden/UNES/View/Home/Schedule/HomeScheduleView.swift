@@ -44,7 +44,7 @@ struct HomeScheduleView: View {
                     .padding(.bottom)
                 }
             }
-            .background(Color(uiColor: UIColor.systemGroupedBackground))
+            .background(Color(UIColor.systemGroupedBackground))
             .navigationTitle("Horários")
         }
     }

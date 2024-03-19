@@ -74,6 +74,10 @@ struct HomeMenuView: View {
                     SettingsView()
                 } else if item.destination == .about {
                     AboutView()
+                } else if item.destination == .zhonyas {
+                    ParadoxView()
+                } else if item.destination == .account {
+                    AccountView()
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {

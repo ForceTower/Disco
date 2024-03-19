@@ -43,6 +43,7 @@ struct DisciplineDetailsView: View {
             vm.fetchDataFor(groupId: groupId)
             vm.loadDataFor(groupId: groupId)
         })
+        .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Disciplina")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -124,9 +125,8 @@ struct DisciplineHeaderView: View {
             .padding(.top)
             .padding(.bottom)
         }
-        .background(.background)
+        .background(Color(UIColor.secondarySystemGroupedBackground))
         .clipShape(.rect(cornerRadius: 8))
-        .shadow(radius: 2)
         .padding(.horizontal)
         .padding(.top)
     }
@@ -167,7 +167,6 @@ struct DisciplineOverviewView: View {
 //                            Image(systemName: "chevron.right")
 //                                .foregroundStyle(.blue)
                         }
-                        .background()
                         .padding(.horizontal)
                     }
                     
@@ -326,9 +325,8 @@ struct ClassItemView: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 12)
-        .background()
+        .background(Color(UIColor.secondarySystemGroupedBackground))
         .clipShape(.rect(cornerRadius: 8))
-        .shadow(radius: 0.5)
         .padding(.horizontal)
     }
     
@@ -371,7 +369,6 @@ struct ClassMaterialView: View {
             }
         }
         .padding()
-        .background()
     }
 }
 
@@ -392,7 +389,6 @@ struct ClassAbsenceItemView: View {
             }
         }
         .padding()
-        .background()
     }
 }
 
