@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Club
+import FirebaseCrashlytics
 
 @main
 struct UNESApp: App {
@@ -36,6 +37,7 @@ struct UNESApp: App {
                         let idx = uuid.firstIndex(of: "-") ?? uuid.endIndex
                         deviceId = String(uuid[uuid.startIndex..<idx])
                     }
+                    Crashlytics.crashlytics().setUserID(deviceId)
                 }
         }
     }

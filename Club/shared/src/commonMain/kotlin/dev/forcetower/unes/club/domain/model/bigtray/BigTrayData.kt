@@ -84,7 +84,7 @@ fun BigTrayData.maxQuota(): Int {
     val type = getNextMealType()
     return when (type) {
         BigTrayData.LUNCH -> 1450
-        BigTrayData.DINNER -> 490
+        BigTrayData.DINNER -> 650
         else -> 320
     }
 }
