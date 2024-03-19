@@ -28,6 +28,7 @@
 		6C617FC92BA9D29500CD3A87 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC82BA9D29500CD3A87 /* SettingsView.swift */; };
 		6C617FCB2BA9E65D00CD3A87 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FCA2BA9E65D00CD3A87 /* SettingsViewModel.swift */; };
 		6C617FCE2BAA1DE400CD3A87 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FCD2BAA1DE400CD3A87 /* AboutView.swift */; };
+		6C617FD02BAA277B00CD3A87 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FCF2BAA277B00CD3A87 /* Bundle.swift */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -89,6 +90,7 @@
 		6C617FC82BA9D29500CD3A87 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6C617FCA2BA9E65D00CD3A87 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		6C617FCD2BAA1DE400CD3A87 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		6C617FCF2BAA277B00CD3A87 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 			children = (
 				6C7E57CB2B9E93000086A32D /* Stream+Extensions.swift */,
 				6CDB80362BA769A700A1134B /* Color+Extension.swift */,
+				6C617FCF2BAA277B00CD3A87 /* Bundle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C7E57B72B9E4DE10086A32D /* AppDIContainer.swift in Sources */,
+				6C617FD02BAA277B00CD3A87 /* Bundle.swift in Sources */,
 				6C617FC92BA9D29500CD3A87 /* SettingsView.swift in Sources */,
 				6CDB802C2BA68D4600A1134B /* HomeMessagesView.swift in Sources */,
 				6CDB80332BA71E2700A1134B /* HomeDisciplinesViewModel.swift in Sources */,

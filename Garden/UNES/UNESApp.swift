@@ -14,6 +14,7 @@ struct UNESApp: App {
     @ObservedObject var router = RootRouter()
     @Environment(\.scenePhase) var scenePhase
     @AppStorage("settings_sync_frequency") private var selectedFrequency: FrequencyOption = .minutes15
+    @AppStorage("settings_device_local_id") private var deviceId: String = ""
     
     init() {
         HelperKt.doInitKoin()
@@ -27,6 +28,13 @@ struct UNESApp: App {
                     if next == .background {
                         let scheduler: ScheduleBackgroundProcessingUseCase = AppDIContainer.shared.resolve()
                         scheduler.scheduleAppRefresh(frequency: selectedFrequency)
+                    }
+                }
+                .onAppear {
+                    if deviceId.isEmpty {
+                        let uuid = UUID().uuidString
+                        let idx = uuid.firstIndex(of: "-") ?? uuid.endIndex
+                        deviceId = String(uuid[uuid.startIndex..<idx])
                     }
                 }
         }

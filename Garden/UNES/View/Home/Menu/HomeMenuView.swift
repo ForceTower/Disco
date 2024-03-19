@@ -72,6 +72,8 @@ struct HomeMenuView: View {
                     SyncRegistryView()
                 } else if item.destination == .settings {
                     SettingsView()
+                } else if item.destination == .about {
+                    AboutView()
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
