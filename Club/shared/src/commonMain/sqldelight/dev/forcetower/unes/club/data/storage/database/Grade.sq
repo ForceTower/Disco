@@ -36,3 +36,6 @@ UPDATE Grade SET notified = 0;
 
 markSelectedNotified:
 UPDATE Grade SET notified = 0 WHERE id IN :ids;
+
+deleteAll:
+DELETE FROM Grade;

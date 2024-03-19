@@ -13,6 +13,7 @@ struct UNESApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @ObservedObject var router = RootRouter()
     @Environment(\.scenePhase) var scenePhase
+    @AppStorage("settings_sync_frequency") private var selectedFrequency: FrequencyOption = .minutes15
     
     init() {
         HelperKt.doInitKoin()
@@ -25,7 +26,7 @@ struct UNESApp: App {
                 .onChange(of: scenePhase) { next in
                     if next == .background {
                         let scheduler: ScheduleBackgroundProcessingUseCase = AppDIContainer.shared.resolve()
-                        scheduler.scheduleAppRefresh()
+                        scheduler.scheduleAppRefresh(frequency: selectedFrequency)
                     }
                 }
         }

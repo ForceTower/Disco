@@ -29,4 +29,14 @@ internal class AccessRepositoryImpl(
     override fun currentProfile(): Flow<Profile?> {
         return database.profileQueries.selectMe().asFlow().mapToOneOrNull(Dispatchers.IO)
     }
+
+    override suspend fun logout() = withContext(Dispatchers.IO) {
+        database.transaction {
+            database.accessQueries.deleteAll()
+            database.profileQueries.deleteAll()
+            database.messageQueries.deleteAll()
+            database.classQueries.deleteAll()
+            database.gradeQueries.deleteAll()
+        }
+    }
 }

@@ -21,3 +21,6 @@ UPDATE Access SET valid = 1;
 
 markAccessInvalid:
 UPDATE Access SET valid = 0;
+
+deleteAll:
+DELETE FROM Access;

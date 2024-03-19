@@ -41,7 +41,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         var fetchTask: Task<Void, Never>? = nil
         
         let scheduler: ScheduleBackgroundProcessingUseCase = AppDIContainer.shared.resolve()
-        scheduler.scheduleAppRefresh()
+        let frequencyStr = UserDefaults.standard.string(forKey: "settings_sync_frequency") ?? FrequencyOption.minutes15.rawValue
+        let frequency = FrequencyOption(rawValue: frequencyStr) ?? .minutes15
+        scheduler.scheduleAppRefresh(frequency: frequency)
         
         fetchTask = Task {
             UserDefaults.standard.set(Date(), forKey: "last_sync")

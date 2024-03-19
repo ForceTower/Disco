@@ -9,6 +9,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct HomeMenuView: View {
+    @EnvironmentObject var router: RootRouter
+    
     @State var path: NavigationPath = .init()
     @StateObject private var vm: HomeMenuViewModel = .init()
     @State var showLogoutSheet = false
@@ -64,6 +66,8 @@ struct HomeMenuView: View {
                     FinalCountdownView()
                 } else if item.destination == .syncRegistry {
                     SyncRegistryView()
+                } else if item.destination == .settings {
+                    SettingsView()
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
@@ -76,11 +80,14 @@ struct HomeMenuView: View {
                 Text("Tem certeza que deseja sair? Todos os dados locais serão apagados.")
             }
             .navigationTitle("Menu")
+        }.onAppear {
+            vm.router = router
         }
     }
     
     func onLogoutConfirmed() {
         showLogoutSheet = false
+        Task { await vm.logout() }
     }
     
     func onItemTapped(_ item: MenuItem) {
@@ -119,5 +126,5 @@ struct SectionItemView: View {
 }
 
 #Preview {
-    HomeMenuView()
+    HomeMenuView().environmentObject(RootRouter())
 }

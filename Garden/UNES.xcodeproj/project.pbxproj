@@ -25,6 +25,8 @@
 		6C617FC12BA9082900CD3A87 /* FinalCountdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC02BA9082900CD3A87 /* FinalCountdownViewModel.swift */; };
 		6C617FC42BA9B64900CD3A87 /* SyncRegistryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC32BA9B64900CD3A87 /* SyncRegistryView.swift */; };
 		6C617FC62BA9C90500CD3A87 /* SyncRegistryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC52BA9C90500CD3A87 /* SyncRegistryViewModel.swift */; };
+		6C617FC92BA9D29500CD3A87 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC82BA9D29500CD3A87 /* SettingsView.swift */; };
+		6C617FCB2BA9E65D00CD3A87 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FCA2BA9E65D00CD3A87 /* SettingsViewModel.swift */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -83,6 +85,8 @@
 		6C617FC02BA9082900CD3A87 /* FinalCountdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalCountdownViewModel.swift; sourceTree = "<group>"; };
 		6C617FC32BA9B64900CD3A87 /* SyncRegistryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRegistryView.swift; sourceTree = "<group>"; };
 		6C617FC52BA9C90500CD3A87 /* SyncRegistryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRegistryViewModel.swift; sourceTree = "<group>"; };
+		6C617FC82BA9D29500CD3A87 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		6C617FCA2BA9E65D00CD3A87 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -202,6 +206,15 @@
 				6C617FC52BA9C90500CD3A87 /* SyncRegistryViewModel.swift */,
 			);
 			path = SyncRegistry;
+			sourceTree = "<group>";
+		};
+		6C617FC72BA9D28000CD3A87 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6C617FC82BA9D29500CD3A87 /* SettingsView.swift */,
+				6C617FCA2BA9E65D00CD3A87 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		6C7E579F2B9E42FA0086A32D /* Domain */ = {
@@ -398,6 +411,7 @@
 		6CBE06AB2B8BD53C00C2E649 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6C617FC72BA9D28000CD3A87 /* Settings */,
 				6C617FC22BA9B63800CD3A87 /* SyncRegistry */,
 				6C617FA12BA8FF9000CD3A87 /* FinalCountdown */,
 				6C617F9C2BA8E28F00CD3A87 /* BigTray */,
@@ -626,6 +640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C7E57B72B9E4DE10086A32D /* AppDIContainer.swift in Sources */,
+				6C617FC92BA9D29500CD3A87 /* SettingsView.swift in Sources */,
 				6CDB802C2BA68D4600A1134B /* HomeMessagesView.swift in Sources */,
 				6CDB80332BA71E2700A1134B /* HomeDisciplinesViewModel.swift in Sources */,
 				6CDB802E2BA68DF900A1134B /* HomeMessagesViewModel.swift in Sources */,
@@ -644,6 +659,7 @@
 				6C617F8C2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift in Sources */,
 				6CDB80312BA70FE900A1134B /* HomeDisciplinesView.swift in Sources */,
 				6C617F992BA8BF0000CD3A87 /* HomeMenuView.swift in Sources */,
+				6C617FCB2BA9E65D00CD3A87 /* SettingsViewModel.swift in Sources */,
 				6C617FC42BA9B64900CD3A87 /* SyncRegistryView.swift in Sources */,
 				6C7E57AB2B9E47000086A32D /* BaseService.swift in Sources */,
 				6CBE06B12B8BD5B700C2E649 /* AuthWelcomeView.swift in Sources */,

@@ -33,3 +33,6 @@ INSERT OR REPLACE INTO `Profile` (`id`,`name`,`email`,`score`,`calcScore`,`cours
 
 lastInsertedRow:
 SELECT last_insert_rowid();
+
+deleteAll:
+DELETE FROM Profile;

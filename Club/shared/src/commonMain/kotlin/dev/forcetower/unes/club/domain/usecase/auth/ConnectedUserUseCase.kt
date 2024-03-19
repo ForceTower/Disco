@@ -14,4 +14,7 @@ class ConnectedUserUseCase internal constructor(
 
     @NativeCoroutines
     fun currentProfile() = repository.currentProfile()
+
+    @NativeCoroutines
+    suspend fun logout() = repository.logout()
 }

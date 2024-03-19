@@ -33,3 +33,6 @@ SELECT * FROM Class WHERE scheduleOnly = 0;
 
 findById:
 SELECT * FROM Class WHERE id = :id;
+
+deleteAll:
+DELETE FROM Class;

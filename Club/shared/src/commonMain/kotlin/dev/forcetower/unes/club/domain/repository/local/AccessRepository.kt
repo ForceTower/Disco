@@ -9,4 +9,6 @@ internal interface AccessRepository {
     suspend fun requireCurrentAccess(): Access?
     fun access(): Flow<Access?>
     fun currentProfile(): Flow<Profile?>
+
+    suspend fun logout()
 }

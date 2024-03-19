@@ -7,7 +7,9 @@
 
 import Combine
 import Club
+import FirebaseCrashlytics
 import KMPNativeCoroutinesCombine
+import KMPNativeCoroutinesAsync
 
 enum MenuDestination {
     case account, zhonyas, restaurant, finalCountdown, about, settings, syncRegistry, logout
@@ -54,6 +56,8 @@ class HomeMenuViewModel : ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
     
+    var router: RootRouter? = nil
+    
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve()) {
         self.user = user
         fetchProfile()
@@ -68,5 +72,18 @@ class HomeMenuViewModel : ObservableObject {
                 self?.currentProfile = profile
             }
             .store(in: &subscriptions)
+    }
+    
+    func logout() async {
+        do {
+            let _ = try await asyncFunction(for: user.logout())
+        } catch {
+            print("Failed to logout: \(error.localizedDescription)")
+            Crashlytics.crashlytics().record(error: error)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.router?.state = .login
+        }
     }
 }
