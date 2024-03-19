@@ -62,6 +62,8 @@ struct HomeMenuView: View {
                     BigTrayView(path: $path)
                 } else if item.destination == .finalCountdown {
                     FinalCountdownView()
+                } else if item.destination == .syncRegistry {
+                    SyncRegistryView()
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
@@ -106,13 +108,10 @@ struct SectionItemView: View {
                     }
                 }
             } else {
-                HStack {
-                    Text(item.name)
-                    Spacer()
-                }
-                .background(.background.opacity(0.001))
-                .onTapGesture {
+                Button {
                     onItemTapped(item)
+                } label: {
+                    Text(item.name)
                 }
             }
         }

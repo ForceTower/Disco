@@ -23,6 +23,7 @@
 		6C617FA02BA8EAEA00CD3A87 /* BigTrayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617F9F2BA8EAEA00CD3A87 /* BigTrayViewModel.swift */; };
 		6C617FA32BA8FFA900CD3A87 /* FinalCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FA22BA8FFA900CD3A87 /* FinalCountdownView.swift */; };
 		6C617FC12BA9082900CD3A87 /* FinalCountdownViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC02BA9082900CD3A87 /* FinalCountdownViewModel.swift */; };
+		6C617FC42BA9B64900CD3A87 /* SyncRegistryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C617FC32BA9B64900CD3A87 /* SyncRegistryView.swift */; };
 		6C7E57A32B9E43480086A32D /* AttestationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */; };
 		6C7E57A62B9E45180086A32D /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A52B9E45180086A32D /* AuthRepository.swift */; };
 		6C7E57A92B9E45550086A32D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E57A82B9E45550086A32D /* AuthService.swift */; };
@@ -79,6 +80,7 @@
 		6C617F9F2BA8EAEA00CD3A87 /* BigTrayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigTrayViewModel.swift; sourceTree = "<group>"; };
 		6C617FA22BA8FFA900CD3A87 /* FinalCountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalCountdownView.swift; sourceTree = "<group>"; };
 		6C617FC02BA9082900CD3A87 /* FinalCountdownViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalCountdownViewModel.swift; sourceTree = "<group>"; };
+		6C617FC32BA9B64900CD3A87 /* SyncRegistryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRegistryView.swift; sourceTree = "<group>"; };
 		6C7E57A22B9E43480086A32D /* AttestationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationUseCase.swift; sourceTree = "<group>"; };
 		6C7E57A52B9E45180086A32D /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		6C7E57A82B9E45550086A32D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -189,6 +191,14 @@
 				6C617FC02BA9082900CD3A87 /* FinalCountdownViewModel.swift */,
 			);
 			path = FinalCountdown;
+			sourceTree = "<group>";
+		};
+		6C617FC22BA9B63800CD3A87 /* SyncRegistry */ = {
+			isa = PBXGroup;
+			children = (
+				6C617FC32BA9B64900CD3A87 /* SyncRegistryView.swift */,
+			);
+			path = SyncRegistry;
 			sourceTree = "<group>";
 		};
 		6C7E579F2B9E42FA0086A32D /* Domain */ = {
@@ -385,6 +395,7 @@
 		6CBE06AB2B8BD53C00C2E649 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6C617FC22BA9B63800CD3A87 /* SyncRegistry */,
 				6C617FA12BA8FF9000CD3A87 /* FinalCountdown */,
 				6C617F9C2BA8E28F00CD3A87 /* BigTray */,
 				6CDB803B2BA7835200A1134B /* Discipline */,
@@ -629,6 +640,7 @@
 				6C617F8C2BA8844E00CD3A87 /* LocalSyncDataUseCase.swift in Sources */,
 				6CDB80312BA70FE900A1134B /* HomeDisciplinesView.swift in Sources */,
 				6C617F992BA8BF0000CD3A87 /* HomeMenuView.swift in Sources */,
+				6C617FC42BA9B64900CD3A87 /* SyncRegistryView.swift in Sources */,
 				6C7E57AB2B9E47000086A32D /* BaseService.swift in Sources */,
 				6CBE06B12B8BD5B700C2E649 /* AuthWelcomeView.swift in Sources */,
 				6C7E57B92B9E4DFA0086A32D /* DataModuleAssembly.swift in Sources */,
