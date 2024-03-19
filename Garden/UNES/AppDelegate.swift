@@ -33,6 +33,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
+        
+        if let deviceId = UserDefaults.standard.string(forKey: "settings_device_local_id") {
+            if !deviceId.isEmpty {
+                Crashlytics.crashlytics().setUserID(deviceId)
+            }
+        }
+        
         return true
     }
     

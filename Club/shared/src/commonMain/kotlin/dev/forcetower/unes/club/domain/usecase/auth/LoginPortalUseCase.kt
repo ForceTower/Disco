@@ -10,6 +10,7 @@ import dev.forcetower.unes.club.data.storage.database.PlatformCourse
 import dev.forcetower.unes.club.domain.model.auth.LoginFailReason
 import dev.forcetower.unes.club.domain.model.auth.LoginState
 import dev.forcetower.unes.club.domain.repository.local.AccessRepository
+import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
 import dev.forcetower.unes.club.extensions.toTitleCase
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.domain.exception.InvalidLoginCredentialException
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.flow
 
 class LoginPortalUseCase internal constructor(
     private val repository: AccessRepository,
+    private val disciplineRepository: DisciplineRepository,
     private val general: GeneralDB,
     private val database: GeneralDatabase,
     private val singer: Singer
@@ -78,6 +80,8 @@ class LoginPortalUseCase internal constructor(
             val disciplines = singer.grades(person.id, current.id)
             val semester = database.semesterQueries.selectSemester(current.id).executeAsOne()
             DisciplinesProcessor(general, disciplines, semester.id, profileId, false).execute()
+
+            disciplineRepository.userCalculatedStore()
 
             emit(LoginState.Completed)
         }
