@@ -8,7 +8,11 @@ import dev.forcetower.unes.club.data.repository.local.MessageRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.ScheduleRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.SemesterRepositoryImpl
 import dev.forcetower.unes.club.data.repository.local.SyncRepositoryImpl
+import dev.forcetower.unes.club.data.repository.remote.edge.AccountRepositoryImpl
+import dev.forcetower.unes.club.data.repository.remote.edge.AuthRepositoryImpl
 import dev.forcetower.unes.club.data.repository.remote.uefs.BigTrayRepositoryImpl
+import dev.forcetower.unes.club.data.service.client.AccountService
+import dev.forcetower.unes.club.data.service.client.AuthService
 import dev.forcetower.unes.club.data.service.client.createBasicClient
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
@@ -20,6 +24,8 @@ import dev.forcetower.unes.club.domain.repository.local.MessageRepository
 import dev.forcetower.unes.club.domain.repository.local.ScheduleRepository
 import dev.forcetower.unes.club.domain.repository.local.SemesterRepository
 import dev.forcetower.unes.club.domain.repository.local.SyncRepository
+import dev.forcetower.unes.club.domain.repository.remote.edge.AccountRepository
+import dev.forcetower.unes.club.domain.repository.remote.edge.AuthRepository
 import dev.forcetower.unes.club.domain.repository.remote.uefs.BigTrayRepository
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.SingerFactory
@@ -38,6 +44,8 @@ internal object DataDI {
         single<GradeRepository> { GradeRepositoryImpl(get()) }
         single<BigTrayRepository> { BigTrayRepositoryImpl(get()) }
         single<SemesterRepository> { SemesterRepositoryImpl(get()) }
+        single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+        single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
     }
 
     val data = module {
@@ -45,5 +53,10 @@ internal object DataDI {
         single<GeneralDB> { GeneralDB(get()) }
         single<HttpClient> { createBasicClient() }
         single<Singer> { SingerFactory().create(get(named("platform-user-agent"))) }
+    }
+
+    val service = module {
+        single { AuthService(get(), get()) }
+        single { AccountService(get(), get()) }
     }
 }

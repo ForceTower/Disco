@@ -1,7 +1,9 @@
 package dev.forcetower.unes.club.domain.usecase
 
+import dev.forcetower.unes.club.domain.usecase.account.GetAccountUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
+import dev.forcetower.unes.club.domain.usecase.auth.ServiceAuthUseCase
 import dev.forcetower.unes.club.domain.usecase.bigtray.GetBigTrayQuotaUseCase
 import dev.forcetower.unes.club.domain.usecase.classes.ClassDataUseCase
 import dev.forcetower.unes.club.domain.usecase.disciplines.GetDisciplinesUseCase
@@ -22,4 +24,6 @@ class UseCases : KoinComponent {
     val syncData by inject<SyncDataUseCase>()
     val pendingNotifications by inject<PendingNotificationsUseCase>()
     val getBigTrayQuota by inject<GetBigTrayQuotaUseCase>()
+    val serviceAuth by inject<ServiceAuthUseCase>()
+    val getServiceAccount by inject<GetAccountUseCase>()
 }

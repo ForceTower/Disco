@@ -111,7 +111,7 @@ class SyncRepositoryImpl(
 
         if (course != null) {
             database.platformCourseQueries.insertItem(
-                PlatformCourse(0, course.id, course.name.toTitleCase(), course.resumedName)
+                course.id, course.name.toTitleCase(), course.resumedName
             )
         }
 

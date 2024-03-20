@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS ServiceAccessToken (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    token TEXT NOT NULL,
+    createdAt INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS ServiceAccount (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT,
+    imageUrl TEXT,
+    me INTEGER NOT NULL
+);

@@ -17,23 +17,32 @@ struct AccountView: View {
     var body: some View {
         List {
             Section {
-                if vm.connected {
-                    NavigationLink(value: 1) {
-                        Label {
-                            Text("Criar chave senha")
-                        } icon: {
-                            Image(systemName: "person.badge.key.fill")
-                                .foregroundStyle(.foreground)
+                if let account = vm.currentAccount {
+                    if let email = account.email, !email.isEmpty {
+                        NavigationLink(value: 1) {
+                            Label {
+                                Text("Criar chave senha")
+                            } icon: {
+                                Image(systemName: "person.badge.key.fill")
+                                    .foregroundStyle(.foreground)
+                            }
                         }
-                    }
-                    NavigationLink(value: 2) {
-                        Text("Ver chaves")
-                    }
-                    if let email = vm.currentProfile?.email, !email.isEmpty {
+                        NavigationLink(value: 2) {
+                            Text("Ver chaves")
+                        }
                         VStack(alignment: .leading) {
                             Text("Email registrado")
                             Text(email)
                                 .font(.callout)
+                        }
+                    } else {
+                        NavigationLink(value: 1) {
+                            Label {
+                                Text("Verificar seu email")
+                            } icon: {
+                                Image(systemName: "envelope")
+                                    .foregroundStyle(.foreground)
+                            }
                         }
                     }
                 } else {
@@ -45,17 +54,17 @@ struct AccountView: View {
                 }
             } header: {
                 if let profile = vm.currentProfile {
-                    AccountHeaderView(profile: profile, connected: vm.connected)
+                    AccountHeaderView(profile: profile, account: vm.currentAccount)
                 } else {
                     ProgressView()
                 }
             } footer: {
-                if !vm.connected {
+                if vm.currentAccount == nil {
                     Text("Você não está conectado a uma conta UNES no momento.")
                 }
             }
             
-            if vm.connected {
+            if vm.currentAccount?.email != nil {
                 Section("Premium") {
                     NavigationLink(value: 2) {
                         Text("Comprar UNES Pro")
@@ -66,6 +75,8 @@ struct AccountView: View {
         .navigationDestination(for: AccountFlow.self) { item in
             if item == .handshake {
                 AccountHandshakeView(path: $path)
+            } else if item == .email {
+                AccountLinkEmailView(path: $path)
             }
         }
         .sheet(isPresented: $showConnectSplash) {
@@ -74,18 +85,19 @@ struct AccountView: View {
                 path.append(AccountFlow.handshake)
             }
         }
-        .onChange(of: vm.connected) { connected in
-            if !connected {
+        .onChange(of: vm.currentAccount) { connected in
+            if connected == nil {
                 showConnectSplash = true
             }
         }
         .navigationTitle("Conta")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct AccountHeaderView: View {
     let profile: Profile
-    let connected: Bool
+    let account: ServiceAccount?
     
     var body: some View {
         HStack {
@@ -97,7 +109,7 @@ struct AccountHeaderView: View {
                     Label {
                         Text("Trocar foto")
                     } icon: {
-                        if let image = profile.imageUrl {
+                        if let image = account?.imageUrl {
                             WebImage(url: URL(string: image)) { image in
                                 image.resizable()
                             } placeholder: {
@@ -119,15 +131,15 @@ struct AccountHeaderView: View {
                     }
                     .labelStyle(.iconOnly)
                 }
-                .disabled(!connected)
+                .disabled(account == nil)
                 
-                Text(profile.name ?? "????")
+                Text(account?.name ?? profile.name ?? "????")
                     .textInputAutocapitalization(.never)
                     .font(.body)
                     .foregroundStyle(.foreground)
                     .textCase(.none)
                 
-                if let email = profile.email, !email.isEmpty {
+                if let email = account?.email, !email.isEmpty {
                     Label {
                         Text("Sua conta está verificada")
                             .textCase(.none)

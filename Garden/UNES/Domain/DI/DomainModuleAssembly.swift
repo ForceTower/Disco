@@ -49,6 +49,14 @@ class DomainModuleAssembly : Assembly {
             useCases.syncData
         }
         
+        container.register(ServiceAuthUseCase.self) { _ in
+            useCases.serviceAuth
+        }
+        
+        container.register(GetAccountUseCase.self) { _ in
+            useCases.getServiceAccount
+        }
+        
         container.register(ScheduleBackgroundProcessingUseCase.self) { _ in
             ScheduleBackgroundProcessingUseCase()
         }

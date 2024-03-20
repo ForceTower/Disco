@@ -18,9 +18,5 @@ actual fun createBasicClient(): HttpClient {
                 }
             )
         }
-//            install(Logging) {
-//                logger = Logger.DEFAULT
-//                level = LogLevel.ALL
-//            }
     }
 }

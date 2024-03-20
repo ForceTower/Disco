@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS ServiceAccessToken (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    token TEXT NOT NULL,
+    createdAt INTEGER
+);
+
+selectToken:
+SELECT * FROM ServiceAccessToken LIMIT 1;
+
+insertReplace:
+INSERT OR REPLACE INTO ServiceAccessToken(token, createdAt) VALUES (?, ?);
+
+deleteAll:
+DELETE FROM ServiceAccessToken;
+

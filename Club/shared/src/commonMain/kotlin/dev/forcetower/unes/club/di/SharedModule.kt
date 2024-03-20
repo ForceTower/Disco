@@ -8,6 +8,7 @@ internal object SharedModule {
     val modules = listOf(
         DataDI.data,
         DataDI.repository,
+        DataDI.service,
         DomainDI.useCase,
         sharedModule
     )

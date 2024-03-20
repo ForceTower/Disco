@@ -2,7 +2,6 @@ package dev.forcetower.unes.club.data.di
 
 import app.cash.sqldelight.db.SqlDriver
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabaseDriverFactory
-import dev.forcetower.unes.singer.data.network.SingerClientFactory
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
