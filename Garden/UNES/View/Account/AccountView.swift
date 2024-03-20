@@ -20,7 +20,7 @@ struct AccountView: View {
                 if let account = vm.currentAccount {
                     if let email = account.email, !email.isEmpty {
                         NavigationLink {
-                            AccountHandshakeView(path: $path)
+                            
                         } label: {
                             Label {
                                 Text("Criar chave senha")
@@ -30,7 +30,9 @@ struct AccountView: View {
                             }
                         }
                         
-                        NavigationLink(value: 2) {
+                        NavigationLink {
+                            
+                        } label: {
                             Text("Ver chaves")
                         }
                         VStack(alignment: .leading) {
