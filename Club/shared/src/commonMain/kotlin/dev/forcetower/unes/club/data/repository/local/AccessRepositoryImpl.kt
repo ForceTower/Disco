@@ -39,6 +39,8 @@ internal class AccessRepositoryImpl(
             database.gradeQueries.deleteAll()
             database.semesterQueries.deleteAll()
             database.disciplineQueries.deleteAll()
+            database.serviceAccessTokenQueries.deleteAll()
+            database.serviceAccountQueries.deleteAll()
         }
     }
 }

@@ -60,7 +60,7 @@ struct AccountView: View {
             } header: {
                 if let profile = vm.currentProfile {
                     AccountHeaderView(profile: profile, account: vm.currentAccount) {
-                        vm.deleteAccount()
+                        
                     }
                 } else {
                     ProgressView()
