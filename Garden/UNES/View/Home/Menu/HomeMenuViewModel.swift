@@ -52,15 +52,19 @@ class HomeMenuViewModel : ObservableObject {
     ]
     
     private let user: ConnectedUserUseCase
+    private let account: GetAccountUseCase
     
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
+    @Published private(set) var currentAccount: ServiceAccount? = nil
     @Published private(set) var semestersCount: Int? = nil
     
     var router: RootRouter? = nil
     
-    init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve()) {
+    init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve(),
+         account: GetAccountUseCase = AppDIContainer.shared.resolve()) {
         self.user = user
+        self.account = account
         fetchProfile()
         fetchSemestersCount()
     }
@@ -76,6 +80,18 @@ class HomeMenuViewModel : ObservableObject {
             .store(in: &subscriptions)
     }
     
+    private func fetchAccount() {
+        createPublisher(for: account.getAccount())
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                print("Received flow account completion \(completion)")
+            } receiveValue: { [weak self] account in
+                self?.currentAccount = account
+            }
+            .store(in: &subscriptions)
+    }
+    
+    
     private func fetchSemestersCount() {
         createPublisher(for: user.semestersCount())
             .receive(on: DispatchQueue.main)
@@ -90,6 +106,7 @@ class HomeMenuViewModel : ObservableObject {
     func logout() async {
         do {
             let _ = try await asyncFunction(for: user.logout())
+            UserDefaults.standard.removeObject(forKey: "old_values_sync_data")
         } catch {
             print("Failed to logout: \(error.localizedDescription)")
             Crashlytics.crashlytics().record(error: error)

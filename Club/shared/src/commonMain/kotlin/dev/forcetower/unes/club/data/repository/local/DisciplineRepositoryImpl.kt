@@ -2,13 +2,11 @@ package dev.forcetower.unes.club.data.repository.local
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOne
 import dev.forcetower.unes.club.data.processor.DisciplinesProcessor
 import dev.forcetower.unes.club.data.processor.SemestersProcessor
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.disciplines.ClassData
-import dev.forcetower.unes.club.domain.model.disciplines.ClassGroupData
 import dev.forcetower.unes.club.domain.model.disciplines.ProcessedGrade
 import dev.forcetower.unes.club.domain.model.disciplines.SemesterClassData
 import dev.forcetower.unes.club.domain.repository.local.DisciplineRepository
@@ -21,7 +19,6 @@ import dev.forcetower.unes.singer.domain.model.Authorization
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -151,11 +148,7 @@ internal class DisciplineRepositoryImpl(
         if (missing.isNotEmpty()) {
             calculateScoreSnapshot()
         }
-        val result = (fetchState + processed).distinct()
-        println("Missing: ${missing.map { it.id }}")
-        println("Completed: $result")
-        println("Loaded: $processed")
-        return result
+        return (fetchState + processed).distinct()
     }
 
     override fun userCalculatedStore(): Flow<Double?> {
