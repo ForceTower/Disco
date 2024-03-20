@@ -21,7 +21,7 @@ struct HomeMenuView: View {
             List {
                 NavigationLink(value: MenuItem(name: "", icon: "", destination: .account, navigates: false)) {
                     HStack {
-                        if let imageUrl = vm.currentAccount?.imageUrl ?? vm.currentProfile?.imageUrl {
+                        if let imageUrl = vm.currentAccount?.imageUrl {
                             WebImage(url: URL(string: imageUrl)) { image in
                                 image.resizable()
                             } placeholder: {

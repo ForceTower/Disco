@@ -33,7 +33,7 @@ struct HomeDashboardView: View {
                     }
                 }
                 Spacer()
-                if let imageUrl = vm.currentProfile?.imageUrl {
+                if let imageUrl = vm.currentAccount?.imageUrl {
                     WebImage(url: URL(string: imageUrl)) { image in
                         image.resizable()
                     } placeholder: {

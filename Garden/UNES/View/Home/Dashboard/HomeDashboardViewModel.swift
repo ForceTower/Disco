@@ -12,6 +12,7 @@ import KMPNativeCoroutinesCombine
 class HomeDashboardViewModel : ObservableObject {
     private let schedule: GetScheduleUseCase
     private let messages: GetAllMessagesUseCase
+    private let account: GetAccountUseCase
     private let user: ConnectedUserUseCase
     
     private var subscriptions = Set<AnyCancellable>()
@@ -19,17 +20,25 @@ class HomeDashboardViewModel : ObservableObject {
     @Published private(set) var currentClass: ExtendedClassLocationData? = nil
     @Published private(set) var latestMessage: Message? = nil
     @Published private(set) var currentProfile: Profile? = nil
+    @Published private(set) var currentAccount: ServiceAccount? = nil
     @Published private(set) var semestersCount: Int? = nil
     
-    init(schedule: GetScheduleUseCase, messages: GetAllMessagesUseCase, user: ConnectedUserUseCase) {
+    init(
+        schedule: GetScheduleUseCase,
+        messages: GetAllMessagesUseCase,
+        user: ConnectedUserUseCase,
+        account: GetAccountUseCase = AppDIContainer.shared.resolve()
+    ) {
         self.schedule = schedule
         self.messages = messages
         self.user = user
+        self.account = account
         
         fetchCurrentClass()
         fetchMessage()
         fetchProfile()
         fetchSemestersCount()
+        fetchAccount()
     }
     
     func fetchCurrentClass() {
@@ -61,6 +70,17 @@ class HomeDashboardViewModel : ObservableObject {
                 
             } receiveValue: { [weak self] profile in
                 self?.currentProfile = profile
+            }
+            .store(in: &subscriptions)
+    }
+    
+    private func fetchAccount() {
+        createPublisher(for: account.getAccount())
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                print("Received flow account completion \(completion)")
+            } receiveValue: { [weak self] account in
+                self?.currentAccount = account
             }
             .store(in: &subscriptions)
     }
