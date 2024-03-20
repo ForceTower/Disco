@@ -13,6 +13,7 @@ class AccountViewModel : ObservableObject {
     private let user: ConnectedUserUseCase
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
+    @Published private(set) var connected = false
     
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve()) {
         self.user = user

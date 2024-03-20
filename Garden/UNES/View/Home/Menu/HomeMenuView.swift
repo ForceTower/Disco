@@ -79,7 +79,7 @@ struct HomeMenuView: View {
                 } else if item.destination == .zhonyas {
                     ParadoxView()
                 } else if item.destination == .account {
-                    AccountView()
+                    AccountView(path: $path)
                 }
             }
             .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {

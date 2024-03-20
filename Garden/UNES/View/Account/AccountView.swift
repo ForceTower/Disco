@@ -10,45 +10,74 @@ import Club
 import SDWebImageSwiftUI
 
 struct AccountView: View {
+    @Binding var path: NavigationPath
     @StateObject private var vm: AccountViewModel = .init()
+    @State private var showConnectSplash = false
     
     var body: some View {
         List {
             Section {
-                NavigationLink(value: 1) {
-                    Label {
-                        Text("Criar chave senha")
-                    } icon: {
-                        Image(systemName: "person.badge.key.fill")
-                            .foregroundStyle(.foreground)
+                if vm.connected {
+                    NavigationLink(value: 1) {
+                        Label {
+                            Text("Criar chave senha")
+                        } icon: {
+                            Image(systemName: "person.badge.key.fill")
+                                .foregroundStyle(.foreground)
+                        }
                     }
-                }
-                NavigationLink(value: 2) {
-                    Text("Ver chaves")
-                }
-                if let email = vm.currentProfile?.email, !email.isEmpty {
-                    VStack(alignment: .leading) {
-                        Text("Email registrado")
-                        Text(email)
-                            .font(.callout)
+                    NavigationLink(value: 2) {
+                        Text("Ver chaves")
+                    }
+                    if let email = vm.currentProfile?.email, !email.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("Email registrado")
+                            Text(email)
+                                .font(.callout)
+                        }
+                    }
+                } else {
+                    Button {
+                        showConnectSplash = true
+                    } label: {
+                        Text("Acessar conta UNES")
                     }
                 }
             } header: {
                 if let profile = vm.currentProfile {
-                    AccountHeaderView(profile: profile)
+                    AccountHeaderView(profile: profile, connected: vm.connected)
                 } else {
                     ProgressView()
                 }
+            } footer: {
+                if !vm.connected {
+                    Text("Você não está conectado a uma conta UNES no momento.")
+                }
             }
             
-            Section("Premium") {
-                NavigationLink(value: 2) {
-                    Text("Comprar UNES Pro")
+            if vm.connected {
+                Section("Premium") {
+                    NavigationLink(value: 2) {
+                        Text("Comprar UNES Pro")
+                    }
                 }
             }
         }
-        .navigationDestination(for: Int.self) { item in
-            
+        .navigationDestination(for: AccountFlow.self) { item in
+            if item == .handshake {
+                AccountHandshakeView(path: $path)
+            }
+        }
+        .sheet(isPresented: $showConnectSplash) {
+            LoginAccountSplash {
+                showConnectSplash = false
+                path.append(AccountFlow.handshake)
+            }
+        }
+        .onChange(of: vm.connected) { connected in
+            if !connected {
+                showConnectSplash = true
+            }
         }
         .navigationTitle("Conta")
     }
@@ -56,6 +85,7 @@ struct AccountView: View {
 
 struct AccountHeaderView: View {
     let profile: Profile
+    let connected: Bool
     
     var body: some View {
         HStack {
@@ -89,6 +119,7 @@ struct AccountHeaderView: View {
                     }
                     .labelStyle(.iconOnly)
                 }
+                .disabled(!connected)
                 
                 Text(profile.name ?? "????")
                     .textInputAutocapitalization(.never)
@@ -114,8 +145,69 @@ struct AccountHeaderView: View {
     }
 }
 
+struct LoginAccountSplash: View {
+    let onContinue: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Image(.coloredLogo)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 150)
+                .padding(.horizontal, 56)
+                .padding(.top, 56)
+            
+            Text("Boas vindas à conta UNES")
+                .font(.title)
+                .fontWeight(.medium)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 56)
+                .padding(.top, 8)
+            
+            Text("Com a conta UNES você tem acesso aos mais diversos recursos disponíveis no aplicativo, como historico de disciplinas e muito mais.")
+                .font(.callout)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 48)
+                .padding(.top, 8)
+            
+            Spacer()
+            
+            Image(systemName: "person.and.background.dotted")
+                .foregroundStyle(.primary)
+            
+            Text("As suas credenciais de acesso ao Portal serão usadas para processar o seu login e garantir sua identidade. O processo é efêmero, as credenciais não são salvas nos servidores do UNES. Para mais informações, o código pode ser inspecionado [aqui](https://github.com/ForceTower/Disco)")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 48)
+                .padding(.top, 4)
+            
+            Button {
+                onContinue()
+            } label: {
+                Text("Continuar")
+                    .fontWeight(.medium)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 48)
+            .padding(.top)
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .clipShape(.rect(cornerRadius: 8))
+            .padding(.bottom)
+        }
+    }
+}
+
 #Preview {
-    NavigationStack {
-        AccountView()
+    LoginAccountSplash {
+        
+    }
+}
+
+#Preview {
+    @State var path: NavigationPath = .init()
+    return NavigationStack(path: $path) {
+        AccountView(path: $path)
     }
 }
