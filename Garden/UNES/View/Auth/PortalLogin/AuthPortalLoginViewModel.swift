@@ -16,6 +16,7 @@ public extension Logger {
     static let authorization = Logger(subsystem: "UNES", category: "Authentication")
 }
 
+@available(iOS 16.4, *)
 public enum AuthorizationHandlingError: Error {
     case unknownAuthorizationResult(ASAuthorizationResult)
     case otherError
@@ -103,6 +104,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         showLoginError = true
     }
     
+    @available(iOS 16.4, *)
     func startAttestation(controller: AuthorizationController) async {
         do {
             let data = try await attestationUseCase.start()
@@ -112,6 +114,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         }
     }
     
+    @available(iOS 16.4, *)
     private func requestAttestation(controller: AuthorizationController, data: AssertionStartData) async {
         let challenge = Data(data.challenge.publicKey.challenge.utf8)
         let platformProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: "edge-unes.forcetower.dev")
@@ -158,6 +161,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         }
     }
     
+    @available(iOS 16.4, *)
     func handleResponse(controller: AuthorizationController, authorization: ASAuthorizationResult) {
         DispatchQueue.main.async { [weak self] in
             self?.errorTitle = "Passkey err"

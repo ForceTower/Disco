@@ -7,13 +7,13 @@
 
 import SwiftUI
 import Club
+import AuthenticationServices
 
 struct AuthPortalLoginView: View {
     enum FocusableField: Hashable {
         case username, password
     }
     
-    @Environment(\.authorizationController) private var authorizationController
     @EnvironmentObject private var router: RootRouter
     
     @Binding var path: NavigationPath
@@ -118,21 +118,11 @@ struct AuthPortalLoginView: View {
                         }
                         .padding(.vertical, 4)
                         
-                        Button(action: {
-                            Task { await signIn() }
-                        }, label: {
-                            Label(
-                                title: {
-                                    Text("Entrar usando Chave Senha")
-                                        .padding(.horizontal)
-                                },
-                                icon: {
-                                    Image(systemName: "person.badge.key.fill")
-                                }
-                            )
-                        })
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.regular)
+                        if #available(iOS 16.4, *) {
+                            PasskeyLoginSubview { auth in
+                                Task { await viewModel.startAttestation(controller: auth) }
+                            }
+                        }
                     } else {
                         ProgressView()
                             .frame(height: 120)
@@ -153,9 +143,29 @@ struct AuthPortalLoginView: View {
     func login() async {
         viewModel.login(username: username, password: password)
     }
+}
+
+@available(iOS 16.4, *)
+struct PasskeyLoginSubview: View {
+    @Environment(\.authorizationController) private var authorizationController
+    let doLogin: (AuthorizationController) -> Void
     
-    func signIn() async {
-        await viewModel.startAttestation(controller: authorizationController)
+    var body: some View {
+        Button(action: {
+            doLogin(authorizationController)
+        }, label: {
+            Label(
+                title: {
+                    Text("Entrar usando Chave Senha")
+                        .padding(.horizontal)
+                },
+                icon: {
+                    Image(systemName: "person.badge.key.fill")
+                }
+            )
+        })
+        .buttonStyle(.borderedProminent)
+        .controlSize(.regular)
     }
 }
 

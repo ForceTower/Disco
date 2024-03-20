@@ -42,21 +42,23 @@ struct AccountHandshakeView: View {
                     .padding(.horizontal, 48)
                     .controlSize(.large)
                     
-                    Button {
-                        
-                    } label: {
-                        Label {
-                            Text("Continuar com Chave Senha")
-                                .fontWeight(.medium)
-                        } icon: {
-                            Image(systemName: "person.badge.key.fill")
+                    if #available(iOS 16.4, *) {
+                        Button {
+                            
+                        } label: {
+                            Label {
+                                Text("Continuar com Chave Senha")
+                                    .fontWeight(.medium)
+                            } icon: {
+                                Image(systemName: "person.badge.key.fill")
+                            }
+                            .frame(maxWidth: .infinity)
                         }
-                        .frame(maxWidth: .infinity)
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .padding(.horizontal, 48)
+                        .padding(.bottom, 16)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .padding(.horizontal, 48)
-                    .padding(.bottom, 16)
                 }.frame(minHeight: reader.size.height)
             }
         }
