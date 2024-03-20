@@ -1,5 +1,5 @@
 //
-//  AccountLinkEmailView.swift
+//  EmailAccountCodeView.swift
 //  UNES
 //
 //  Created by João Paulo Santos Sena on 20/03/24.
@@ -7,22 +7,24 @@
 
 import SwiftUI
 
-struct AccountLinkEmailView: View {
+struct EmailAccountCodeView: View {
+    let securityCode: String
     @Binding var path: NavigationPath
-    @StateObject private var vm: AccountLinkEmailViewModel = .init()
-    @State private var email = ""
+    @StateObject private var vm = EmailAccountCodeViewModel()
+    @State var code = ""
     
     var body: some View {
         Form {
             Section {
                 HStack {
-                    Text("Email")
+                    Text("Código")
                         .font(.subheadline)
                         .frame(width: 56, alignment: .leading)
                     Divider().frame(height: 15)
-                    TextField("", text: $email)
+                    TextField("", text: $code)
                         .textFieldStyle(.automatic)
-                        .textContentType(.emailAddress)
+                        .keyboardType(.numberPad)
+                        .textContentType(.oneTimeCode)
                         .disabled(vm.loading)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
@@ -36,13 +38,13 @@ struct AccountLinkEmailView: View {
                         .scaledToFit()
                         .frame(height: 220)
                     
-                    Text("Vamos adicionar um email")
+                    Text("Estamos validando seu email")
                         .textCase(.none)
                         .font(.body)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.foreground)
                     
-                    Text("Esta etapa garante que você conseguirá acessar ou recuperar esta mesma conta no futuro")
+                    Text("Você receberá um código de confirmação no email informado")
                         .font(.callout)
                         .textCase(.none)
                         .foregroundStyle(.foreground)
@@ -52,7 +54,7 @@ struct AccountLinkEmailView: View {
                 .padding(.bottom, 16)
             } footer: {
                 VStack {
-                    Text("A conta UNES não substitui sua conta do Portal. Seu email não será vinculado à instituição de ensino.")
+                    Text("O código tem duração máxima de alguns minutos")
                         .font(.caption2)
                     
                     if vm.loading {
@@ -65,24 +67,47 @@ struct AccountLinkEmailView: View {
             Section {
                 if !vm.loading {
                     Button {
-                        vm.register(email: email)
+                        vm.confirm(code: code, security: securityCode)
                     } label: {
                         Text("Confirmar")
                     }
                 }
             }
-        }
-        .navigationTitle("Email")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.hidden, for: .tabBar)
-        .onChange(of: vm.securityCode) { newValue in
-            if !newValue.isEmpty {
-                path.append(EmailConfirmationAccFlow(security: newValue))
-                vm.securityCode = ""
+            
+            if vm.showResend {
+                Section {
+                    Button(role: .destructive) {
+                        path.removeLast()
+                    } label: {
+                        Text("Reenviar email")
+                    }
+                } footer: {
+                    VStack {
+                        Text("O código anterior deixará de funcionar")
+                            .font(.caption2)
+                    }
+                }
             }
         }
-        .navigationDestination(for: EmailConfirmationAccFlow.self) { item in
-            EmailAccountCodeView(securityCode: item.security, path: $path)
+        .navigationTitle("Verificar email")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
+        .alert(vm.errorTitle, isPresented: $vm.showError) {
+            Button {
+                vm.showError = false
+            } label: {
+                Text("OK")
+            }
+        } message: {
+            Text(vm.errorSubtitle)
+        }
+        .onChange(of: vm.completed) { newValue in
+            if newValue {
+                path.removeLast(path.count - 1)
+            }
+        }
+        .onAppear {
+            vm.startCount()
         }
     }
 }
@@ -90,6 +115,6 @@ struct AccountLinkEmailView: View {
 #Preview {
     @State var path: NavigationPath = .init()
     return NavigationStack(path: $path) {
-        AccountLinkEmailView(path: $path)
+        EmailAccountCodeView(securityCode: "sec_eyrsiufsgfyyeru", path: $path)
     }
 }

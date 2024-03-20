@@ -67,12 +67,12 @@ struct PinCodeEntryView: UIViewRepresentable {
 }
 
 struct SectionedTextField: View {
-    @State private var numberOfCells: Int = 6
+    let numberOfCells: Int = 6
     @State private var currentlySelectedCell = 0
     
     var body: some View {
         HStack {
-            ForEach(0 ..< self.numberOfCells) { index in
+            ForEach(0 ..< numberOfCells) { index in
                 CharacterInputCell(currentlySelectedCell: self.$currentlySelectedCell, index: index)
             }
         }

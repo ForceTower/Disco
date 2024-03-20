@@ -64,5 +64,9 @@ class DomainModuleAssembly : Assembly {
         container.register(GetBigTrayQuotaUseCase.self) { _ in
             useCases.getBigTrayQuota
         }
+        
+        container.register(LinkEmailUseCase.self) { _ in
+            useCases.linkEmail
+        }
     }
 }

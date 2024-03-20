@@ -8,19 +8,23 @@
 import Combine
 import Club
 import KMPNativeCoroutinesCombine
+import KMPNativeCoroutinesAsync
 
 class AccountViewModel : ObservableObject {
     private let account: GetAccountUseCase
     private let user: ConnectedUserUseCase
+    private let auth: ServiceAuthUseCase
     
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
     @Published private(set) var currentAccount: ServiceAccount? = nil
     
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve(),
-         account: GetAccountUseCase = AppDIContainer.shared.resolve()) {
+         account: GetAccountUseCase = AppDIContainer.shared.resolve(),
+         auth: ServiceAuthUseCase = AppDIContainer.shared.resolve()) {
         self.user = user
         self.account = account
+        self.auth = auth
         fetchProfile()
         fetchAccount()
     }
@@ -46,7 +50,7 @@ class AccountViewModel : ObservableObject {
             }
             .store(in: &subscriptions)
         
-        createFuture(for: account.fetchAccount())
+        createFuture(for: account.fetchAccountIfConnected())
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 print("Fetch account completion \(completion)")
@@ -54,5 +58,11 @@ class AccountViewModel : ObservableObject {
                 self?.currentAccount = account
             }
             .store(in: &subscriptions)
+    }
+    
+    func deleteAccount() {
+        Task {
+            try? await asyncFunction(for: auth.deleteAuthAndAccount())
+        }
     }
 }

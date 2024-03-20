@@ -19,7 +19,9 @@ struct AccountView: View {
             Section {
                 if let account = vm.currentAccount {
                     if let email = account.email, !email.isEmpty {
-                        NavigationLink(value: 1) {
+                        NavigationLink {
+                            AccountHandshakeView(path: $path)
+                        } label: {
                             Label {
                                 Text("Criar chave senha")
                             } icon: {
@@ -27,6 +29,7 @@ struct AccountView: View {
                                     .foregroundStyle(.foreground)
                             }
                         }
+                        
                         NavigationLink(value: 2) {
                             Text("Ver chaves")
                         }
@@ -36,7 +39,9 @@ struct AccountView: View {
                                 .font(.callout)
                         }
                     } else {
-                        NavigationLink(value: 1) {
+                        NavigationLink {
+                            AccountLinkEmailView(path: $path)
+                        } label: {
                             Label {
                                 Text("Verificar seu email")
                             } icon: {
@@ -54,7 +59,9 @@ struct AccountView: View {
                 }
             } header: {
                 if let profile = vm.currentProfile {
-                    AccountHeaderView(profile: profile, account: vm.currentAccount)
+                    AccountHeaderView(profile: profile, account: vm.currentAccount) {
+                        vm.deleteAccount()
+                    }
                 } else {
                     ProgressView()
                 }
@@ -72,23 +79,19 @@ struct AccountView: View {
                 }
             }
         }
-        .navigationDestination(for: AccountFlow.self) { item in
-            if item == .handshake {
-                AccountHandshakeView(path: $path)
-            } else if item == .email {
-                AccountLinkEmailView(path: $path)
-            }
-        }
         .sheet(isPresented: $showConnectSplash) {
             LoginAccountSplash {
                 showConnectSplash = false
-                path.append(AccountFlow.handshake)
+                path.append(HandshakeAccFlow())
             }
         }
         .onChange(of: vm.currentAccount) { connected in
             if connected == nil {
                 showConnectSplash = true
             }
+        }
+        .navigationDestination(for: HandshakeAccFlow.self) { _ in
+            AccountHandshakeView(path: $path)
         }
         .navigationTitle("Conta")
         .navigationBarTitleDisplayMode(.inline)
@@ -99,12 +102,14 @@ struct AccountHeaderView: View {
     let profile: Profile
     let account: ServiceAccount?
     
+    let onChangeProfilePicture: () -> Void
+    
     var body: some View {
         HStack {
             Spacer()
             VStack(alignment: .center, spacing: 8) {
                 Button {
-                    
+                    onChangeProfilePicture()
                 } label: {
                     Label {
                         Text("Trocar foto")

@@ -47,6 +47,8 @@
 		6C80CF262BAB1B3F00F69609 /* AccountHandshakeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF252BAB1B3F00F69609 /* AccountHandshakeViewModel.swift */; };
 		6C80CF282BAB3BB500F69609 /* AccountLinkEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF272BAB3BB500F69609 /* AccountLinkEmailView.swift */; };
 		6C80CF2B2BAB3DD500F69609 /* AccountLinkEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF2A2BAB3DD500F69609 /* AccountLinkEmailViewModel.swift */; };
+		6C80CF2E2BAB573900F69609 /* EmailAccountCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF2D2BAB573900F69609 /* EmailAccountCodeView.swift */; };
+		6C80CF302BAB574500F69609 /* EmailAccountCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF2F2BAB574500F69609 /* EmailAccountCodeViewModel.swift */; };
 		6C9E4BF22BAA78700083DDC5 /* AccountFlowTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF12BAA78700083DDC5 /* AccountFlowTypes.swift */; };
 		6C9E4BF42BAA7A340083DDC5 /* AccountHandshakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF32BAA7A340083DDC5 /* AccountHandshakeView.swift */; };
 		6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */; };
@@ -119,6 +121,8 @@
 		6C80CF252BAB1B3F00F69609 /* AccountHandshakeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHandshakeViewModel.swift; sourceTree = "<group>"; };
 		6C80CF272BAB3BB500F69609 /* AccountLinkEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLinkEmailView.swift; sourceTree = "<group>"; };
 		6C80CF2A2BAB3DD500F69609 /* AccountLinkEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLinkEmailViewModel.swift; sourceTree = "<group>"; };
+		6C80CF2D2BAB573900F69609 /* EmailAccountCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAccountCodeView.swift; sourceTree = "<group>"; };
+		6C80CF2F2BAB574500F69609 /* EmailAccountCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAccountCodeViewModel.swift; sourceTree = "<group>"; };
 		6C9E4BF12BAA78700083DDC5 /* AccountFlowTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFlowTypes.swift; sourceTree = "<group>"; };
 		6C9E4BF32BAA7A340083DDC5 /* AccountHandshakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHandshakeView.swift; sourceTree = "<group>"; };
 		6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPortalLoginView.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 		6C617FD42BAA35EF00CD3A87 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				6C80CF2C2BAB572200F69609 /* EmailCode */,
 				6C80CF292BAB3BE900F69609 /* LinkEmail */,
 				6C9E4BF02BAA78530083DDC5 /* Handshake */,
 				6C617FD52BAA360700CD3A87 /* AccountView.swift */,
@@ -431,6 +436,15 @@
 				6C80CF2A2BAB3DD500F69609 /* AccountLinkEmailViewModel.swift */,
 			);
 			path = LinkEmail;
+			sourceTree = "<group>";
+		};
+		6C80CF2C2BAB572200F69609 /* EmailCode */ = {
+			isa = PBXGroup;
+			children = (
+				6C80CF2D2BAB573900F69609 /* EmailAccountCodeView.swift */,
+				6C80CF2F2BAB574500F69609 /* EmailAccountCodeViewModel.swift */,
+			);
+			path = EmailCode;
 			sourceTree = "<group>";
 		};
 		6C9E4BF02BAA78530083DDC5 /* Handshake */ = {
@@ -736,6 +750,7 @@
 				6C617FC92BA9D29500CD3A87 /* SettingsView.swift in Sources */,
 				6C617FD62BAA360700CD3A87 /* AccountView.swift in Sources */,
 				6CDB802C2BA68D4600A1134B /* HomeMessagesView.swift in Sources */,
+				6C80CF302BAB574500F69609 /* EmailAccountCodeViewModel.swift in Sources */,
 				6CDB80332BA71E2700A1134B /* HomeDisciplinesViewModel.swift in Sources */,
 				6CDB802E2BA68DF900A1134B /* HomeMessagesViewModel.swift in Sources */,
 				6CDB801C2BA6541F00A1134B /* HomeViewModel.swift in Sources */,
@@ -783,6 +798,7 @@
 				6CBE069C2B8BD11500C2E649 /* UNESApp.swift in Sources */,
 				6CDB803D2BA7836500A1134B /* DisciplineDetailsView.swift in Sources */,
 				6C617FD32BAA33E500CD3A87 /* ParadoxView.swift in Sources */,
+				6C80CF2E2BAB573900F69609 /* EmailAccountCodeView.swift in Sources */,
 				6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */,
 				6C9E4BF42BAA7A340083DDC5 /* AccountHandshakeView.swift in Sources */,
 				6CDB80292BA671B500A1134B /* HomeScheduleView.swift in Sources */,

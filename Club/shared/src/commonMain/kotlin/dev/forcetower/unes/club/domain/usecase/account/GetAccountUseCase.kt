@@ -14,6 +14,11 @@ class GetAccountUseCase internal constructor(
     }
 
     @NativeCoroutines
+    suspend fun fetchAccountIfConnected(): ServiceAccount? {
+        return repository.fetchAccountIfConnected()
+    }
+
+    @NativeCoroutines
     fun getAccount(): Flow<ServiceAccount?> {
         return repository.getAccount()
     }

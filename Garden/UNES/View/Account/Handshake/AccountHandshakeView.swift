@@ -20,6 +20,7 @@ struct AccountHandshakeView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 220)
+                    
                     Text("Nesta etapa, o UNES irá enviar suas credenciais para validar a sua conta do Portal e permitir seu acesso ao UNESVerso")
                         .font(.callout)
                         .multilineTextAlignment(.center)
@@ -66,13 +67,26 @@ struct AccountHandshakeView: View {
         .onChange(of: vm.completed) { newValue in
             if newValue {
                 vm.completed = false
-                path.append(AccountFlow.email)
+                path.append(EmailAccFlow())
             }
         }
-        .navigationDestination(for: AccountFlow.self) { item in
-            if item == .email {
-                AccountLinkEmailView(path: $path)
+        .onChange(of: vm.finished) { newValue in
+            if newValue {
+                vm.finished = false
+                path.removeLast(path.count - 1)
             }
+        }
+        .navigationDestination(for: EmailAccFlow.self) { _ in
+            AccountLinkEmailView(path: $path)
+        }
+        .alert(vm.titleError, isPresented: $vm.showError) {
+            Button {
+                vm.showError = false
+            } label: {
+                Text("OK")
+            }
+        } message: {
+            Text(vm.messageError)
         }
     }
 }

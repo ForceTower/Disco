@@ -2,13 +2,27 @@ package dev.forcetower.unes.club.domain.usecase.auth
 
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import dev.forcetower.unes.club.domain.model.auth.ServiceAuthResult
+import dev.forcetower.unes.club.domain.repository.remote.edge.AccountRepository
 import dev.forcetower.unes.club.domain.repository.remote.edge.AuthRepository
 
 class ServiceAuthUseCase internal constructor(
-    private val auth: AuthRepository
+    private val auth: AuthRepository,
+    private val account: AccountRepository
 ) {
     @NativeCoroutines
     suspend fun handshake(): ServiceAuthResult {
-        return auth.handshake()
+        val result = auth.handshake()
+        runCatching {
+            if (result is ServiceAuthResult.Connected) {
+                val account = account.fetchAccount()
+                return ServiceAuthResult.Connected(account)
+            }
+        }
+        return result
+    }
+
+    @NativeCoroutines
+    suspend fun deleteAuthAndAccount() {
+        auth.deleteAuthAndAccount()
     }
 }

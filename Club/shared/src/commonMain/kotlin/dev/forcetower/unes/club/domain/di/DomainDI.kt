@@ -1,6 +1,7 @@
 package dev.forcetower.unes.club.domain.di
 
 import dev.forcetower.unes.club.domain.usecase.account.GetAccountUseCase
+import dev.forcetower.unes.club.domain.usecase.account.LinkEmailUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ServiceAuthUseCase
@@ -24,7 +25,8 @@ object DomainDI {
         factory { SyncDataUseCase(get(), get()) }
         factory { PendingNotificationsUseCase(get(), get()) }
         factory { GetBigTrayQuotaUseCase(get()) }
-        factory { ServiceAuthUseCase(get()) }
+        factory { ServiceAuthUseCase(get(), get()) }
         factory { GetAccountUseCase(get()) }
+        factory { LinkEmailUseCase(get()) }
     }
 }

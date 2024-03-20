@@ -7,4 +7,5 @@ internal interface AuthRepository {
     suspend fun connected(): Boolean
     suspend fun getAccess(): ServiceAccessToken?
     suspend fun handshake(): ServiceAuthResult
+    suspend fun deleteAuthAndAccount()
 }

@@ -7,8 +7,12 @@
 
 import Foundation
 
-enum AccountFlow: Hashable {
-    case root, handshake, email
-    case confirmation(security: String)
-    case passkeyCreate, passkeyList
+struct RootAccFlow : Hashable {}
+struct HandshakeAccFlow : Hashable {}
+struct EmailAccFlow : Hashable {}
+struct EmailConfirmationAccFlow : Hashable  {
+    let security: String
 }
+
+struct PasskeyCreateAccFlow : Hashable {}
+struct PasskeyListAccFlow : Hashable {}

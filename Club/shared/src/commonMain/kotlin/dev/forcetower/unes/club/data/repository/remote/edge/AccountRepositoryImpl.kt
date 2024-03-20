@@ -5,10 +5,13 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import dev.forcetower.unes.club.data.service.client.AccountService
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.ServiceAccount
+import dev.forcetower.unes.club.domain.exception.ServiceUnauthenticatedException
+import dev.forcetower.unes.club.domain.model.auth.ServiceLinkEmailCompleteResult
 import dev.forcetower.unes.club.domain.repository.remote.edge.AccountRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 internal class AccountRepositoryImpl(
     private val database: GeneralDatabase,
@@ -16,6 +19,21 @@ internal class AccountRepositoryImpl(
 ) : AccountRepository {
     override fun getAccount(): Flow<ServiceAccount?> {
         return database.serviceAccountQueries.selectMe().asFlow().mapToOneOrNull(Dispatchers.IO)
+    }
+
+    override suspend fun fetchAccountIfConnected(): ServiceAccount? = withContext(Dispatchers.IO) {
+        database.serviceAccessTokenQueries.selectToken().executeAsOneOrNull() ?: return@withContext null
+        fetchAccount()
+    }
+
+    override suspend fun registerEmail(email: String): String {
+        return service.linkEmail(email)
+    }
+
+    override suspend fun completeEmailRegister(code: String, security: String): ServiceLinkEmailCompleteResult {
+        val result = service.completeLinkEmail(code, security)
+        runCatching { fetchAccount() }
+        return result
     }
 
     override suspend fun fetchAccount(): ServiceAccount {

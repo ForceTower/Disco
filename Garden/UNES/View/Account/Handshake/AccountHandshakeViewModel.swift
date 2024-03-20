@@ -18,7 +18,8 @@ class AccountHandshakeViewModel : ObservableObject {
     @Published var showError = false
     @Published var titleError = ""
     @Published var messageError = ""
-    @Published var completed = true
+    @Published var completed = false
+    @Published var finished = false
     
     init(authUseCase: ServiceAuthUseCase = AppDIContainer.shared.resolve()) {
         self.authUseCase = authUseCase
@@ -47,8 +48,8 @@ class AccountHandshakeViewModel : ObservableObject {
     private func onCompleteHandshake(_ value: ServiceAuthResult) {
         print("Received handshake result \(value)")
         switch value {
-        case is ServiceAuthResult.Connected:
-            onHandshakeCompleted()
+        case let connected as ServiceAuthResult.Connected:
+            onHandshakeCompleted(connected)
         case is ServiceAuthResult.RejectedCredential:
             onRejectedCredentials()
         case is ServiceAuthResult.MissingCredential:
@@ -62,8 +63,12 @@ class AccountHandshakeViewModel : ObservableObject {
         }
     }
     
-    private func onHandshakeCompleted() {
-        completed = true
+    private func onHandshakeCompleted(_ connected: ServiceAuthResult.Connected) {
+        if let email = connected.account?.email, !email.isEmpty {
+            finished = true
+        } else {
+            completed = true
+        }
     }
     
     private func onRejectedCredentials() {

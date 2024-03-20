@@ -1,6 +1,6 @@
 package dev.forcetower.unes.club.data.repository.remote.edge
 
-import dev.forcetower.unes.club.data.model.remote.edge.ServiceAccessTokenDTO
+import dev.forcetower.unes.club.data.model.remote.edge.auth.ServiceAccessTokenDTO
 import dev.forcetower.unes.club.data.service.client.AuthService
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.ServiceAccessToken
@@ -45,10 +45,17 @@ internal class AuthRepositoryImpl(
                 return@withContext ServiceAuthResult.UnknownError(it.message ?: "Login failed", it)
             }.getOrThrow()
 
+        database.serviceAccessTokenQueries.deleteAll()
+
         database.serviceAccessTokenQueries.insertReplace(
             token.accessToken, Clock.System.now().toEpochMilliseconds()
         )
 
-        ServiceAuthResult.Connected
+        ServiceAuthResult.Connected(null)
+    }
+
+    override suspend fun deleteAuthAndAccount() = withContext(Dispatchers.IO) {
+        database.serviceAccessTokenQueries.deleteAll()
+        database.serviceAccountQueries.deleteAll()
     }
 }

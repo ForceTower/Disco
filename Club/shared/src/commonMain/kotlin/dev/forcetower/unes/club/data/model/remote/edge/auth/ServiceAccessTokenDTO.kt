@@ -1,4 +1,4 @@
-package dev.forcetower.unes.club.data.model.remote.edge
+package dev.forcetower.unes.club.data.model.remote.edge.auth
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
