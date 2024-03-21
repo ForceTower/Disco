@@ -19,26 +19,28 @@ struct AccountView: View {
             Section {
                 if let account = vm.currentAccount {
                     if let email = account.email, !email.isEmpty {
-                        NavigationLink {
-                            
-                        } label: {
-                            Label {
-                                Text("Criar chave senha")
-                            } icon: {
-                                Image(systemName: "person.badge.key.fill")
-                                    .foregroundStyle(.foreground)
+                        if #available(iOS 16.4, *) {
+                            NavigationLink {
+                                CreatePasskeyView()
+                            } label: {
+                                Label {
+                                    Text("Criar chave senha")
+                                } icon: {
+                                    Image(systemName: "person.badge.key.fill")
+                                        .foregroundStyle(.foreground)
+                                }
                             }
-                        }
-                        
-                        NavigationLink {
                             
-                        } label: {
-                            Text("Ver chaves")
-                        }
-                        VStack(alignment: .leading) {
-                            Text("Email registrado")
-                            Text(email)
-                                .font(.callout)
+                            NavigationLink {
+                                
+                            } label: {
+                                Text("Ver chaves")
+                            }
+                            VStack(alignment: .leading) {
+                                Text("Email registrado")
+                                Text(email)
+                                    .font(.callout)
+                            }
                         }
                     } else {
                         NavigationLink {
@@ -74,11 +76,11 @@ struct AccountView: View {
             }
             
             if vm.currentAccount?.email != nil {
-                Section("Premium") {
-                    NavigationLink(value: 2) {
-                        Text("Comprar UNES Pro")
-                    }
-                }
+//                Section("Premium") {
+//                    NavigationLink(value: 2) {
+//                        Text("Comprar UNES Pro")
+//                    }
+//                }
             }
         }
         .sheet(isPresented: $showConnectSplash) {

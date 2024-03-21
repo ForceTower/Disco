@@ -30,6 +30,8 @@ import dev.forcetower.unes.club.domain.repository.remote.uefs.BigTrayRepository
 import dev.forcetower.unes.singer.Singer
 import dev.forcetower.unes.singer.SingerFactory
 import io.ktor.client.HttpClient
+import io.ktor.serialization.kotlinx.json.DefaultJson
+import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -45,7 +47,7 @@ internal object DataDI {
         single<BigTrayRepository> { BigTrayRepositoryImpl(get()) }
         single<SemesterRepository> { SemesterRepositoryImpl(get()) }
         single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
-        single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
+        single<AccountRepository> { AccountRepositoryImpl(get(), get(), get()) }
     }
 
     val data = module {
@@ -53,6 +55,11 @@ internal object DataDI {
         single<GeneralDB> { GeneralDB(get()) }
         single<HttpClient> { createBasicClient() }
         single<Singer> { SingerFactory().create(get(named("platform-user-agent"))) }
+        single<Json> {
+            Json(DefaultJson) {
+                ignoreUnknownKeys = true
+            }
+        }
     }
 
     val service = module {

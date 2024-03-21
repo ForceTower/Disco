@@ -64,6 +64,7 @@ struct FinalCountdownView: View {
             }
         }
         .navigationTitle("Final Countdown")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem {
                 Button(action: openAddSheet) {

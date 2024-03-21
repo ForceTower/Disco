@@ -2,6 +2,7 @@ package dev.forcetower.unes.club.domain.di
 
 import dev.forcetower.unes.club.domain.usecase.account.GetAccountUseCase
 import dev.forcetower.unes.club.domain.usecase.account.LinkEmailUseCase
+import dev.forcetower.unes.club.domain.usecase.account.ManagePasskeysUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ServiceAuthUseCase
@@ -28,5 +29,6 @@ object DomainDI {
         factory { ServiceAuthUseCase(get(), get()) }
         factory { GetAccountUseCase(get()) }
         factory { LinkEmailUseCase(get()) }
+        factory { ManagePasskeysUseCase(get()) }
     }
 }

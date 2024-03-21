@@ -41,6 +41,7 @@ struct SyncRegistryView: View {
             }
         })
         .navigationTitle("Sincronização")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

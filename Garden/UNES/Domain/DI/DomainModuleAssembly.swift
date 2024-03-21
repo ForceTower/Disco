@@ -68,5 +68,9 @@ class DomainModuleAssembly : Assembly {
         container.register(LinkEmailUseCase.self) { _ in
             useCases.linkEmail
         }
+        
+        container.register(ManagePasskeysUseCase.self) { _ in
+            useCases.managePasskeys
+        }
     }
 }

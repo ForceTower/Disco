@@ -25,7 +25,8 @@ class WebAuthnConfig(
             .allowOriginPort(true)
             .origins(
                 setOf(
-                    "android:apk-key-hash:yWiOua1OxKtoVzZiQwlGK8qkL5IZZsk_hzt4dXmVsr4" // android debug
+                    "android:apk-key-hash:yWiOua1OxKtoVzZiQwlGK8qkL5IZZsk_hzt4dXmVsr4", // android debug,
+                    "https://edge-unes.forcetower.dev"
                 )
             )
             .build()

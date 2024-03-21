@@ -3,6 +3,8 @@ package dev.forcetower.unes.club.data.service.client
 import dev.forcetower.unes.club.data.model.remote.edge.account.LinkEmailResponseDTO
 import dev.forcetower.unes.club.data.model.remote.edge.account.ServiceAccountDTO
 import dev.forcetower.unes.club.data.model.remote.edge.ServiceResponseWrapper
+import dev.forcetower.unes.club.data.model.remote.edge.account.RegisterPasskeyCredential
+import dev.forcetower.unes.club.data.model.remote.edge.account.RegisterPasskeyStart
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.domain.model.auth.ServiceLinkEmailCompleteResult
 import io.ktor.client.HttpClient
@@ -51,5 +53,26 @@ internal class AccountService(
         if (result.status == HttpStatusCode.OK) return ServiceLinkEmailCompleteResult.Success
         if (result.status == HttpStatusCode.BadRequest) return ServiceLinkEmailCompleteResult.InvalidCode
         return ServiceLinkEmailCompleteResult.Error(result.status.value, "Request failed with code ${result.status.value}")
+    }
+
+    suspend fun registerPasskeyStart(): RegisterPasskeyStart {
+        val endpoint = "passkeys/register/start"
+        return client.get {
+            url { createUrl(endpoint) }
+            withAuth()
+        }.body<RegisterPasskeyStart>()
+    }
+
+    suspend fun registerPasskeyFinish(flowId: String, data: String) {
+        val endpoint = "passkeys/register/finish"
+        val response = client.post {
+            url { createUrl(endpoint) }
+            withAuth()
+            withData(RegisterPasskeyCredential(flowId, data))
+        }
+
+        if (response.status != HttpStatusCode.OK) {
+            throw IllegalStateException("Failed with code ${response.status}")
+        }
     }
 }

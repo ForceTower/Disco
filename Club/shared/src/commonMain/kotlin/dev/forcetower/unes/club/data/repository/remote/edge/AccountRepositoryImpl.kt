@@ -2,20 +2,27 @@ package dev.forcetower.unes.club.data.repository.remote.edge
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import dev.forcetower.unes.club.data.model.remote.edge.account.RegisterPasskeyCredential
 import dev.forcetower.unes.club.data.service.client.AccountService
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.ServiceAccount
 import dev.forcetower.unes.club.domain.exception.ServiceUnauthenticatedException
+import dev.forcetower.unes.club.domain.model.account.PasskeyRegister
+import dev.forcetower.unes.club.domain.model.account.RegisterPasskeyFlowStart
 import dev.forcetower.unes.club.domain.model.auth.ServiceLinkEmailCompleteResult
 import dev.forcetower.unes.club.domain.repository.remote.edge.AccountRepository
+import io.ktor.serialization.kotlinx.json.DefaultJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 internal class AccountRepositoryImpl(
     private val database: GeneralDatabase,
-    private val service: AccountService
+    private val service: AccountService,
+    private val json: Json
 ) : AccountRepository {
     override fun getAccount(): Flow<ServiceAccount?> {
         return database.serviceAccountQueries.selectMe().asFlow().mapToOneOrNull(Dispatchers.IO)
@@ -41,5 +48,15 @@ internal class AccountRepositoryImpl(
         val next = ServiceAccount(me.id, me.name, me.email, me.imageUrl, 1)
         database.serviceAccountQueries.insertReplace(next)
         return next
+    }
+
+    override suspend fun registerPasskeyStart(): RegisterPasskeyFlowStart {
+        val data = service.registerPasskeyStart()
+        val register = json.decodeFromString<PasskeyRegister>(data.create)
+        return RegisterPasskeyFlowStart(data.flowId, register)
+    }
+
+    override suspend fun registerPasskeyFinish(flowId: String, data: String) {
+        service.registerPasskeyFinish(flowId, data)
     }
 }

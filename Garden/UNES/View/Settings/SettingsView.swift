@@ -132,6 +132,7 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Configurações")
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: selectedFrequency) { newValue in
             vm.changeSetting(syncFrequency: newValue)
         }

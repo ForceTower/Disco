@@ -79,6 +79,7 @@ struct BigTrayView: View {
             }
         }
         .navigationTitle("Bandejão")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func currentMeal() -> String? {
