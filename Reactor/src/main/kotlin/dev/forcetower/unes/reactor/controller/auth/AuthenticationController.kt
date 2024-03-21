@@ -78,17 +78,21 @@ class AuthenticationController(
         val ref = object : TypeReference<PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs>>() {}
         val credential = mapper.readValue(body.credential, ref)
 
-        val result = authorizationService.finishAssertion(request, credential)
-        if (!result.isSuccess) {
+        try {
+            val result = authorizationService.finishAssertion(request, credential)
+            if (!result.isSuccess) {
+                return ResponseEntity.status(401).body(RegistrationFailedResponse("Login failed"))
+            }
+
+            val userId = YubicoUtils.toUUID(result.credential.userHandle)
+            val user = users.findById(userId)
+                ?: return ResponseEntity.status(401).body(RegistrationFailedResponse("Login failed"))
+
+            val authorities = roles.findRolesByUserId(userId)
+            val accessToken = tokenService.generateToken(user, authorities, 129600F)
+            return ResponseEntity.ok(LoginResponse(accessToken))
+        } catch (error: Exception) {
             return ResponseEntity.badRequest().body(RegistrationFailedResponse("Login failed"))
         }
-
-        val userId = YubicoUtils.toUUID(result.credential.userHandle)
-        val user = users.findById(userId)
-            ?: return ResponseEntity.badRequest().body(RegistrationFailedResponse("Login failed"))
-
-        val authorities = roles.findRolesByUserId(userId)
-        val accessToken = tokenService.generateToken(user, authorities, 129600F)
-        return ResponseEntity.ok(LoginResponse(accessToken))
     }
 }
