@@ -21,7 +21,7 @@ struct AccountView: View {
                     if let email = account.email, !email.isEmpty {
                         if #available(iOS 16.4, *) {
                             NavigationLink {
-                                CreatePasskeyView()
+                                CreatePasskeyView(path: $path)
                             } label: {
                                 Label {
                                     Text("Criar chave senha")

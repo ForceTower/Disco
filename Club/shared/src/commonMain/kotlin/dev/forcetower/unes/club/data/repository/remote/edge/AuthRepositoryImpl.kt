@@ -4,6 +4,7 @@ import dev.forcetower.unes.club.data.model.remote.edge.auth.ServiceAccessTokenDT
 import dev.forcetower.unes.club.data.service.client.AuthService
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.ServiceAccessToken
+import dev.forcetower.unes.club.domain.model.auth.PasskeyAssertionData
 import dev.forcetower.unes.club.domain.model.auth.ServiceAuthResult
 import dev.forcetower.unes.club.domain.repository.remote.edge.AuthRepository
 import io.ktor.client.call.body
@@ -52,6 +53,25 @@ internal class AuthRepositoryImpl(
         )
 
         ServiceAuthResult.Connected(null)
+    }
+
+    override suspend fun passkeyAssertionStart(): PasskeyAssertionData {
+        return service.passkeyAssertionStart()
+    }
+
+    override suspend fun passkeyAssertionFinish(flowId: String, credential: String) = withContext(Dispatchers.IO) {
+        val response = service.passkeyAssertionFinish(flowId, credential)
+
+        if (response.status != HttpStatusCode.OK) {
+            throw IllegalStateException("Failed to load with status code ${response.status})")
+        }
+
+        val token = response.body<ServiceAccessTokenDTO>()
+        database.serviceAccessTokenQueries.deleteAll()
+
+        database.serviceAccessTokenQueries.insertReplace(
+            token.accessToken, Clock.System.now().toEpochMilliseconds()
+        )
     }
 
     override suspend fun deleteAuthAndAccount() = withContext(Dispatchers.IO) {

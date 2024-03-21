@@ -13,4 +13,10 @@ extension String {
         guard offset != 0 else { return self }
         return padding(toLength: count + 4 - offset, withPad: "=", startingAt: 0)
     }
+    
+    var thingy: Self {
+        self
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+    }
 }

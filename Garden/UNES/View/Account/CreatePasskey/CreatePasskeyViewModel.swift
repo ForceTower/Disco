@@ -19,6 +19,7 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
     private var subscriptions = Set<AnyCancellable>()
     @Published var showError = false
     @Published private(set) var messageError = ""
+    @Published var completed = false
     
     init(passkey: ManagePasskeysUseCase = AppDIContainer.shared.resolve()) {
         self.passkey = passkey
@@ -45,14 +46,14 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
             
             let platformProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: publicKey.rp.id)
             print("Original challenge: \(publicKey.challenge)")
+            print("Original challenge: \(String(describing: publicKey.user))")
             let platformKeyRequest = platformProvider.createCredentialRegistrationRequest(
-                challenge: Data(publicKey.challenge.utf8),
+                challenge: Data(base64Encoded: publicKey.challenge.thingy.fixedBase64Format)!,
                 name: publicKey.user.name,
                 userID: Data(publicKey.user.id.utf8))
             
             platformKeyRequest.displayName = publicKey.user.displayName
             platformKeyRequest.userVerificationPreference = .required
-//            platformKeyRequest.excludedCredentials = []
             
             let result = try await controller.performRequest(platformKeyRequest)
             await onRegistrationResult(result, flowId: data.flowId)
@@ -90,41 +91,12 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
     
     private func sendKeyToServer(_ registration: ASAuthorizationPlatformPublicKeyCredentialRegistration, flowId: String) async {
         
-        guard let attestationObject = registration.rawAttestationObject else { return }
-        let clientDataJSON = registration.rawClientDataJSON
-        let credentialID = registration.credentialID
-        
-        guard let clientData = try? JSONSerialization.jsonObject(with: clientDataJSON) as? [String: Any] else { return }
-        print("Weow! so good! \(clientData)")
-        
-        guard let challengeB64 = clientData["challenge"] as? String else {
-            print("Failed at challenge")
-            return
-        }
-        
-        guard let challengeData = Data(base64Encoded: challengeB64.fixedBase64Format) else {
-            print("Failed to create challenge data \(challengeB64)")
-            return
-        }
-        
-        
-        guard let challenge = String(data: challengeData, encoding: .utf8) else {
-            print("Failed to return to string challenge")
-            return
-        }
-        
-        print("What a conversion! \(challenge)")
-        
-        let nextClientData = [
-            "type": clientData["type"],
-            "origin": clientData["origin"],
-            "challenge": challenge
-        ]
-        
-        guard let nextClientDataPayload = try? JSONSerialization.data(withJSONObject: nextClientData, options: [.withoutEscapingSlashes]) else {
+        guard let attestationObject = registration.rawAttestationObject else {
             onUnknownPasskeyEvent("Erro ao processar dados do cliente...")
             return
         }
+        let clientDataJSON = registration.rawClientDataJSON
+        let credentialID = registration.credentialID
         
         let payload = [
             "rawId": credentialID.base64URLEncodePadded(),
@@ -138,7 +110,7 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
             "type": "public-key",
             "response": [
                 "attestationObject": attestationObject.base64URLEncodePadded(),
-                "clientDataJSON": nextClientDataPayload.base64URLEncodePadded()
+                "clientDataJSON": clientDataJSON.base64URLEncodePadded()
             ]
         ] as [String: Any]
         
@@ -153,7 +125,7 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
         do {
             let _ = try await asyncFunction(for: passkey.registerFinish(flowId: flowId, data: payloadJSONText))
             toggleLoading(false)
-            print("FINISHED?")
+            toggleCompleted(true)
         } catch {
             onUnknownPasskeyEvent("Ocorreu um erro ao salvar senha no servidor... \(String(describing: error))")
         }
@@ -170,6 +142,12 @@ class CreatePasskeyViewModel : NSObject, ObservableObject, ASAuthorizationContro
     private func toggleLoading(_ value: Bool) {
         DispatchQueue.main.async { [weak self] in
             self?.loading = value
+        }
+    }
+    
+    private func toggleCompleted(_ value: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.completed = value
         }
     }
 }

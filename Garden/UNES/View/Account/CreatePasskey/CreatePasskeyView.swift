@@ -9,6 +9,7 @@ import SwiftUI
 
 @available(iOS 16.4, *)
 struct CreatePasskeyView: View {
+    @Binding var path: NavigationPath
     @Environment(\.authorizationController) private var authorizationController
     @StateObject private var vm = CreatePasskeyViewModel()
     
@@ -16,7 +17,7 @@ struct CreatePasskeyView: View {
         GeometryReader { reader in
             ScrollView {
                 VStack(spacing: 0) {
-                    Image(.coloredLogo)
+                    Image(.keysHandout)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 150)
@@ -82,15 +83,25 @@ struct CreatePasskeyView: View {
             }
         } message: {
             Text(vm.messageError)
+        }.alert("Chave criada!", isPresented: $vm.completed) {
+            Button {
+                vm.completed = false
+                path.removeLast()
+            } label: {
+                Text("Legal!")
+            }
+        } message: {
+            Text("A partir de agora você pode usar a chave para acessar sua conta")
         }
 
     }
 }
 
 #Preview {
-    NavigationStack {
+    @State var path: NavigationPath = .init()
+    return NavigationStack(path: $path) {
         if #available(iOS 16.4, *) {
-            CreatePasskeyView()
+            CreatePasskeyView(path: $path)
         } else {
             ProgressView()
         }
