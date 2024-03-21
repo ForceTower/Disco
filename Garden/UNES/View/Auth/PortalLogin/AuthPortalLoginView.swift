@@ -20,7 +20,7 @@ struct AuthPortalLoginView: View {
     @State var username = ""
     @State var password = ""
     @FocusState private var focusedField: FocusableField?
-    @StateObject private var viewModel: AuthPortalLoginViewModel = .init(attestationUseCase: AppDIContainer.shared.resolve(), loginUseCase: AppDIContainer.shared.resolve())
+    @StateObject private var viewModel: AuthPortalLoginViewModel = .init()
     
     var body: some View {
         ZStack {
@@ -129,15 +129,15 @@ struct AuthPortalLoginView: View {
                     }
                 }
             }
-        }.alert(viewModel.errorTitle, isPresented: $viewModel.showLoginError) {
+        }.alert("Não foi possível usar a chave", isPresented: $viewModel.showLoginError) {
             Button("OK") {
                 viewModel.showLoginError = false
             }
         } message: {
             Text(viewModel.errorDescription)
-        }.onAppear(perform: {
+        }.onAppear {
             viewModel.router = router
-        })
+        }
     }
     
     func login() async {

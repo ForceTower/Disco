@@ -24,7 +24,6 @@ public enum AuthorizationHandlingError: Error {
 }
 
 class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationControllerDelegate {
-    private let attestationUseCase: AttestationUseCase
     private let loginUseCase: LoginPortalUseCase
     private let serviceAuthUseCase: ServiceAuthUseCase
     
@@ -39,11 +38,9 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     private var subscriptions = Set<AnyCancellable>()
     
     init(
-        attestationUseCase: AttestationUseCase = AppDIContainer.shared.resolve(),
         loginUseCase: LoginPortalUseCase = AppDIContainer.shared.resolve(),
         serviceAuthUseCase: ServiceAuthUseCase = AppDIContainer.shared.resolve()
     ) {
-        self.attestationUseCase = attestationUseCase
         self.loginUseCase = loginUseCase
         self.serviceAuthUseCase = serviceAuthUseCase
     }
@@ -61,7 +58,6 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
                 case .failure(let error):
                     self?.onLoginError(error)
                 }
-                print("Finished.")
             } receiveValue: { [weak self] value in
                 switch value {
                 case let connected as LoginState.Connected:
@@ -71,7 +67,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
                 case is LoginState.Completed:
                     self?.onLoginSuccess()
                 default:
-                    print("No-op")
+                    Logger.authorization.debug("Login step: \(value)")
                 }
             }
             .store(in: &subscriptions)
@@ -79,7 +75,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     }
     
     func onLoginOpFinished() {
-        print("Login op finished.")
+        Logger.authorization.info("Login completed")
     }
     
     func onLoginSuccess() {
@@ -109,18 +105,18 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
     
     @available(iOS 16.4, *)
     func startAttestation(controller: AuthorizationController) async {
+        toggleLoading(true)
         do {
-            let data = try await attestationUseCase.start()
+            let data = try await asyncFunction(for: serviceAuthUseCase.startAssertion())
             await requestAttestation(controller: controller, data: data)
         } catch {
-            print(error)
+            onPasskeyError("Erro ao buscar dados do servidor")
         }
     }
     
     @available(iOS 16.4, *)
-    private func requestAttestation(controller: AuthorizationController, data: AssertionStartData) async {
+    private func requestAttestation(controller: AuthorizationController, data: PasskeyAssertionData) async {
         let publicKey = data.challenge.publicKey
-        print("Initial challenge: \(publicKey.challenge)")
         let challenge = Data(base64Encoded: publicKey.challenge.thingy.fixedBase64Format)!
         let platformProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: publicKey.rpId)
         let platformKeyRequest = platformProvider.createCredentialAssertionRequest(challenge: challenge)
@@ -130,36 +126,19 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
             let response = try await controller.performRequest(platformKeyRequest)
             await handleResponse(controller: controller, authorization: response, flowId: data.flowId)
         } catch let error as ASAuthorizationError where error.code == .canceled {
-            Logger.authorization.log("The user cancelled passkey authorization.")
+            toggleLoading(false)
+            Logger.authorization.debug("The user cancelled passkey authorization.")
         } catch let error as ASAuthorizationError {
-            DispatchQueue.main.async { [weak self] in
-                self?.errorTitle = "Passkey err"
-                self?.errorDescription = "Passkey authorization failed. Error: \(error.localizedDescription)"
-                self?.showLoginError = true
-            }
+            onPasskeyError("Erro ao autorizar chave de acesso")
             Logger.authorization.error("Passkey authorization failed. Error: \(error.localizedDescription)")
         } catch let AuthorizationHandlingError.unknownAuthorizationResult(authorizationResult) {
-            DispatchQueue.main.async { [weak self] in
-                self?.errorTitle = "Passkey err"
-                self?.errorDescription = """
-                Passkey authorization handling failed. \
-                Received an unknown result: \(String(describing: authorizationResult))
-                """
-                self?.showLoginError = true
-            }
+            onPasskeyError("Erro desconhecido ao buscar chaves. Tente novamente mais tarde")
             Logger.authorization.error("""
             Passkey authorization handling failed. \
             Received an unknown result: \(String(describing: authorizationResult))
             """)
         } catch {
-            DispatchQueue.main.async { [weak self] in
-                self?.errorTitle = "Passkey err"
-                self?.errorDescription = """
-                Passkey authorization handling failed. \
-                Caught an unknown error during passkey authorization or handling: \(error.localizedDescription)"
-                """
-                self?.showLoginError = true
-            }
+            onPasskeyError("Erro desconhecido durante autorização. Tente novamente depois")
             Logger.authorization.error("""
             Passkey authorization handling failed. \
             Caught an unknown error during passkey authorization or handling: \(error.localizedDescription)"
@@ -173,6 +152,7 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         case let .passkeyAssertion(passkeyAssertion):
             await completeAssertion(assertion: passkeyAssertion, flowId: flowId)
         default:
+            toggleLoading(false)
             Logger.authorization.error("Invalid type received during attestation")
         }
     }
@@ -181,14 +161,10 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         let clientDataJSON = assertion.rawClientDataJSON
         let credentialID = assertion.credentialID
         
-        guard let clientData = try? JSONSerialization.jsonObject(with: clientDataJSON) as? [String: Any] else {
-            // onUnknownPasskeyEvent("Erro ao processar dados do cliente...")
+        guard let userHandle = String(data: assertion.userID, encoding: .utf8) else {
+            onPasskeyError("Não foi possível recuperar o ID de usuário")
             return
         }
-        print("Weow! so good! \(clientData)")
-        
-        guard let userHandle = String(data: assertion.userID, encoding: .utf8) else { return }
-        print("User id \(userHandle)")
         
         let payload = [
             "rawId": credentialID.base64URLEncodePadded(),
@@ -206,20 +182,31 @@ class AuthPortalLoginViewModel : NSObject, ObservableObject, ASAuthorizationCont
         
         guard let payloadJSONData = try? JSONSerialization.data(withJSONObject: payload, options: [.withoutEscapingSlashes]),
               let payloadJSONText = String(data: payloadJSONData, encoding: .utf8) else {
-            // onUnknownPasskeyEvent("Erro ao processar dados da chave...")
+            onPasskeyError("Erro de conversão da chave.")
             return
         }
         
         print("Result \(payloadJSONText)")
         
         do {
-            let account = try await asyncFunction(for: serviceAuthUseCase.finishAssertion(flowId: flowId, credential: payloadJSONText))
-            print("Finished? \(account)")
-            // toggleLoading(false)
-            // toggleCompleted(true)
+            let _ = try await asyncFunction(for: serviceAuthUseCase.finishAssertion(flowId: flowId, credential: payloadJSONText))
+            toggleLoading(false)
         } catch {
             print("Failed with \(error.localizedDescription)")
-            // onUnknownPasskeyEvent("Ocorreu um erro ao salvar senha no servidor... \(String(describing: error))")
+            onPasskeyError("Erro de comunicação ao autenticar chave.")
+        }
+    }
+    
+    private func onPasskeyError(_ message: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.loading = false
+            self?.errorDescription = message
+        }
+    }
+    
+    private func toggleLoading(_ value: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.loading = value
         }
     }
 }
