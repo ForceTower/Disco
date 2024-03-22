@@ -9,9 +9,22 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var vm: HomeViewModel = .init()
+    @State private var menuPath = NavigationPath()
+    
+    var selectionBinding: Binding<HomeTabSelection> {
+        Binding(
+            get: { vm.tabSelection },
+            set: {
+                if $0 == vm.tabSelection && $0 == .others {
+                    menuPath.removeLast(menuPath.count)
+                }
+                vm.tabSelection = $0
+            }
+        )
+    }
     
     var body: some View {
-        TabView(selection: $vm.tabSelection) {
+        TabView(selection: selectionBinding) {
             HomeDashboardView {
                 vm.tabSelection = .schedule
             } selectMessages: {
@@ -37,10 +50,13 @@ struct HomeView: View {
                     Label("Disciplinas", systemImage: "graduationcap")
                 }.tag(HomeTabSelection.disciplines)
             
-            HomeMenuView()
-                .tabItem {
-                    Label("Menu", systemImage: "circle.grid.2x2")
-                }.tag(HomeTabSelection.others)
+            NavigationStack(path: $menuPath) {
+                HomeMenuView(path: $menuPath)
+            }
+            .tabItem {
+                Label("Menu", systemImage: "circle.grid.2x2")
+            }
+            .tag(HomeTabSelection.others)
         }
         .onAppear {
             NotificationManager.shared.requestPermission()
@@ -52,4 +68,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(RootRouter())
 }

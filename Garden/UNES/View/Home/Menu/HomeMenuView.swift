@@ -9,94 +9,93 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct HomeMenuView: View {
+    @Binding var path: NavigationPath
     @EnvironmentObject var router: RootRouter
     @AppStorage("settings_exhibition_subtitle") private var subtitleOption: SubtitleOption = .score
     
-    @State var path: NavigationPath = .init()
     @StateObject private var vm: HomeMenuViewModel = .init()
     @State var showLogoutSheet = false
     
     var body: some View {
-        NavigationStack(path: $path) {
-            List {
-                NavigationLink(value: MenuItem(name: "", icon: "", destination: .account, navigates: false)) {
-                    HStack {
-                        if let imageUrl = vm.currentAccount?.imageUrl {
-                            WebImage(url: URL(string: imageUrl)) { image in
-                                image.resizable()
-                            } placeholder: {
-                                Rectangle().foregroundColor(.gray)
-                            }
-                            .indicator(.activity)
-                            .scaledToFit()
-                            .transition(.fade(duration: 0.5))
-                            .frame(width: 48, height: 48)
-                            .clipShape(.circle)
-                            .padding(.trailing, 8)
+        List {
+            NavigationLink(value: MenuItem(name: "", icon: "", destination: .account, navigates: false)) {
+                HStack {
+                    if let imageUrl = vm.currentAccount?.imageUrl {
+                        WebImage(url: URL(string: imageUrl)) { image in
+                            image.resizable()
+                        } placeholder: {
+                            Rectangle().foregroundColor(.gray)
                         }
-                        VStack(alignment: .leading) {
-                            if let profile = vm.currentProfile, let name = profile.name {
-                                Text(name)
-                                    .font(.title3)
-                                
-                                if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
-                                    Text(subtitle)
-                                        .font(.footnote)
-                                        .fontWeight(.regular)
-                                }
-                            }
-                        }
+                        .indicator(.activity)
+                        .scaledToFit()
+                        .transition(.fade(duration: 0.5))
+                        .frame(width: 48, height: 48)
+                        .clipShape(.circle)
+                        .padding(.trailing, 8)
                     }
-                }
-                
-                ForEach(HomeMenuViewModel.sections, id: \.title) { section in
-                    if let title = section.title {
-                        Section(title) {
-                            SectionItemView(section: section) { item in
-                                onItemTapped(item)
-                            }
-                        }
-                    } else {
-                        Section {
-                            SectionItemView(section: section) { item in
-                                onItemTapped(item)
+                    VStack(alignment: .leading) {
+                        if let profile = vm.currentProfile, let name = profile.name {
+                            Text(name)
+                                .font(.title3)
+                            
+                            if let subtitle = vm.findUserSubtitle(opt: subtitleOption) {
+                                Text(subtitle)
+                                    .font(.footnote)
+                                    .fontWeight(.regular)
                             }
                         }
                     }
                 }
             }
-            .navigationDestination(for: MenuItem.self) { item in
-                if item.destination == .restaurant {
-                    BigTrayView(path: $path)
-                } else if item.destination == .finalCountdown {
-                    FinalCountdownView()
-                } else if item.destination == .syncRegistry {
-                    SyncRegistryView()
-                } else if item.destination == .settings {
-                    SettingsView()
-                } else if item.destination == .about {
-                    AboutView()
-                } else if item.destination == .zhonyas {
-                    ParadoxView()
-                } else if item.destination == .account {
-                    AccountView(path: $path)
+            
+            ForEach(HomeMenuViewModel.sections, id: \.title) { section in
+                if let title = section.title {
+                    Section(title) {
+                        SectionItemView(section: section) { item in
+                            onItemTapped(item)
+                        }
+                    }
+                } else {
+                    Section {
+                        SectionItemView(section: section) { item in
+                            onItemTapped(item)
+                        }
+                    }
                 }
             }
-            .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
-                Button(role: .destructive, action: {
-                    onLogoutConfirmed()
-                }, label: {
-                    Text("Sair e apagar dados")
-                })
-            } message: {
-                Text("Tem certeza que deseja sair? Todos os dados locais serão apagados.")
+        }
+        .navigationDestination(for: MenuItem.self) { item in
+            if item.destination == .restaurant {
+                BigTrayView(path: $path)
+            } else if item.destination == .finalCountdown {
+                FinalCountdownView()
+            } else if item.destination == .syncRegistry {
+                SyncRegistryView()
+            } else if item.destination == .settings {
+                SettingsView()
+            } else if item.destination == .about {
+                AboutView()
+            } else if item.destination == .zhonyas {
+                ParadoxView()
+            } else if item.destination == .account {
+                AccountView(path: $path)
             }
-            .navigationTitle("Menu")
-        }.onAppear {
+        }
+        .confirmationDialog("Sair do UNES", isPresented: $showLogoutSheet, titleVisibility: .visible) {
+            Button(role: .destructive, action: {
+                onLogoutConfirmed()
+            }, label: {
+                Text("Sair e apagar dados")
+            })
+        } message: {
+            Text("Tem certeza que deseja sair? Todos os dados locais serão apagados.")
+        }
+        .navigationTitle("Menu")
+        .onAppear {
             vm.router = router
         }
     }
-    
+
     func onLogoutConfirmed() {
         showLogoutSheet = false
         Task { await vm.logout() }
@@ -138,5 +137,9 @@ struct SectionItemView: View {
 }
 
 #Preview {
-    HomeMenuView().environmentObject(RootRouter())
+    @State var path = NavigationPath()
+    return NavigationStack(path: $path) {
+        HomeMenuView(path: $path)
+            .environmentObject(RootRouter())
+    }
 }
