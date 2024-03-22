@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 import Club
 import SDWebImageSwiftUI
 
@@ -63,7 +64,11 @@ struct AccountView: View {
                 }
             } header: {
                 if let profile = vm.currentProfile {
-                    AccountHeaderView(profile: profile, account: vm.currentAccount) {
+                    AccountHeaderView(
+                        profile: profile,
+                        account: vm.currentAccount,
+                        imageSelection: $vm.imageSelection
+                    ) {
                         
                     }
                 } else {
@@ -105,6 +110,7 @@ struct AccountView: View {
 struct AccountHeaderView: View {
     let profile: Profile
     let account: ServiceAccount?
+    @Binding var imageSelection: PhotosPickerItem?
     
     let onChangeProfilePicture: () -> Void
     
@@ -112,36 +118,38 @@ struct AccountHeaderView: View {
         HStack {
             Spacer()
             VStack(alignment: .center, spacing: 8) {
-                Button {
-                    onChangeProfilePicture()
-                } label: {
-                    Label {
-                        Text("Trocar foto")
-                    } icon: {
-                        if let image = account?.imageUrl {
-                            WebImage(url: URL(string: image)) { image in
-                                image.resizable()
-                            } placeholder: {
-                                Rectangle().foregroundColor(.gray)
-                            }
-                            .indicator(.activity)
-                            .scaledToFit()
-                            .transition(.fade(duration: 0.5))
-                            .frame(width: 100, height: 100)
-                            .clipShape(.circle)
-                        } else {
+                PhotosPicker(selection: $imageSelection,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    if let image = account?.imageUrl {
+                        WebImage(url: URL(string: image)) { image in
+                            image.resizable()
+                        } placeholder: {
+                            Rectangle().foregroundColor(.gray)
+                        }
+                        .indicator(.activity)
+                        .scaledToFit()
+                        .transition(.fade(duration: 0.5))
+                        .frame(width: 100, height: 100)
+                        .clipShape(.circle)
+                    } else {
+                        ZStack {
                             Image(systemName: "person.crop.circle")
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundStyle(.secondary)
                                 .frame(width: 100, height: 100)
                                 .clipShape(.circle)
+                            
+                            Image(systemName: "pencil.circle.fill")
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 30))
+                                .foregroundColor(.accentColor)
+                                .opacity(0.8)
                         }
                     }
-                    .labelStyle(.iconOnly)
-                }
-                .disabled(account == nil)
-                
+                }.buttonStyle(.borderless)
+
                 Text(account?.name ?? profile.name ?? "????")
                     .textInputAutocapitalization(.never)
                     .font(.body)
@@ -194,7 +202,8 @@ struct LoginAccountSplash: View {
             Spacer()
             
             Image(systemName: "person.and.background.dotted")
-                .foregroundStyle(.primary)
+                .symbolRenderingMode(.multicolor)
+                .foregroundStyle(.blue)
             
             Text("As suas credenciais de acesso ao Portal serão usadas para processar o seu login e garantir sua identidade. O processo é efêmero, as credenciais não são salvas nos servidores do UNES. Para mais informações, o código pode ser inspecionado [aqui](https://github.com/ForceTower/Disco)")
                 .font(.caption2)

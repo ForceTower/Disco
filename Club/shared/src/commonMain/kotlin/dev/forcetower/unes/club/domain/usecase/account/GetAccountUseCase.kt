@@ -22,4 +22,9 @@ class GetAccountUseCase internal constructor(
     fun getAccount(): Flow<ServiceAccount?> {
         return repository.getAccount()
     }
+
+    @NativeCoroutines
+    suspend fun changeProfilePicture(base64: String) {
+        return repository.changeProfilePicture(base64)
+    }
 }

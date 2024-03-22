@@ -14,4 +14,5 @@ internal interface AccountRepository {
     suspend fun registerPasskeyStart(): RegisterPasskeyFlowStart
     suspend fun registerPasskeyFinish(flowId: String, data: String)
     suspend fun registerMessagingTokenIfNeeded(token: String)
+    suspend fun changeProfilePicture(base64: String)
 }

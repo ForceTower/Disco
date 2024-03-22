@@ -4,6 +4,7 @@ import dev.forcetower.unes.reactor.data.entity.MessagingToken
 import dev.forcetower.unes.reactor.data.repository.MessagingTokenRepository
 import dev.forcetower.unes.reactor.data.repository.UserRepository
 import dev.forcetower.unes.reactor.domain.dto.BaseResponse
+import dev.forcetower.unes.reactor.domain.dto.account.ChangeAccountPictureRequest
 import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterFinish
 import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterStart
 import dev.forcetower.unes.reactor.domain.dto.account.PublicPersonalAccount
@@ -104,4 +105,13 @@ class AccountController(
             BaseResponse.ok("Saved!")
         )
     }
+
+    @PostMapping("/picture")
+    suspend fun changePicture(@RequestBody @Valid body: ChangeAccountPictureRequest): ResponseEntity<BaseResponse> {
+        val user = requireUser()
+        logger.info("Image link: {}", body.picture)
+        users.updateImage(user.id, body.picture)
+        return ResponseEntity.ok(BaseResponse.ok("Updated image"))
+    }
+
 }

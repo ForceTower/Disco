@@ -20,4 +20,7 @@ interface UserRepository : CoroutineCrudRepository<User, UUID> {
 
     @Query("SELECT * FROM student")
     suspend fun findUpdatableStudent(): Collection<Student>
+
+    @Query("UPDATE users SET image_url = :link WHERE id = :id")
+    suspend fun updateImage(id: UUID, link: String)
 }

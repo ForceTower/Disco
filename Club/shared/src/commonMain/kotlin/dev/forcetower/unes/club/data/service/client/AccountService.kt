@@ -87,4 +87,16 @@ internal class AccountService(
         if (response.status != HttpStatusCode.OK)
             throw IllegalStateException("Failed with code ${response.status}")
     }
+
+    suspend fun changeProfilePicture(base64: String) {
+        val endpoint = "account/picture"
+        val response = client.post {
+            url { createUrl(endpoint) }
+            withAuth()
+            withData(mapOf("picture" to base64))
+        }
+
+        if (response.status != HttpStatusCode.OK)
+            throw IllegalStateException("Failed with code ${response.status}")
+    }
 }
