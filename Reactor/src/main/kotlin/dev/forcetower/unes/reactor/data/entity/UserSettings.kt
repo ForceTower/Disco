@@ -9,5 +9,6 @@ data class UserSettings(
     @Id
     val id: UUID,
     val userId: UUID,
-    val gradeSpoiler: Short
+    val gradeSpoiler: Short,
+    val initialSyncCompleted: Boolean
 )

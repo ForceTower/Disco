@@ -11,5 +11,8 @@ interface UserSettingsRepository : CoroutineCrudRepository<UserSettings, UUID> {
     @Query("INSERT INTO user_settings(user_id) VALUES (:userId) ON CONFLICT DO NOTHING")
     suspend fun createForUser(userId: UUID)
 
+    @Query("SELECT * FROM user_settings WHERE user_id = :userId")
     suspend fun findByUserId(userId: UUID): UserSettings?
+    @Query("UPDATE user_settings SET initial_sync_completed = :synced WHERE user_id = :userId")
+    suspend fun updateInitialSyncForUser(userId: UUID, synced: Boolean)
 }

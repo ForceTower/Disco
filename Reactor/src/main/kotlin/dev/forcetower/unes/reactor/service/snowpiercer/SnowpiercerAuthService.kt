@@ -2,8 +2,10 @@ package dev.forcetower.unes.reactor.service.snowpiercer
 
 import dev.forcetower.unes.reactor.data.entity.Student
 import dev.forcetower.unes.reactor.data.entity.User
+import dev.forcetower.unes.reactor.data.entity.UserSettings
 import dev.forcetower.unes.reactor.data.repository.StudentRepository
 import dev.forcetower.unes.reactor.data.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.UserSettingsRepository
 import dev.forcetower.unes.reactor.utils.extension.toTitleCase
 import io.github.scru128.Scru128
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +19,7 @@ import java.util.UUID
 class SnowpiercerAuthService(
     private val users: UserRepository,
     private val students: StudentRepository,
+    private val settings: UserSettingsRepository,
     private val login: SnowpiercerLoginService
 ) {
     suspend fun login(username: String, password: String): User? {
@@ -28,7 +31,8 @@ class SnowpiercerAuthService(
         if (student == null) {
             val user = withContext(Dispatchers.IO) {
                 val generated = "user_${Scru128.generate()}"
-                users.insert(generated, person.name.toTitleCase(), null)
+                val user = users.insert(generated, person.name.toTitleCase(), null)
+                settings.createForUser(user.id)
                 users.findUserByUsername(generated)!!
             }
 

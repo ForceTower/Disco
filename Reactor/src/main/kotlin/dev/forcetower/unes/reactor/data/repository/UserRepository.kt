@@ -1,5 +1,6 @@
 package dev.forcetower.unes.reactor.data.repository
 
+import dev.forcetower.unes.reactor.data.entity.Student
 import dev.forcetower.unes.reactor.data.entity.User
 import org.jose4j.jwk.Use
 import org.springframework.data.r2dbc.repository.Modifying
@@ -17,6 +18,6 @@ interface UserRepository : CoroutineCrudRepository<User, UUID> {
 
     suspend fun findUserByEmail(email: String): User?
 
-    @Query("SELECT u FROM users u")
-    suspend fun getUpdatableUsers(rate: Int): Collection<User>
+    @Query("SELECT * FROM student")
+    suspend fun findUpdatableStudent(): Collection<Student>
 }

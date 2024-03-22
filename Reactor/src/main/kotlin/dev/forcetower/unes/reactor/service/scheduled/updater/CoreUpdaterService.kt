@@ -1,18 +1,16 @@
 package dev.forcetower.unes.reactor.service.scheduled.updater
 
-import dev.forcetower.breaker.Orchestra
-import dev.forcetower.breaker.result.Outcome
-import dev.forcetower.unes.reactor.data.entity.User
+import dev.forcetower.unes.reactor.data.entity.Student
 import dev.forcetower.unes.reactor.data.repository.UserRepository
+import dev.forcetower.unes.reactor.data.repository.UserSettingsRepository
+import dev.forcetower.unes.reactor.service.snowpiercer.SnowpiercerUpdateService
 import dev.forcetower.unes.reactor.utils.extension.onException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -23,23 +21,23 @@ import java.util.concurrent.TimeUnit
 @Service
 class CoreUpdaterService @Autowired constructor(
     private val repository: UserRepository,
-    private val orchestra: Orchestra,
-    private val scope: CoroutineScope
+    private val settingsRepository: UserSettingsRepository,
+    private val scope: CoroutineScope,
+    private val updater: SnowpiercerUpdateService
 ) {
     private val logger = LoggerFactory.getLogger(CoreUpdaterService::class.java)
 
-    @Scheduled(fixedRate = 15, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedRate = 30, timeUnit = TimeUnit.MINUTES)
     suspend fun execute() {
-        logger.info("Starting updater for rate 15")
+        logger.info("Starting updater for rate 30")
 
-        val users = withContext(Dispatchers.IO) {
-            repository.getUpdatableUsers(15)
-        }
-        logger.info("Will update ${users.size} users in this batch")
+        // add rate
+        val students = repository.findUpdatableStudent()
+        logger.info("Will update ${students.size} students in this batch")
 
         val job = scope.launch {
             val channel = produce(capacity = 5) {
-                users.forEach { send(it) }
+                students.forEach { send(it) }
             }
 
             for (i in 1..5) {
@@ -52,7 +50,7 @@ class CoreUpdaterService @Autowired constructor(
         logger.info("Finished updating users")
     }
 
-    private suspend fun processor(channel: ReceiveChannel<User>) {
+    private suspend fun processor(channel: ReceiveChannel<Student>) {
         channel.consumeEach {
             runCatching {
                 processUser(it)
@@ -62,18 +60,12 @@ class CoreUpdaterService @Autowired constructor(
         }
     }
 
-    private suspend fun processUser(user: User) {
-        logger.info("Running update for user ${user.id}")
-        runCatching {
-            val messagesOutcome = orchestra.messages(15)
-            (messagesOutcome as? Outcome.Success)?.let { success ->
-                val messages = success.value
-//                userMessageProcessService.host(messages, user, false).execute()
-            }
-
-            if (messagesOutcome is Outcome.Error) {
-                logger.debug("Messages error code: ${messagesOutcome.code}", messagesOutcome.error)
-            }
-        }
+    private suspend fun processUser(student: Student) {
+        logger.info("Running update for user ${student.userId}")
+        settingsRepository.createForUser(student.userId)
+        val completed = settingsRepository.findByUserId(student.userId)?.initialSyncCompleted ?: false
+        updater.update(student, completed)
+        settingsRepository.updateInitialSyncForUser(student.userId, true)
+        logger.info("Completed update for user ${student.userId}")
     }
 }
