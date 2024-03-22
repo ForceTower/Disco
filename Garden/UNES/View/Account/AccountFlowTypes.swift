@@ -10,7 +10,7 @@ import Foundation
 struct RootAccFlow : Hashable {}
 struct HandshakeAccFlow : Hashable {}
 struct EmailAccFlow : Hashable {}
-struct EmailConfirmationAccFlow : Hashable  {
+struct EmailConfirmationAccFlow : Hashable {
     let security: String
 }
 

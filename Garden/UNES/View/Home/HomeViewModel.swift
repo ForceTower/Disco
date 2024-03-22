@@ -16,18 +16,29 @@ enum HomeTabSelection: Hashable {
 
 class HomeViewModel : ObservableObject {
     private let disciplinesUseCase: GetDisciplinesUseCase
+    private let messaging: MessagingUseCase
     
     @Published var tabSelection: HomeTabSelection = .dashboard
     private var loadedMissing = false
+    private var sentMessagingToken = false
     
-    init(disciplinesUseCase: GetDisciplinesUseCase = AppDIContainer.shared.resolve()) {
+    init(disciplinesUseCase: GetDisciplinesUseCase = AppDIContainer.shared.resolve(),
+         messaging: MessagingUseCase = AppDIContainer.shared.resolve()) {
         self.disciplinesUseCase = disciplinesUseCase
+        self.messaging = messaging
     }
     
     func loadMissingSemesters() {
         if loadedMissing { return }
         loadedMissing = true
         Task { await doLoadMissing() }
+    }
+    
+    func sendTokenIfNeeded() {
+        if sentMessagingToken { return }
+        sentMessagingToken = true
+        guard let token = UserDefaults.standard.string(forKey: "messaging_notification_token") else { return }
+        messaging.onTokenReceived(token)
     }
     
     private func doLoadMissing() async {

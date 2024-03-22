@@ -75,6 +75,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let fcmToken = fcmToken {
             print("Received fcm token: \(fcmToken)")
+            UserDefaults.standard.set(fcmToken, forKey: "messaging_notification_token")
             let messaging: MessagingUseCase = AppDIContainer.shared.resolve()
             messaging.onTokenReceived(fcmToken)
         }

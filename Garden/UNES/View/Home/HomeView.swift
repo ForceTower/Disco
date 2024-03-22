@@ -11,13 +11,12 @@ struct HomeView: View {
     @StateObject private var vm: HomeViewModel = .init()
     
     var body: some View {
-        TabView(selection: $vm.tabSelection,
-                content:  {
-            HomeDashboardView(selectSchedule: {
+        TabView(selection: $vm.tabSelection) {
+            HomeDashboardView {
                 vm.tabSelection = .schedule
-            }, selectMessages: {
+            } selectMessages: {
                 vm.tabSelection = .messages
-            })
+            }
             .tabItem {
                 Label("Início", systemImage: "newspaper")
             }.tag(HomeTabSelection.dashboard)
@@ -42,10 +41,11 @@ struct HomeView: View {
                 .tabItem {
                     Label("Menu", systemImage: "circle.grid.2x2")
                 }.tag(HomeTabSelection.others)
-        })
+        }
         .onAppear {
             NotificationManager.shared.requestPermission()
             vm.loadMissingSemesters()
+            vm.sendTokenIfNeeded()
         }
     }
 }
