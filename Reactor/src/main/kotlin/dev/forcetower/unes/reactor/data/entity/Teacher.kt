@@ -1,17 +1,14 @@
 package dev.forcetower.unes.reactor.data.entity
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
-import java.time.ZonedDateTime
 import java.util.UUID
 
-@Table("discipline_offers")
-data class DisciplineOffer(
+@Table("teachers")
+data class Teacher(
     @Id
     val id: UUID,
-    val disciplineId: UUID,
-    val semesterId: UUID,
-    val createdAt: ZonedDateTime? = null
+    val name: String,
+    val platformId: Long
 )

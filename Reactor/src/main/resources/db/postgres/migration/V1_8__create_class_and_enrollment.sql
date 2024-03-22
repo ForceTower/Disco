@@ -43,7 +43,7 @@ create table student_classes
     final_grade_raw     varchar(80)         null,
     partial_grade       decimal             null,
     partial_grade_raw   varchar(80)         null,
-    created_at          timestamptz         null,
+    created_at          timestamptz         not null default now(),
     constraint student_classes_student_id_class_id_unique
         unique (student_id, class_id),
     constraint student_classes_class_id_foreign
@@ -61,7 +61,7 @@ create table grades
     resumed_name        text           null,
     student_class_id    uuid           not null,
     grouping_name       text           null,
-    date                text           null,
+    date                timestamptz    null,
     grade               decimal        null,
     grade_raw           varchar(80)    null,
     platform_id         text           not null,

@@ -4,7 +4,7 @@ CREATE TABLE semesters (
    codename text NOT NULL,
    platform_id bigint NOT NULL,
    start timestamptz,
-   "end" timestamptz,
+   finish timestamptz,
    start_class timestamptz DEFAULT NULL,
    end_class timestamptz default NULL
 );
@@ -28,7 +28,7 @@ create table disciplines(
     name          text     not null,
     program       text     null,
     credits       integer  not null,
-    department_id uuid     not null,
+    department_id uuid     null,
     full_code     text     null,
     constraint disciplines_code_department_id_unique
         unique (code, department_id),

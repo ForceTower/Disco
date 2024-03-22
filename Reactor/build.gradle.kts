@@ -36,7 +36,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("com.yubico:webauthn-server-core:2.5.0")
-    implementation("dev.forcetower.unes:snowpiercer:2.0.0")
+    implementation("dev.forcetower.unes:snowpiercer:2.1.1")
     implementation("io.github.scru128:scru128:3.0.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.bitbucket.b_c:jose4j:0.9.5")
