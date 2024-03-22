@@ -4,6 +4,7 @@ import dev.forcetower.unes.reactor.data.repository.CourseRepository
 import dev.forcetower.unes.reactor.data.repository.StudentRepository
 import dev.forcetower.unes.reactor.domain.dto.BaseResponse
 import dev.forcetower.unes.reactor.domain.dto.student.PublicStudent
+import dev.forcetower.unes.reactor.service.snowpiercer.SnowpiercerUpdateService
 import dev.forcetower.unes.reactor.utils.spring.requireUser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,7 +17,8 @@ import org.springframework.web.server.ResponseStatusException
 @RequestMapping("api/student")
 class StudentController(
     private val students: StudentRepository,
-    private val courses: CourseRepository
+    private val courses: CourseRepository,
+    private val update: SnowpiercerUpdateService
 ) {
     @GetMapping("/me")
     suspend fun me(): ResponseEntity<BaseResponse> {
@@ -37,5 +39,15 @@ class StudentController(
                 )
             )
         )
+    }
+
+    @GetMapping("/sync")
+    suspend fun update(): ResponseEntity<*> {
+        val user = requireUser()
+        val student = students.findByUserId(user.id)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found")
+
+        update.update(student, true)
+        return ResponseEntity.ok(BaseResponse.ok("Doing the thing!"))
     }
 }

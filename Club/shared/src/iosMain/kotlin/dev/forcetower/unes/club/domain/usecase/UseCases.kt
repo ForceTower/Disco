@@ -3,6 +3,7 @@ package dev.forcetower.unes.club.domain.usecase
 import dev.forcetower.unes.club.domain.usecase.account.GetAccountUseCase
 import dev.forcetower.unes.club.domain.usecase.account.LinkEmailUseCase
 import dev.forcetower.unes.club.domain.usecase.account.ManagePasskeysUseCase
+import dev.forcetower.unes.club.domain.usecase.account.MessagingTokenUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ConnectedUserUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.LoginPortalUseCase
 import dev.forcetower.unes.club.domain.usecase.auth.ServiceAuthUseCase
@@ -30,4 +31,5 @@ class UseCases : KoinComponent {
     val getServiceAccount by inject<GetAccountUseCase>()
     val linkEmail by inject<LinkEmailUseCase>()
     val managePasskeys by inject<ManagePasskeysUseCase>()
+    val messagingToken by inject<MessagingTokenUseCase>()
 }

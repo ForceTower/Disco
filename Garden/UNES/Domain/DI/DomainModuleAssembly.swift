@@ -72,5 +72,9 @@ class DomainModuleAssembly : Assembly {
         container.register(ManagePasskeysUseCase.self) { _ in
             useCases.managePasskeys
         }
+        
+        container.register(MessagingUseCase.self) { _ in
+            MessagingUseCase(messaging: useCases.messagingToken)
+        }
     }
 }

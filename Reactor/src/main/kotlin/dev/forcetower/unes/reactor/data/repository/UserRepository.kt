@@ -11,9 +11,8 @@ import java.util.UUID
 
 @Repository
 interface UserRepository : CoroutineCrudRepository<User, UUID> {
-    @Modifying
     @Query("INSERT INTO users(username, name, email) values (:username, :name, :email)")
-    suspend fun insert(username: String, name: String, email: String?): Long
+    suspend fun insert(username: String, name: String, email: String?): User
     suspend fun findUserByUsername(username: String): User?
 
     suspend fun findUserByEmail(email: String): User?

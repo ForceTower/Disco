@@ -75,4 +75,16 @@ internal class AccountService(
             throw IllegalStateException("Failed with code ${response.status}")
         }
     }
+
+    suspend fun registerMessagingToken(token: String) {
+        val endpoint = "account/fcm"
+        val response = client.post {
+            url { createUrl(endpoint) }
+            withAuth()
+            withData(mapOf("token" to token))
+        }
+
+        if (response.status != HttpStatusCode.OK)
+            throw IllegalStateException("Failed with code ${response.status}")
+    }
 }

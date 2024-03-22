@@ -9,6 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.concurrent.Executors
@@ -16,7 +17,10 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Configuration
-class CoreUpdaterConfig {
+class CoreUpdaterConfig(
+    @Value("\${unes.snowpiercer.username}") private val snowpiercerUsername: String,
+    @Value("\${unes.snowpiercer.password}") private val snowpiercerPassword: String
+) {
     @Bean("updaterExecutors")
     fun executor(): CoroutineDispatcher {
         return Executors.newFixedThreadPool(5)
@@ -43,6 +47,8 @@ class CoreUpdaterConfig {
         val orchestra = Orchestra.Builder()
             .client(client)
             .build()
+
+        orchestra.setAuthorization(Authorization(snowpiercerUsername, snowpiercerPassword))
 
         return orchestra
     }

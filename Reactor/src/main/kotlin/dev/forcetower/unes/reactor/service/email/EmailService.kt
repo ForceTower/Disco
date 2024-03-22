@@ -21,7 +21,7 @@ class EmailService(
 
         val html = templateEngine.process("verify_email", context)
             .replace("\${code}", code).replace("\${email}", to)
-        sender.send(to, "Cadastro no UNES", html)
+        sender.send(to, "Login no UNES", html)
     }
 
     fun generateID(size: Int): String {

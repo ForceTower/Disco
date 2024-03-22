@@ -13,4 +13,5 @@ internal interface AccountRepository {
     suspend fun completeEmailRegister(code: String, security: String): ServiceLinkEmailCompleteResult
     suspend fun registerPasskeyStart(): RegisterPasskeyFlowStart
     suspend fun registerPasskeyFinish(flowId: String, data: String)
+    suspend fun registerMessagingTokenIfNeeded(token: String)
 }

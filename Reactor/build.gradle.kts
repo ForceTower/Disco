@@ -56,6 +56,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.2")
 
     implementation("com.resend:resend-java:3.0.2")
+    implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

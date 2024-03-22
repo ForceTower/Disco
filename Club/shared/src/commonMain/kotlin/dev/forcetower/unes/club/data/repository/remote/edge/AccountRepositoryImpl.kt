@@ -59,4 +59,11 @@ internal class AccountRepositoryImpl(
     override suspend fun registerPasskeyFinish(flowId: String, data: String) {
         service.registerPasskeyFinish(flowId, data)
     }
+
+    override suspend fun registerMessagingTokenIfNeeded(token: String) {
+        withContext(Dispatchers.IO) {
+            database.serviceAccessTokenQueries.selectToken().executeAsOneOrNull() ?: return@withContext null
+            service.registerMessagingToken(token)
+        }
+    }
 }

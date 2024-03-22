@@ -51,6 +51,7 @@
 		6C80CF352BAB767800F69609 /* CreatePasskeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF342BAB767800F69609 /* CreatePasskeyViewModel.swift */; };
 		6C80CF372BAB8F0400F69609 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF362BAB8F0400F69609 /* Data.swift */; };
 		6C80CF392BABAFB800F69609 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF382BABAFB800F69609 /* String.swift */; };
+		6C80CF3C2BAD048700F69609 /* MessagingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF3B2BAD048700F69609 /* MessagingUseCase.swift */; };
 		6C9E4BF22BAA78700083DDC5 /* AccountFlowTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF12BAA78700083DDC5 /* AccountFlowTypes.swift */; };
 		6C9E4BF42BAA7A340083DDC5 /* AccountHandshakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF32BAA7A340083DDC5 /* AccountHandshakeView.swift */; };
 		6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */; };
@@ -127,6 +128,7 @@
 		6C80CF342BAB767800F69609 /* CreatePasskeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasskeyViewModel.swift; sourceTree = "<group>"; };
 		6C80CF362BAB8F0400F69609 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		6C80CF382BABAFB800F69609 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6C80CF3B2BAD048700F69609 /* MessagingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingUseCase.swift; sourceTree = "<group>"; };
 		6C9E4BF12BAA78700083DDC5 /* AccountFlowTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFlowTypes.swift; sourceTree = "<group>"; };
 		6C9E4BF32BAA7A340083DDC5 /* AccountHandshakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHandshakeView.swift; sourceTree = "<group>"; };
 		6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPortalLoginView.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 		6C7E57A12B9E432D0086A32D /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				6C80CF3A2BAD047900F69609 /* Account */,
 				6C617F932BA89CE400CD3A87 /* Sync */,
 				6C7E57C32B9E789E0086A32D /* Auth */,
 			);
@@ -451,6 +454,14 @@
 				6C80CF342BAB767800F69609 /* CreatePasskeyViewModel.swift */,
 			);
 			path = CreatePasskey;
+			sourceTree = "<group>";
+		};
+		6C80CF3A2BAD047900F69609 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				6C80CF3B2BAD048700F69609 /* MessagingUseCase.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		6C9E4BF02BAA78530083DDC5 /* Handshake */ = {
@@ -807,6 +818,7 @@
 				6C80CF2E2BAB573900F69609 /* EmailAccountCodeView.swift in Sources */,
 				6CDB80352BA735EE00A1134B /* HomeScheduleViewModel.swift in Sources */,
 				6C9E4BF42BAA7A340083DDC5 /* AccountHandshakeView.swift in Sources */,
+				6C80CF3C2BAD048700F69609 /* MessagingUseCase.swift in Sources */,
 				6CDB80292BA671B500A1134B /* HomeScheduleView.swift in Sources */,
 				6CDB80232BA6569B00A1134B /* HomeDashboardView.swift in Sources */,
 				6C80CF352BAB767800F69609 /* CreatePasskeyViewModel.swift in Sources */,
