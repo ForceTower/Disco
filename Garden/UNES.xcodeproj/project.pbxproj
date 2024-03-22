@@ -424,13 +424,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		6C80CF1F2BAAE23B00F69609 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		6C80CF292BAB3BE900F69609 /* LinkEmail */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,7 +502,6 @@
 				6C7E57A02B9E43030086A32D /* Data */,
 				6C7E579F2B9E42FA0086A32D /* Domain */,
 				6CBE06AB2B8BD53C00C2E649 /* View */,
-				6C80CF1F2BAAE23B00F69609 /* Components */,
 				6CAB41842B9D27E100F20D32 /* Info.plist */,
 				6C617F952BA8B35B00CD3A87 /* PrivacyInfo.xcprivacy */,
 				6C617F892BA8794800CD3A87 /* GoogleService-Info.plist */,
