@@ -29,7 +29,7 @@ class GradeProcessor(
         evaluations.forEach { evaluation ->
             evaluation.grades.forEach { grade ->
                 val grades = evaluation.grades
-                val named = grades.groupBy { it.name }
+//                val named = grades.groupBy { it.name }
 
 //                val remapped = named.entries.map { entry ->
 //                    if (entry.value.size == 1) {

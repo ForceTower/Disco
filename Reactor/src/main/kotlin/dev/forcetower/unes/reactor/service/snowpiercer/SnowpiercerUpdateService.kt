@@ -3,6 +3,7 @@ package dev.forcetower.unes.reactor.service.snowpiercer
 import dev.forcetower.breaker.Orchestra
 import dev.forcetower.breaker.model.MessagesDataPage
 import dev.forcetower.unes.reactor.data.entity.Student
+import dev.forcetower.unes.reactor.data.repository.GradeRepository
 import dev.forcetower.unes.reactor.data.repository.MessageRepository
 import dev.forcetower.unes.reactor.data.repository.SemesterRepository
 import dev.forcetower.unes.reactor.processor.DisciplineProcessor
@@ -20,7 +21,8 @@ class SnowpiercerUpdateService(
     private val messagesProc: MessagesProcessor,
     private val messagesRepo: MessageRepository,
     private val semesterProc: SemestersProcessor,
-    private val disciplineProc: DisciplineProcessor
+    private val disciplineProc: DisciplineProcessor,
+    private val gradesRepo: GradeRepository
 ) {
     private val logger = LoggerFactory.getLogger(SnowpiercerUpdateService::class.java)
 
@@ -44,12 +46,16 @@ class SnowpiercerUpdateService(
 
         semesterProc.execute(semesters)
         val semester = semesters.maxByOrNull { it.id } ?: return
+
         val localSemester = semesterRepo.findByPlatformId(semester.id) ?: run {
             logger.warn("Local semester not found after insertion.")
             return
         }
-
         val data = orchestra.grades(platformId, semester.id).success()?.value ?: return
         disciplineProc.execute(student, localSemester, data, notify)
+
+        val newGrades = gradesRepo.findGradesPendingNotification(studentId)
+        userNotification.notifyGrades(newGrades, student)
+        gradesRepo.markGradesNotifiedForStudent(student.id!!)
     }
 }

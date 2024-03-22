@@ -45,7 +45,7 @@ class DisciplineProcessor(
     ) {
         // this will be null for students that are new.
         val currentSemester = semesterRepo.findCurrentSemesterForStudent(student.id!!)
-        logger.debug("Current semester for student {} is {}", student.name, currentSemester?.name)
+        logger.info("Current semester for student {} is {}", student.name, currentSemester?.name)
 //        val allocations = mutableListOf<ClassLocation>()
 
         data.forEach {
@@ -77,7 +77,6 @@ class DisciplineProcessor(
                 it.name.trim(),
                 it.id
             )
-            logger.info("Inserted teacher with id {}", teacherId)
             classTeacherRepo.insertIgnore(classId, teacherId)
         }
 
@@ -135,7 +134,6 @@ class DisciplineProcessor(
         val current = disciplineRepo.findByCodeAndDepartmentId(discipline.code, department?.id)
         if (current != null) return current
 
-        logger.warn("Department: $department")
         val resume = if (discipline.program.isNullOrBlank()) null else discipline.program
         disciplineRepo.insertIgnore(
             code = discipline.code.trim(),
@@ -145,8 +143,6 @@ class DisciplineProcessor(
             departmentId = department?.id,
             fullCode = discipline.code.trim()
         )
-        return disciplineRepo.findByCodeAndDepartmentId(discipline.code, department?.id)!!.also {
-            logger.info("Returning discipline $it")
-        }
+        return disciplineRepo.findByCodeAndDepartmentId(discipline.code, department?.id)!!
     }
 }
