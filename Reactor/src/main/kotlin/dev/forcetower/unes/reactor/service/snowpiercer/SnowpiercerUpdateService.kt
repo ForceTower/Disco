@@ -26,7 +26,7 @@ class SnowpiercerUpdateService(
 
         val newMessages = messagesRepo.newMessages(studentId)
         userNotification.notifyMessages(newMessages, student)
-//        messagesRepo.markMessagesNotified(studentId)
+        messagesRepo.markMessagesNotified(studentId)
 
         val semesters = orchestra.semesters(platformId).success()?.value
         val semester = semesters?.maxByOrNull { it.id } ?: return

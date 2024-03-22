@@ -16,6 +16,7 @@ import dev.forcetower.unes.reactor.data.repository.MessagingTokenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import kotlin.coroutines.resume
 
@@ -24,12 +25,13 @@ class UserNotificationService(
     private val messaging: FirebaseMessaging,
     private val messagingTokens: MessagingTokenRepository
 ) {
+    private val logger = LoggerFactory.getLogger(UserNotificationService::class.java)
     suspend fun notifyMessages(messages: List<Message>, student: Student) {
         if (messages.isEmpty()) return
         val tokens = messagingTokens.getMessagingTokensByStudentId(student.id!!)
 
         if (tokens.isEmpty()) {
-            println("No one to notify about message")
+            logger.debug("No one to notify about message")
             return
         }
 
@@ -44,7 +46,7 @@ class UserNotificationService(
 
             val results = futures.map { it.await() }
             results.forEach { batch ->
-                println("Sent ${batch.successCount} messages. ${batch.failureCount} failed.")
+                logger.debug("Sent ${batch.successCount} messages. ${batch.failureCount} failed.")
                 processBatch(batch, tokens)
             }
         }
@@ -62,7 +64,7 @@ class UserNotificationService(
         batch: BatchResponse,
         tokens: List<MessagingToken>
     ) {
-        println("Sent ${batch.successCount} messages. ${batch.failureCount} failed.")
+        logger.debug("Sent ${batch.successCount} messages. ${batch.failureCount} failed.")
         val invalid = batch.responses.mapIndexed { index, response ->
             if (!response.isSuccessful) tokens[index].id else null
         }.filterNotNull()
