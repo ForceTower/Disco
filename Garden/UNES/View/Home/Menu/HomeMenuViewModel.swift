@@ -67,6 +67,7 @@ class HomeMenuViewModel : ObservableObject {
         self.account = account
         fetchProfile()
         fetchSemestersCount()
+        fetchAccount()
     }
     
     private func fetchProfile() {

@@ -52,6 +52,7 @@
 		6C80CF372BAB8F0400F69609 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF362BAB8F0400F69609 /* Data.swift */; };
 		6C80CF392BABAFB800F69609 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF382BABAFB800F69609 /* String.swift */; };
 		6C80CF3C2BAD048700F69609 /* MessagingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C80CF3B2BAD048700F69609 /* MessagingUseCase.swift */; };
+		6C80CF472BAE498500F69609 /* SwiftyCrop in Frameworks */ = {isa = PBXBuildFile; productRef = 6C80CF462BAE498500F69609 /* SwiftyCrop */; };
 		6C9E4BF22BAA78700083DDC5 /* AccountFlowTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF12BAA78700083DDC5 /* AccountFlowTypes.swift */; };
 		6C9E4BF42BAA7A340083DDC5 /* AccountHandshakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E4BF32BAA7A340083DDC5 /* AccountHandshakeView.swift */; };
 		6CAB417B2B8BDF6D00F20D32 /* AuthPortalLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB417A2B8BDF6D00F20D32 /* AuthPortalLoginView.swift */; };
@@ -172,6 +173,7 @@
 				6CDB800E2BA6333C00A1134B /* KMPNativeCoroutinesCombine in Frameworks */,
 				6CDB80122BA6333C00A1134B /* KMPNativeCoroutinesRxSwift in Frameworks */,
 				6C617F802BA878C500CD3A87 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				6C80CF472BAE498500F69609 /* SwiftyCrop in Frameworks */,
 				6C617F822BA878C500CD3A87 /* FirebaseCrashlytics in Frameworks */,
 				6C617F862BA878C500CD3A87 /* FirebaseRemoteConfigSwift in Frameworks */,
 				6CDB800C2BA6333C00A1134B /* KMPNativeCoroutinesAsync in Frameworks */,
@@ -656,6 +658,7 @@
 				6C617F812BA878C500CD3A87 /* FirebaseCrashlytics */,
 				6C617F832BA878C500CD3A87 /* FirebaseMessaging */,
 				6C617F852BA878C500CD3A87 /* FirebaseRemoteConfigSwift */,
+				6C80CF462BAE498500F69609 /* SwiftyCrop */,
 			);
 			productName = UNES;
 			productReference = 6CBE06982B8BD11500C2E649 /* UNES.app */;
@@ -690,6 +693,7 @@
 				6CDB80242BA66BA400A1134B /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				6CDB80382BA76F0F00A1134B /* XCRemoteSwiftPackageReference "Swinject" */,
 				6C617F7E2BA878C500CD3A87 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6C80CF452BAE498500F69609 /* XCRemoteSwiftPackageReference "SwiftyCrop" */,
 			);
 			productRefGroup = 6CBE06992B8BD11500C2E649 /* Products */;
 			projectDirPath = "";
@@ -1066,6 +1070,14 @@
 				minimumVersion = 10.22.1;
 			};
 		};
+		6C80CF452BAE498500F69609 /* XCRemoteSwiftPackageReference "SwiftyCrop" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/benedom/SwiftyCrop";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		6CDB800A2BA6333C00A1134B /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
@@ -1112,6 +1124,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6C617F7E2BA878C500CD3A87 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfigSwift;
+		};
+		6C80CF462BAE498500F69609 /* SwiftyCrop */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C80CF452BAE498500F69609 /* XCRemoteSwiftPackageReference "SwiftyCrop" */;
+			productName = SwiftyCrop;
 		};
 		6CDB800B2BA6333C00A1134B /* KMPNativeCoroutinesAsync */ = {
 			isa = XCSwiftPackageProductDependency;

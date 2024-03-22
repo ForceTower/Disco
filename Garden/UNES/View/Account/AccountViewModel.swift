@@ -26,6 +26,7 @@ class AccountViewModel : ObservableObject {
     
     struct ProfileImage: Transferable {
         let image: Image
+        let uiImage: UIImage
         let data: Data
         
         static var transferRepresentation: some TransferRepresentation {
@@ -41,7 +42,7 @@ class AccountViewModel : ObservableObject {
                     throw TransferError.importFailed
                 }
                 let image = Image(uiImage: uiImage)
-                return ProfileImage(image: image, data: data)
+                return ProfileImage(image: image, uiImage: uiImage, data: data)
 #else
                 throw TransferError.importFailed
 #endif
@@ -69,6 +70,8 @@ class AccountViewModel : ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
     @Published private(set) var currentAccount: ServiceAccount? = nil
+    @Published var showImageCropper: Bool = false
+    private(set) var selectedImage: UIImage? = nil
     
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve(),
          account: GetAccountUseCase = AppDIContainer.shared.resolve(),
@@ -127,7 +130,9 @@ class AccountViewModel : ObservableObject {
                 switch result {
                 case .success(let profileImage?):
                     self?.imageState = .success(profileImage.image)
-                    Task { await self?.sendImageToServer(data: profileImage.data) }
+                    self?.selectedImage = profileImage.uiImage
+                    self?.showImageCropper = true
+//                    Task { await self?.sendImageToServer(data: profileImage.data) }
                 case .success(nil):
                     self?.imageState = .empty
                 case .failure(let error):
@@ -137,12 +142,18 @@ class AccountViewModel : ObservableObject {
         }
     }
     
-    private func sendImageToServer(data: Data) async {
-        do {
-            let base64 = data.base64EncodedString()
-            try await doSendImageToServer(base64: base64)
-        } catch {
-            print("Failed to send \(error.localizedDescription)")
+    func sendImageToServer(image: UIImage) {
+        guard let data = image.jpegData(compressionQuality: 0.8) else {
+            print("Failed to jped. lol")
+            return
+        }
+        Task {
+            do {
+                let base64 = data.base64EncodedString()
+                try await doSendImageToServer(base64: base64)
+            } catch {
+                print("Failed to send \(error.localizedDescription)")
+            }
         }
     }
     

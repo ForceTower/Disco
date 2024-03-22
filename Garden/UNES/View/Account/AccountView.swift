@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 import Club
 import SDWebImageSwiftUI
+import SwiftyCrop
 
 struct AccountView: View {
     @Binding var path: NavigationPath
@@ -86,6 +87,26 @@ struct AccountView: View {
 //                        Text("Comprar UNES Pro")
 //                    }
 //                }
+            }
+        }
+        .fullScreenCover(isPresented: $vm.showImageCropper) {
+            if let selectedImage = vm.selectedImage {
+                SwiftyCropView(
+                    imageToCrop: selectedImage,
+                    maskShape: .circle,
+                    configuration: SwiftyCropConfiguration(
+                        maxMagnificationScale: 4.0,
+                        maskRadius: 130,
+                        cropImageCircular: true,
+                        rotateImage: false
+                    )
+                ) { croppedImage in
+                    if let croppedImage = croppedImage {
+                        vm.sendImageToServer(image: croppedImage)
+                    } else {
+                        print("Failed to get image from lib??")
+                    }
+                }
             }
         }
         .sheet(isPresented: $showConnectSplash) {

@@ -73,7 +73,6 @@ internal class AccountRepositoryImpl(
     override suspend fun changeProfilePicture(base64: String) {
         withContext(Dispatchers.IO) {
             val result = imgur.upload(base64, "user-unes-${uuid4().toString().substring(0..5)}")
-                ?: throw IllegalStateException("Failed to upload")
             service.changeProfilePicture(result.link)
             fetchAccount()
         }
