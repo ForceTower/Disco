@@ -3,6 +3,7 @@ create table classes
     id               uuid PRIMARY KEY UNIQUE DEFAULT gen_random_uuid(),
     offer_id         uuid         not null,
     sequence         text         not null,
+    platform_id      bigint       not null unique,
     credits_override integer      null,
     created_at       timestamptz  not null default now(),
     constraint classes_offer_id_sequence_type_id_unique
