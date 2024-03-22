@@ -17,5 +17,15 @@ class SyncDataUseCase internal constructor(
     }
 
     @NativeCoroutines
+    suspend fun fetchSync() {
+        try {
+            repository.fetchServerSync()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    @NativeCoroutines
     fun registry() = repository.getSyncRegistry()
 }

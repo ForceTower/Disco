@@ -18,7 +18,7 @@ lastInsertedRow:
 SELECT last_insert_rowid();
 
 selectAll:
-SELECT * FROM SyncRegistry ORDER BY id DESC;
+SELECT * FROM SyncRegistry ORDER BY start DESC;
 
 insertReplace:
 INSERT OR REPLACE INTO `SyncRegistry` (`id`,`uuid`,`start`,`end`,`completed`,`success`,`error`,`executor`,`message`,`skipped`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?);

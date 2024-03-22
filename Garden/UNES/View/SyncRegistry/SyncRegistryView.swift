@@ -65,7 +65,7 @@ struct SyncItemView: View {
                 VStack {
                     Text("Fim")
                         .multilineTextAlignment(.center)
-                        .font(.callout)
+                        .font(.footnote)
                     
                     Text(formattedDate(kLong: registry.end))
                         .multilineTextAlignment(.center)
@@ -77,7 +77,10 @@ struct SyncItemView: View {
             
             HStack {
                 Label(
-                    title: { Text(registry.executor) },
+                    title: { 
+                        Text(registry.executor)
+                            .font(.callout)
+                    },
                     icon: { Image(systemName: "gear") }
                 )
                 .labelStyle(.automatic)
@@ -85,7 +88,10 @@ struct SyncItemView: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 
                 Label(
-                    title: { Text(statusText()) },
+                    title: {
+                        Text(statusText())
+                            .font(.callout)
+                    },
                     icon: { Image(systemName: "arrow.triangle.2.circlepath") }
                 )
                 .font(.callout)

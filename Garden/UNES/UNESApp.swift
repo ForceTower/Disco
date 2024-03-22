@@ -25,11 +25,11 @@ struct UNESApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(router)
-                .onChange(of: scenePhase) { next in
-                    if next == .background {
-                        let scheduler: ScheduleBackgroundProcessingUseCase = AppDIContainer.shared.resolve()
-                        scheduler.scheduleAppRefresh(frequency: selectedFrequency)
-                    }
+                .onChange(of: scenePhase) { _ in
+//                    if next == .background {
+//                        let scheduler: ScheduleBackgroundProcessingUseCase = AppDIContainer.shared.resolve()
+//                        scheduler.scheduleAppRefresh(frequency: selectedFrequency)
+//                    }
                 }
                 .onAppear {
                     if deviceId.isEmpty {

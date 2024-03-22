@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface SyncRepository {
     suspend fun sync(loadDetails: Boolean): SyncResult
     fun getSyncRegistry(): Flow<List<SyncRegistry>>
+    suspend fun fetchServerSync()
 }

@@ -13,6 +13,7 @@ import dev.forcetower.unes.club.data.repository.remote.edge.AuthRepositoryImpl
 import dev.forcetower.unes.club.data.repository.remote.uefs.BigTrayRepositoryImpl
 import dev.forcetower.unes.club.data.service.client.AccountService
 import dev.forcetower.unes.club.data.service.client.AuthService
+import dev.forcetower.unes.club.data.service.client.SyncService
 import dev.forcetower.unes.club.data.service.client.createBasicClient
 import dev.forcetower.unes.club.data.storage.database.GeneralDB
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
@@ -42,7 +43,7 @@ internal object DataDI {
         single<DisciplineRepository> { DisciplineRepositoryImpl(get(), get(), get()) }
         single<ScheduleRepository> { ScheduleRepositoryImpl(get()) }
         single<ClassRepository> { ClassRepositoryImpl(get(), get(), get()) }
-        single<SyncRepository> { SyncRepositoryImpl(get(), get(), get()) }
+        single<SyncRepository> { SyncRepositoryImpl(get(), get(), get(), get()) }
         single<GradeRepository> { GradeRepositoryImpl(get()) }
         single<BigTrayRepository> { BigTrayRepositoryImpl(get()) }
         single<SemesterRepository> { SemesterRepositoryImpl(get()) }
@@ -65,5 +66,6 @@ internal object DataDI {
     val service = module {
         single { AuthService(get(), get()) }
         single { AccountService(get(), get()) }
+        single { SyncService(get(), get()) }
     }
 }

@@ -1,6 +1,7 @@
 package dev.forcetower.unes.reactor.service.scheduled.updater
 
 import dev.forcetower.unes.reactor.data.entity.Student
+import dev.forcetower.unes.reactor.data.repository.SyncRegistryRepository
 import dev.forcetower.unes.reactor.data.repository.UserRepository
 import dev.forcetower.unes.reactor.data.repository.UserSettingsRepository
 import dev.forcetower.unes.reactor.service.snowpiercer.SnowpiercerUpdateService
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit
 class CoreUpdaterService @Autowired constructor(
     private val repository: UserRepository,
     private val settingsRepository: UserSettingsRepository,
+    private val syncRegistry: SyncRegistryRepository,
     private val scope: CoroutineScope,
     private val updater: SnowpiercerUpdateService
 ) {
@@ -64,8 +66,15 @@ class CoreUpdaterService @Autowired constructor(
         logger.info("Running update for user ${student.userId}")
         settingsRepository.createForUser(student.userId)
         val completed = settingsRepository.findByUserId(student.userId)?.initialSyncCompleted ?: false
-        updater.update(student, completed)
-        settingsRepository.updateInitialSyncForUser(student.userId, true)
+        val syncId = syncRegistry.createRegistry(student.id!!, "SS Piercer")
+        runCatching {
+            updater.update(student, completed)
+            settingsRepository.updateInitialSyncForUser(student.userId, true)
+        }.onSuccess {
+            syncRegistry.updateRegistry(syncId, true, 0, "Atualização completa")
+        }.onFailure {
+            syncRegistry.updateRegistry(syncId, true, 1, "Erro ${it.message}")
+        }.getOrThrow()
         logger.info("Completed update for user ${student.userId}")
     }
 }
