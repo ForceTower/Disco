@@ -15,7 +15,6 @@ import dev.forcetower.unes.reactor.data.entity.Student
 import dev.forcetower.unes.reactor.data.model.aggregation.GradeData
 import dev.forcetower.unes.reactor.data.repository.MessagingTokenRepository
 import dev.forcetower.unes.reactor.data.repository.UserSettingsRepository
-import jdk.internal.org.jline.utils.Colors.s
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -128,7 +127,7 @@ class UserNotificationService(
             val value = grade.value
             val body = when {
                 spoilerLevel.toInt() == 3 && valueRaw != null -> {
-                    "Você tirou $valueRaw na avaliação ${grade.name} disciplina ${grade.discipline}"
+                    "Você tirou $valueRaw na avaliação ${grade.name} da disciplina ${grade.discipline}"
                 }
                 spoilerLevel.toInt() == 2 && value != null -> {
                     if (value > 9.9.toBigDecimal()) { // 10
