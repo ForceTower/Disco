@@ -1,6 +1,7 @@
 package dev.forcetower.unes.reactor.data.entity
 
 import dev.forcetower.unes.reactor.utils.word.WordUtils
+import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import java.time.OffsetDateTime
@@ -8,6 +9,7 @@ import java.util.UUID
 
 @Table("messages")
 data class Message(
+    @Id
     val id: UUID,
     @Column("platform_id")
     val platformId: Long,
