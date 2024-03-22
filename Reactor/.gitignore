@@ -40,4 +40,4 @@ out/
 .kotlin
 
 src/main/resources/application.properties
-src/main/resources/unes-uefs-firebase.json
+src/main/resources/firebase/unes-uefs-firebase.json

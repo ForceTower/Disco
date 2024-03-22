@@ -6,19 +6,19 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.ClassPathResource
-import java.io.FileInputStream
+import org.springframework.core.io.ResourceLoader
 
 
 @Configuration
-class FirebaseConfiguration {
+class FirebaseConfiguration(
+    private val resourceLoader: ResourceLoader
+) {
     @Bean
     fun createApp(): FirebaseApp {
-        val resource = ClassPathResource("unes-uefs-firebase.json").getFile()
-        val serviceAccount = FileInputStream(resource)
+        val resource = resourceLoader.getResource("classpath:firebase/unes-uefs-firebase.json")
 
         val options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+            .setCredentials(GoogleCredentials.fromStream(resource.inputStream))
             .setDatabaseUrl("https://unes-uefs.firebaseio.com")
             .build()
 
