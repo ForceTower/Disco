@@ -93,7 +93,7 @@ internal class AccountService(
         val response = client.post {
             url { createUrl(endpoint) }
             withAuth()
-            withData(mapOf("picture" to base64))
+            withData(mapOf("base64" to base64))
         }
 
         if (response.status != HttpStatusCode.OK)

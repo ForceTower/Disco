@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotBlank
 
 data class ChangeAccountPictureRequest(
     @field:NotBlank
-    val picture: String
+    val base64: String
 )

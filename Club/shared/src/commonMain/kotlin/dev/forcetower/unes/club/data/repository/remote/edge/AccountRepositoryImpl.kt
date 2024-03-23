@@ -2,29 +2,22 @@ package dev.forcetower.unes.club.data.repository.remote.edge
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
-import com.benasher44.uuid.uuid4
-import dev.forcetower.unes.club.data.model.remote.edge.account.RegisterPasskeyCredential
 import dev.forcetower.unes.club.data.service.client.AccountService
-import dev.forcetower.unes.club.data.service.client.ImgurService
 import dev.forcetower.unes.club.data.storage.database.GeneralDatabase
 import dev.forcetower.unes.club.data.storage.database.ServiceAccount
-import dev.forcetower.unes.club.domain.exception.ServiceUnauthenticatedException
 import dev.forcetower.unes.club.domain.model.account.PasskeyRegister
 import dev.forcetower.unes.club.domain.model.account.RegisterPasskeyFlowStart
 import dev.forcetower.unes.club.domain.model.auth.ServiceLinkEmailCompleteResult
 import dev.forcetower.unes.club.domain.repository.remote.edge.AccountRepository
-import io.ktor.serialization.kotlinx.json.DefaultJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class AccountRepositoryImpl(
     private val database: GeneralDatabase,
     private val service: AccountService,
-    private val imgur: ImgurService,
     private val json: Json
 ) : AccountRepository {
     override fun getAccount(): Flow<ServiceAccount?> {
@@ -71,10 +64,7 @@ internal class AccountRepositoryImpl(
     }
 
     override suspend fun changeProfilePicture(base64: String) {
-        withContext(Dispatchers.IO) {
-            val result = imgur.upload(base64, "user-unes-${uuid4().toString().substring(0..5)}")
-            service.changeProfilePicture(result.link)
-            fetchAccount()
-        }
+        service.changeProfilePicture(base64)
+        fetchAccount()
     }
 }

@@ -9,13 +9,16 @@ import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterFinish
 import dev.forcetower.unes.reactor.domain.dto.account.CompleteRegisterStart
 import dev.forcetower.unes.reactor.domain.dto.account.PublicPersonalAccount
 import dev.forcetower.unes.reactor.domain.dto.account.UpdateFCMTokenRequest
+import dev.forcetower.unes.reactor.service.aws.s3.UploadToS3Service
 import dev.forcetower.unes.reactor.service.email.EmailService
+import dev.forcetower.unes.reactor.service.image.ImageManipulationComponent
 import dev.forcetower.unes.reactor.utils.spring.requireUser
 import io.github.scru128.Scru128
 import jakarta.validation.Valid
 import kotlinx.coroutines.delay
 import org.apache.commons.collections4.map.PassiveExpiringMap
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,9 +26,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+
 @RestController
 @RequestMapping("api/account")
 class AccountController(
+    @Value("\${amazon.s3.bucket.baseUrl}") private val baseBucketUrl: String,
+    private val storage: UploadToS3Service,
+    private val imageManipulation: ImageManipulationComponent,
     private val emails: EmailService,
     private val users: UserRepository,
     private val tokens: MessagingTokenRepository
@@ -109,8 +116,11 @@ class AccountController(
     @PostMapping("/picture")
     suspend fun changePicture(@RequestBody @Valid body: ChangeAccountPictureRequest): ResponseEntity<BaseResponse> {
         val user = requireUser()
-        logger.info("Image link: {}", body.picture)
-        users.updateImage(user.id, body.picture)
+        val name = "profile/${user.id}/images/${Scru128.generateString()}.jpg"
+
+        val image = imageManipulation.loadImageAndResize(body.base64)
+        storage.uploadProfileImage(image, name)
+        users.updateImage(user.id, "${baseBucketUrl}/${name}")
         return ResponseEntity.ok(BaseResponse.ok("Updated image"))
     }
 

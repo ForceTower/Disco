@@ -71,7 +71,8 @@ struct AccountView: View {
                         imageSelection: $vm.imageSelection,
                         imageState: vm.imageState,
                         imageLoaded: vm.imageLoaded,
-                        tempImage: vm.tempImage
+                        tempImage: vm.tempImage,
+                        showingImageCropper: vm.showImageCropper
                     ) {
                         
                     }
@@ -107,8 +108,10 @@ struct AccountView: View {
                     if let croppedImage = croppedImage {
                         vm.sendImageToServer(image: croppedImage)
                     } else {
-                        print("Failed to get image from lib??")
+                        vm.cancelImageChange()
                     }
+                } onCancel: {
+                    vm.cancelImageChange()
                 }
             }
         }
@@ -138,6 +141,7 @@ struct AccountHeaderView: View {
     let imageState: AccountViewModel.ImageState?
     let imageLoaded: Bool
     let tempImage: Image?
+    let showingImageCropper: Bool
     
     let onChangeProfilePicture: () -> Void
     
@@ -173,6 +177,14 @@ struct AccountHeaderView: View {
                             ProgressView()
                         }
                     } else if case .loading(_) = imageState {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.gray.opacity(0.7))
+                                .frame(width: 100, height: 100)
+                                .clipShape(.circle)
+                            ProgressView()
+                        }
+                    } else if showingImageCropper {
                         ZStack {
                             Rectangle()
                                 .foregroundColor(.gray.opacity(0.7))

@@ -54,6 +54,7 @@ class AccountViewModel : ObservableObject {
         didSet {
             if let imageSelection {
                 let progress = loadTransferable(from: imageSelection)
+                imageLoaded = false
                 imageState = .loading(progress)
             } else {
                 imageState = .empty
@@ -134,10 +135,11 @@ class AccountViewModel : ObservableObject {
                     self?.imageState = .success(profileImage.image)
                     self?.selectedImage = profileImage.uiImage
                     self?.showImageCropper = true
-//                    Task { await self?.sendImageToServer(data: profileImage.data) }
                 case .success(nil):
+                    self?.imageLoaded = true
                     self?.imageState = .empty
                 case .failure(let error):
+                    self?.imageLoaded = true
                     self?.imageState = .failure(error)
                 }
             }
@@ -168,6 +170,12 @@ class AccountViewModel : ObservableObject {
                 }
             }
         }
+    }
+    
+    func cancelImageChange() {
+        imageLoaded = true
+        tempImage = nil
+        selectedImage = nil
     }
     
     private func doSendImageToServer(base64: String) async throws {
