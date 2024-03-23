@@ -50,8 +50,6 @@ class AccountViewModel : ObservableObject {
         }
     }
     
-    @Published private(set) var imageState: ImageState = .empty
-    
     @Published var imageSelection: PhotosPickerItem? = nil {
         didSet {
             if let imageSelection {
@@ -70,8 +68,12 @@ class AccountViewModel : ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     @Published private(set) var currentProfile: Profile? = nil
     @Published private(set) var currentAccount: ServiceAccount? = nil
+    @Published private(set) var imageState: ImageState = .empty
     @Published var showImageCropper: Bool = false
+    @Published var imageLoaded: Bool = true
     private(set) var selectedImage: UIImage? = nil
+    @Published private(set) var tempImage: Image? = nil
+    
     
     init(user: ConnectedUserUseCase = AppDIContainer.shared.resolve(),
          account: GetAccountUseCase = AppDIContainer.shared.resolve(),
@@ -147,12 +149,23 @@ class AccountViewModel : ObservableObject {
             print("Failed to jped. lol")
             return
         }
+        self.imageLoaded = false
+        self.tempImage = Image(uiImage: image)
+        
         Task {
             do {
                 let base64 = data.base64EncodedString()
                 try await doSendImageToServer(base64: base64)
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageLoaded = true
+                    self?.tempImage = nil
+                }
             } catch {
                 print("Failed to send \(error.localizedDescription)")
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageLoaded = true
+                    self?.tempImage = nil
+                }
             }
         }
     }

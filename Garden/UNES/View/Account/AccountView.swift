@@ -68,7 +68,10 @@ struct AccountView: View {
                     AccountHeaderView(
                         profile: profile,
                         account: vm.currentAccount,
-                        imageSelection: $vm.imageSelection
+                        imageSelection: $vm.imageSelection,
+                        imageState: vm.imageState,
+                        imageLoaded: vm.imageLoaded,
+                        tempImage: vm.tempImage
                     ) {
                         
                     }
@@ -132,6 +135,9 @@ struct AccountHeaderView: View {
     let profile: Profile
     let account: ServiceAccount?
     @Binding var imageSelection: PhotosPickerItem?
+    let imageState: AccountViewModel.ImageState?
+    let imageLoaded: Bool
+    let tempImage: Image?
     
     let onChangeProfilePicture: () -> Void
     
@@ -142,7 +148,7 @@ struct AccountHeaderView: View {
                 PhotosPicker(selection: $imageSelection,
                              matching: .images,
                              photoLibrary: .shared()) {
-                    if let image = account?.imageUrl {
+                    if let image = account?.imageUrl, imageLoaded {
                         WebImage(url: URL(string: image)) { image in
                             image.resizable()
                         } placeholder: {
@@ -153,6 +159,27 @@ struct AccountHeaderView: View {
                         .transition(.fade(duration: 0.5))
                         .frame(width: 100, height: 100)
                         .clipShape(.circle)
+                    } else if let tempImage = tempImage {
+                        ZStack {
+                            tempImage
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .clipShape(.circle)
+                            Rectangle()
+                                .foregroundColor(.gray.opacity(0.7))
+                                .frame(width: 100, height: 100)
+                                .clipShape(.circle)
+                            ProgressView()
+                        }
+                    } else if case .loading(_) = imageState {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.gray.opacity(0.7))
+                                .frame(width: 100, height: 100)
+                                .clipShape(.circle)
+                            ProgressView()
+                        }
                     } else {
                         ZStack {
                             Image(systemName: "person.crop.circle")
