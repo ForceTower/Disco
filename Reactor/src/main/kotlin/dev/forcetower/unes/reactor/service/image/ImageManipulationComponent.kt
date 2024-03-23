@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jose4j.base64url.Base64
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import javax.imageio.ImageIO
@@ -22,9 +21,9 @@ class ImageManipulationComponent {
     }
 
     suspend fun resizeImage(original: BufferedImage): BufferedImage = withContext(Dispatchers.IO) {
-        val resizedImage = BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB)
+        val resizedImage = BufferedImage(800, 800, BufferedImage.TYPE_INT_RGB)
         val graphics2D = resizedImage.createGraphics()
-        graphics2D.drawImage(original, 0, 0, 400, 400, null)
+        graphics2D.drawImage(original, 0, 0, 800, 800, null)
         graphics2D.dispose()
         resizedImage
     }
