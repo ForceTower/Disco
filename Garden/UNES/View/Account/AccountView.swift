@@ -196,7 +196,7 @@ struct AccountHeaderView: View {
                                 .opacity(0.8)
                         }
                     }
-                }.buttonStyle(.borderless)
+                }.disabled(account == nil).buttonStyle(.borderless)
 
                 Text(account?.name ?? profile.name ?? "????")
                     .textInputAutocapitalization(.never)
