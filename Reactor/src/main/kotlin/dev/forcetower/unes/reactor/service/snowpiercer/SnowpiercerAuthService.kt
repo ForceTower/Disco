@@ -31,9 +31,10 @@ class SnowpiercerAuthService(
         if (student == null) {
             val user = withContext(Dispatchers.IO) {
                 val generated = "user_${Scru128.generate()}"
-                val user = users.insert(generated, person.name.toTitleCase(), null)
+                users.insert(generated, person.name.toTitleCase(), null)
+                val user = users.findUserByUsername(generated)!!
                 settings.createForUser(user.id)
-                users.findUserByUsername(generated)!!
+                user
             }
 
             val newStudent = Student(UUID.randomUUID(), person.name.toTitleCase(), person.id, user.id).apply { setNew() }

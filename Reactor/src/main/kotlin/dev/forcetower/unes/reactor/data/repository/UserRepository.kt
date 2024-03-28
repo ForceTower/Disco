@@ -12,8 +12,8 @@ import java.util.UUID
 
 @Repository
 interface UserRepository : CoroutineCrudRepository<User, UUID> {
-    @Query("INSERT INTO users(username, name, email) values (:username, :name, :email)")
-    suspend fun insert(username: String, name: String, email: String?): User
+    @Query("INSERT INTO users(username, name, email) values (:username, :name, :email) ON CONFLICT DO NOTHING ")
+    suspend fun insert(username: String, name: String, email: String?)
     suspend fun findUserByUsername(username: String): User?
 
     suspend fun findUserByEmail(email: String): User?

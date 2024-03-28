@@ -50,7 +50,7 @@ struct AccountHandshakeView: View {
                             
                             if #available(iOS 16.4, *) {
                                 AccountPasskeyLoginView { auth in
-                                    
+                                    Task { await vm.loginWithPasskey(controller: auth) }
                                 }
                             }
                         }

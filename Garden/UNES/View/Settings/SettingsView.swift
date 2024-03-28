@@ -23,12 +23,10 @@ enum FrequencyOption: String, Codable, CaseIterable {
 }
 
 enum DisciplineSyncFrequency: String, Codable, CaseIterable {
-    case times2, times4, all, manual
+    case all, manual
     
     func strName() -> String {
         return switch self {
-        case .times2: "2 vezes por dia"
-        case .times4: "4 vezes por dia"
         case .all: "Todas as vezes"
         case .manual: "Manual"
         }
@@ -71,7 +69,7 @@ struct SettingsView: View {
     @StateObject private var vm: SettingsViewModel = .init()
     
     private var frequencies: [FrequencyOption] = [.disabled, .minutes15, .minutes30, .hour1, .hour2, .hour4]
-    private var disciplineData: [DisciplineSyncFrequency] = [.times2, .times4, .all, .manual]
+    private var disciplineData: [DisciplineSyncFrequency] = [.all, .manual]
     private var subtitles: [SubtitleOption] = [.score, .semester, .course, .university, .none]
     private var gradeSpoilers: [SpoilerOption] = [.none, .moderate, .full]
     
@@ -89,7 +87,7 @@ struct SettingsView: View {
                         Text(item.strName())
                     }
                 } label: {
-                    Text("Disciplinas")
+                    Text("Detalhes das disciplinas")
                 }
             }
             
@@ -119,16 +117,16 @@ struct SettingsView: View {
                         .font(.caption)
                 }
                 
-                Toggle(isOn: $shrinkSchedule, label: {
-                    Text("Encolher horário")
-                    if shrinkSchedule {
-                        Text("Juntando horários proximos")
-                            .font(.caption)
-                    } else {
-                        Text("Exatamente como o portal")
-                            .font(.caption)
-                    }
-                })
+//                Toggle(isOn: $shrinkSchedule, label: {
+//                    Text("Encolher horário")
+//                    if shrinkSchedule {
+//                        Text("Juntando horários proximos")
+//                            .font(.caption)
+//                    } else {
+//                        Text("Exatamente como o portal")
+//                            .font(.caption)
+//                    }
+//                })
             }
         }
         .navigationTitle("Configurações")

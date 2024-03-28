@@ -33,16 +33,16 @@ struct AccountView: View {
                                 }
                             }
                             
-                            NavigationLink {
-                                
-                            } label: {
-                                Text("Ver chaves")
-                            }
-                            VStack(alignment: .leading) {
-                                Text("Email registrado")
-                                Text(email)
-                                    .font(.callout)
-                            }
+//                            NavigationLink {
+//                                
+//                            } label: {
+//                                Text("Ver chaves")
+//                            }
+//                            VStack(alignment: .leading) {
+//                                Text("Email registrado")
+//                                Text(email)
+//                                    .font(.callout)
+//                            }
                         }
                     } else {
                         NavigationLink {
@@ -208,7 +208,7 @@ struct AccountHeaderView: View {
                                 .opacity(0.8)
                         }
                     }
-                }.disabled(account == nil).buttonStyle(.borderless)
+                }.disabled(account?.email == nil).buttonStyle(.borderless)
 
                 Text(account?.name ?? profile.name ?? "????")
                     .textInputAutocapitalization(.never)

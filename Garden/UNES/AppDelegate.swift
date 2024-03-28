@@ -52,10 +52,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let frequency = FrequencyOption(rawValue: frequencyStr) ?? .minutes15
         scheduler.scheduleAppRefresh(frequency: frequency)
         
+        let disciplineSyncStr = UserDefaults.standard.string(forKey: "settings_sync_discipline") ?? DisciplineSyncFrequency.manual.rawValue
+        let disciplineSync = DisciplineSyncFrequency(rawValue: disciplineSyncStr) ?? .manual
+        
         fetchTask = Task {
             UserDefaults.standard.set(Date(), forKey: "last_sync")
             let sync: LocalSyncDataUseCase = AppDIContainer.shared.resolve()
-            let result = await sync.execute(loadDetails: false)
+            let result = await sync.execute(loadDetails: disciplineSync == .all)
             Analytics.logEvent("app_background_fetch_complete", parameters: nil)
             task.setTaskCompleted(success: result)
         }
